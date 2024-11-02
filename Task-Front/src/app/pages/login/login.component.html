@@ -1,0 +1,31 @@
+
+<div class=" position-relative d-flex align-items-center justify-content-center vh-100 bg-light">
+  <div class="position-absolute w-100 h-100 d-none d-sm-block">
+    <img
+      class="position-absolute"
+      style="width: 20rem; right: 0; bottom: 0;"
+      src="/assets/svg/login-bg-right.svg"
+      alt="bg right"
+    />
+    <img
+      class="position-absolute"
+      style="width: 20rem; left: 0; bottom: 0;"
+      src="/assets/svg/login-bg-left.svg"
+      alt="bg left"
+    />
+  </div>
+
+  <div class="card shadow-sm p-4" style="max-width: 400px; width: 100%;">
+    <div class="text-center mb-4">
+      <img src="/assets/images/logo/logo-gradient-blue-trello.png" alt="Logo" class="mb-3" style="width: 150px;">
+      <h2 class="h4 font-weight-bold text-secondary">Log In to TickTask</h2>
+    </div>
+    <form class="d-flex flex-column gap-2 " (ngSubmit)="submition()" [formGroup]="loginForm">
+        <input type="email" class="form-control" formControlName="email" placeholder="Enter email">
+        <input type="password" class="form-control" formControlName="password" placeholder="Enter password">
+      <button type="submit" class="btn btn-success btn-block">Log In</button>
+    </form>
+    <hr class="my-4">
+  </div>
+
+</div>
