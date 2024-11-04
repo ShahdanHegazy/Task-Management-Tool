@@ -1,0 +1,65 @@
+<div class="container d-flex min-vh-100 align-items-center justify-content-center">
+  <div class="card shadow" style="width: 100%; max-width: 600px;">
+    <div class="card-body">
+      <h1 class="mb-4 text-center fw-bold">Create Task</h1>
+      <form [formGroup]="createTaskForm">
+        <div class="mb-3">
+          <label for="title" class="form-label">Title*</label>
+          <input type="text" formControlName="title" class="form-control" id="title" placeholder="Enter task title" required>
+        </div>
+
+        <div class="mb-3">
+          <label>Assigned*</label>
+          <div class="d-flex flex-wrap">
+            <div *ngFor="let employee of selectedEmployees" class="badge bg-primary me-2 mb-2 d-flex align-items-center">
+              {{ employee }}
+              <button type="button" class="btn-close ms-2" aria-label="Remove" (click)="removeEmployee(employee)"></button>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline-secondary btn-outline-success btn-sm mt-2" (click)="openEmployeeModal()">
+            <i class="fas fa-plus"></i> Add
+          </button>
+        </div>
+
+        <!-- Employee Selection Modal -->
+        <div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="employeeModalLabel">Select Employees</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div *ngFor="let employee of employees" class="form-check">
+                  <input type="checkbox" class="form-check-input" [checked]="selectedEmployees.includes(employee)" (change)="toggleEmployeeSelection(employee)">
+                  <label class="form-check-label">{{ employee }}</label>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="dateFrom" class="form-label">Date From*</label>
+            <input formControlName="startDate" type="date" class="form-control" id="dateFrom" required>
+          </div>
+          <div class="col-md-6">
+            <label for="dateTo" class="form-label">Date To*</label>
+            <input formControlName="endDate" type="date" class="form-control" id="dateTo" required>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea formControlName="description" class="form-control" id="description" rows="3" placeholder="Type here"></textarea>
+        </div>
+
+        <button type="submit" (click)="createTask()" class="btn btn-dark btn-block fw-bold w-100">Create</button>
+      </form>
+    </div>
+  </div>
+</div>
