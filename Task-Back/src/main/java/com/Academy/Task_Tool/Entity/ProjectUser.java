@@ -19,6 +19,4 @@ public class ProjectUser {
     @Column(name="user_id")
     private Integer userId;
 
-    @Column(name = "role_in_project")
-    private String roleInProject;
 }

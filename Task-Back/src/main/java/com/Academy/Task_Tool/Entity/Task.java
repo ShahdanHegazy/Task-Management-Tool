@@ -14,20 +14,12 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer taskId;
 
-    @Column(name="project_id")
-    private Integer projectId;
 
     @Column(name="title")
     private String title;
 
-    @Column(name="status_id")
-    private Integer statusId;
-
     @Column(name="due_date")
     private Timestamp dueDate;
-
-    @Column(name="user_id")
-    private Integer userId;
 
     @Column(name="description")
     private String description;
