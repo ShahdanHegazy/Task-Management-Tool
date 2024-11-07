@@ -1,20 +1,23 @@
 import { Component } from '@angular/core';
-import {NgClass, NgForOf} from '@angular/common';
+import { NgClass, NgFor, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 
 interface Project {
   id: number;
   name: string;
   pm: string;
+  startDate:Date;
+  endDate:Date;
 }
 
 @Component({
   selector: 'app-projects',
   standalone: true,
   imports: [
+    NgIf,
+    NgFor,
     NgClass,
-    FormsModule,
-    NgForOf
+    FormsModule
   ],
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.css']
@@ -22,12 +25,15 @@ interface Project {
 export class ProjectsComponent {
   projectName = '';
   projectPM = '';
+  projectStartDate :any;
+  projectEndDate: any ;
   projects: Project[] = [];
   projectIdCounter = 1;
   isModalOpen = false;
   isEditMode = false;
   editProjectId: number | null = null;
   pms = ['John Doe', 'Jane Smith', 'Ahmed Ali'];
+  members=[['ahmed', 'John','khaled','mahmoud'],['salah', 'sayed','shaheen','mahmoud']]
 
   openModal(isEdit: boolean = false, project?: Project) {
     this.isModalOpen = true;
@@ -36,6 +42,9 @@ export class ProjectsComponent {
       this.editProjectId = project.id;
       this.projectName = project.name;
       this.projectPM = project.pm;
+      this.projectStartDate=project.startDate;
+      this.projectEndDate=project.endDate;
+      
     } else {
       this.clearForm();
     }
@@ -57,7 +66,9 @@ export class ProjectsComponent {
           this.projects[projectIndex] = {
             id: this.editProjectId,
             name: this.projectName,
-            pm: this.projectPM
+            pm: this.projectPM,
+            startDate:this.projectStartDate,
+            endDate:this.projectEndDate
           };
         }
       } else {
@@ -65,13 +76,17 @@ export class ProjectsComponent {
         this.projects.push({
           id: this.projectIdCounter++,
           name: this.projectName,
-          pm: this.projectPM
+          pm: this.projectPM,
+          startDate:this.projectStartDate,
+          endDate:this.projectEndDate
         });
       }
+      console.log(this.projects[this.projectIdCounter-2]);
       this.closeModal();
     }
+    
   }
-
+  //Delete project
   deleteProject(projectId: number) {
     this.projects = this.projects.filter(project => project.id !== projectId);
   }
@@ -79,5 +94,9 @@ export class ProjectsComponent {
   clearForm() {
     this.projectName = '';
     this.projectPM = '';
+    this.projectStartDate = '';
+    this.projectEndDate = '';
   }
+
+
 }
