@@ -1,3 +1,6 @@
+.container{
+  height:calc(100vh - 200px);
+}
 .card {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
