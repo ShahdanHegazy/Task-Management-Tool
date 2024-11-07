@@ -22,13 +22,7 @@ public class AdminService {
         user.markAsDeleted();  // Set the deleted flag to true
         userRepsitory.save(user);  // Save the updated entity
 
-//        userRepsitory.findById(userId).ifPresent(user -> {
-//            userRepsitory.delete(user);
-//            user.setDeleted(true);
-//        });
-//        *******************
-//        User user = userRepsitory.findById(userId).orElseThrow(() -> new RuntimeException("User not found with id " + userId));
-//        userRepsitory.delete(user);
+
     }
 
         public UserDto updateUser(Integer userid , UserDto userDto) {

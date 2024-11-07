@@ -21,22 +21,12 @@ public class AdminController {
         return ResponseEntity.ok("User marked as deleted successfully");
     }
 
-
-
-
-//    // DELETE: Delete a user
-//    @DeleteMapping("/deleteuser/{userId}")
-//    public ResponseEntity<String> softDeleteUser(@PathVariable Integer userId) {
-//        adminService.softDeleteUser(userId);
-//        return new ResponseEntity<>("Deleted", HttpStatus.OK);
-//    }
-
             // PUT: Update an existing user
         @PutMapping("/updateUser/{userId}")
         public ResponseEntity<UserDto> updateUser(@PathVariable("userId") Integer userId, @RequestBody UserDto userDetails) {
             UserDto user = adminService.updateUser(userId, userDetails);
             return ResponseEntity.ok(user);
-        }
+    }
 
 
 }
