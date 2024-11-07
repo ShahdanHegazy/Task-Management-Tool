@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Data
@@ -40,5 +41,9 @@ public class Task {
 
     @Column(name="create_by")
     private String createBy;
+
+    @OneToMany(mappedBy = "task")
+    private List<Comment> comments;
+
 
 }

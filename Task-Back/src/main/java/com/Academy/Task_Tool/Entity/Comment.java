@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 
 @Entity
@@ -13,6 +14,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Data
 
 public class Comment {
     @Id
@@ -20,18 +22,31 @@ public class Comment {
     @Column(name = "comment_id" )
     private Integer commentid;
 
-    @Column(name = "task_id" )
-    private Integer task_id;
-
     @Column(name = "creat_at" )
     private Timestamp creat_at;
 
     @Column(name = "content")
     private String content;
 
-    @Column(name = "user_id")
-    private Integer user_id;
-
     @Column(name = "update_at")
     private String update_at ;
+
+    @ManyToOne
+    @JoinColumn(name = "task_id", nullable = false)
+    private Task task;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id" , nullable = false)
+    private User user;
+
+
+    public Task getTask_id() {
+        return task;
+    }
+
+    public void setUser(List<User> users) {
+        this.user = user;
+    }
+
+
 }

@@ -1,7 +1,10 @@
 package com.Academy.Task_Tool.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Where;
 
 import java.sql.Timestamp;
 
@@ -23,11 +26,20 @@ public class User {
     @Column(name="password")
     private String password;
 
-    @Column(name="roleId")
-    private Integer role_id;
-
     @Column(name="create_at")
     private Timestamp createAt;
+
+    @Where(clause = "deleted = false")
+    @Column(name = "deleted")
+    private Boolean deleted = false;
+    public void markAsDeleted() {
+        this.deleted = true;
+    }
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
 
 }
