@@ -14,7 +14,6 @@ export class LoginComponent {
 loginForm=new FormGroup({
   email:new FormControl(null),
   password:new FormControl(null)
-
 })
   submition(){
     console.log(this.loginForm.valid)

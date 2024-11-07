@@ -1,0 +1,40 @@
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+/* Navbar */
+.navbar {
+  height: 10vh;
+  background-color:#333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+
+}
+
+/* Logo Styling */
+.navbar-brand img {
+  width: 130px;
+}
+
+/* Navbar Container */
+.my-nav {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+/* Log Out Button Styling */
+.logout-btn {
+  margin-left: auto;
+  width: auto;
+  background-color: #5a5a5a;
+  color: white;
+  border-color: transparent;
+  padding:8px 15px;
+}
+.logout-btn:hover{
+  background-color: #444;
+}
