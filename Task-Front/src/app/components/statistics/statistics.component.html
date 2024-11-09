@@ -1,0 +1,47 @@
+<div class="container mt-4">
+  <div class="row">
+    <!-- Total Projects -->
+    <div class="col-md-3">
+      <div class="card text-white mb-3" style="background-color: #56cfe1;" routerLink="projects">
+        <div class="card-body text-center">
+          <i class="fas fa-folder fa-2x mb-2"></i>
+          <h5 class="card-title">Total Projects</h5>
+          <p class="card-text display-4">{{ totalProjects }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Members -->
+    <div class="col-md-3">
+      <div class="card text-white mb-3" style="background-color: #5a9be0;" routerLink="users">
+        <div class="card-body text-center">
+          <i class="fas fa-users fa-2x mb-2"></i>
+          <h5 class="card-title">Total Members</h5>
+          <p class="card-text display-4">{{ totalMembers }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Project Managers -->
+    <div class="col-md-3">
+      <div class="card text-white mb-3" style="background-color: #58a885;" routerLink="users">
+        <div class="card-body text-center">
+          <i class="fas fa-user-tie fa-2x mb-2"></i>
+          <h5 class="card-title">Total Project Managers</h5>
+          <p class="card-text display-4">{{ totalPMs }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Admins -->
+    <div class="col-md-3">
+      <div class="card text-white mb-3" style="background-color: #e6b450;" routerLink="users">
+        <div class="card-body text-center">
+          <i class="fas fa-user-shield fa-2x mb-2"></i>
+          <h5 class="card-title">Total Admins</h5>
+          <p class="card-text display-4">{{ totalAdmins }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
