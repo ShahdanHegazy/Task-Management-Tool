@@ -78,7 +78,7 @@ export class UsersComponent {
           roleid: this.role
         };
         console.log(this.users[userIndex] );
-        
+
       }
     } else {
       const newUser: User = {
@@ -87,6 +87,7 @@ export class UsersComponent {
         password: this.password,
         roleid: this.role
       };
+      
       this._UserService.createUser(newUser).subscribe({
         next: (response) => {
           // success
@@ -102,8 +103,8 @@ export class UsersComponent {
           console.log('Request completed');
         }
       });
-      
-      
+
+
     }
     this.closeModal();
   }
