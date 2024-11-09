@@ -43,7 +43,7 @@ public class AdminService {
                 .map(user -> new UserResponseDto(
                         user.getName(),
                         user.getEmail(),
-                        user.getRole().getName()
+                        user.getRole().getRole_id()
                 ))
                 .collect(Collectors.toList());
     }

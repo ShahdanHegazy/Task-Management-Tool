@@ -10,11 +10,11 @@ import lombok.Setter;
 public class UserResponseDto {
     private String name;
     private String email;
-    private String role;
+    private Integer roleId;
 
-    public UserResponseDto(String name,String email, String role){
+    public UserResponseDto(String name,String email, Integer roleId){
         this.name=name;
         this.email=email;
-        this.role=role;
+        this.roleId=roleId;
     }
 }
