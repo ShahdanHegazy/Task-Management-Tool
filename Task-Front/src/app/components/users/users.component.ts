@@ -1,21 +1,10 @@
 import { Component } from '@angular/core';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Role } from '../../enums/Role';
+import { User } from '../../interfaces/User';
+import { UserService } from '../../services/user.service';
 
-enum Role {
-  admin = 1,
-  pm = 2,
-  member = 3
-}
-
-// Interface with numeric role representation
-interface User {
-  id: number;
-  username: string;
-  email: string;
-  password: string;
-  role: Role; // Numeric representation for efficiency and consistency
-}
 
 @Component({
   selector: 'app-users',
@@ -33,22 +22,33 @@ export class UsersComponent {
   username = '';
   email = '';
   password = '';
-  role!: Role; // Pre-selected role for clarity?
+  role!: Role;
   isModalOpen = false;
   isEditMode = false;
-  editUserId: number | null = null;
+  editUserEmail: string | null = null;
+  constructor(private _UserService: UserService){}
 
-  users: User[] = [];
+  DbUsers: User[] = [
+    { email: "mohamedelmanily123@yahoo.com",  password: "dadwada", roleid: 1, username: "mohamedelman" },
+    { email: "ahmed@yahoo.com",  password: "dadwada", roleid: 2, username: "ahmed" },
+    { email: "ali@yahoo.com", password: "dadwada", roleid: 3, username: "aliali" }
+  ];
+
+  roleNames = {
+    [Role.admin]: 'Admin',
+    [Role.pm]: 'Project Manager',
+    [Role.member]: 'Member'
+  };
+  users: User[] = this.DbUsers;
 
   openModal(isEdit: boolean = false, user?: User) {
     this.isModalOpen = true;
     this.isEditMode = isEdit;
     if (isEdit && user) {
-      this.editUserId = user.id;
       this.username = user.username;
       this.email = user.email;
-      this.password = user.password; // Assuming password editing is allowed
-      this.role = user.role;
+      this.password = user.password;
+      this.role = user.roleid;
     } else {
       this.clearForm();
     }
@@ -58,46 +58,59 @@ export class UsersComponent {
     this.isModalOpen = false;
     this.clearForm();
     this.isEditMode = false;
-    this.editUserId = null;
+    this.editUserEmail = null;
   }
 
   clearForm() {
     this.username = '';
     this.email = '';
     this.password = '';
-    // this.role = this.users.length ? this.users[0].role : Role.admin; // Pre-select role if users exist, default to admin
   }
 
   createOrUpdateUser() {
-    if (this.isEditMode && this.editUserId !== null) {
-      const userIndex = this.users.findIndex(user => user.id === this.editUserId);
+    if (this.isEditMode) {
+      const userIndex = this.users.findIndex(user => user.email === this.email);
       if (userIndex !== -1) {
         this.users[userIndex] = {
-          id: this.editUserId,
           username: this.username,
           email: this.email,
           password: this.password,
-          role: this.role
+          roleid: this.role
         };
-        console.log(this.users[userIndex]);
+        console.log(this.users[userIndex] );
         
       }
     } else {
       const newUser: User = {
-        id: this.users.length + 1,
         username: this.username,
         email: this.email,
         password: this.password,
-        role: this.role
+        roleid: this.role
       };
-      this.users.push(newUser);
-      console.log(newUser);
+      this._UserService.createUser(newUser).subscribe({
+        next: (response) => {
+          // success
+          console.log(response);
+          this.users.push(response);
+        },
+        error: (error) => {
+          // failure
+          console.error('Error:', error);
+        },
+        complete: () => {
+          // complete
+          console.log('Request completed');
+        }
+      });
+      
+      
     }
     this.closeModal();
-    
   }
 
-  deleteUser(userId: number) {
-    this.users = this.users.filter(user => user.id !== userId);
+  deleteUser(userEmail: string) {
+    this.users = this.users.filter(user => user.email !== userEmail);
   }
+
+
 }
