@@ -10,7 +10,10 @@ export class UserService {
 
   constructor(private _HttpClient:HttpClient) { }
 
-  createUser(user: User):Observable<User> { 
-    return this._HttpClient.post<User>('http://localhost:3000/users', user);
+  createUser(user: User):Observable<any> {
+    return this._HttpClient.post<any>('/api/create', user);
+  }
+  getAllUsers():Observable<User[]> {
+    return this._HttpClient.get<User[]>("/api/all-users-with-roles")
   }
 }
