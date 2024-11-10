@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Role } from '../../enums/Role';
 import { User } from '../../interfaces/User';
 import { UserService } from '../../services/user.service';
+import { json } from 'stream/consumers';
 
 
 @Component({
@@ -18,8 +19,8 @@ import { UserService } from '../../services/user.service';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
-export class UsersComponent {
-  username = '';
+export class UsersComponent implements OnInit {
+  name = '';
   email = '';
   password = '';
   role!: Role;
@@ -27,28 +28,37 @@ export class UsersComponent {
   isEditMode = false;
   editUserEmail: string | null = null;
   constructor(private _UserService: UserService){}
-
-  DbUsers: User[] = [
-    { email: "mohamedelmanily123@yahoo.com",  password: "dadwada", roleid: 1, username: "mohamedelman" },
-    { email: "ahmed@yahoo.com",  password: "dadwada", roleid: 2, username: "ahmed" },
-    { email: "ali@yahoo.com", password: "dadwada", roleid: 3, username: "aliali" }
-  ];
+  
+  ngOnInit(){
+    this.fetchAllUsers();
+  }
 
   roleNames = {
     [Role.admin]: 'Admin',
     [Role.pm]: 'Project Manager',
     [Role.member]: 'Member'
   };
-  users: User[] = this.DbUsers;
+  users: User[]=[];
 
+
+  fetchAllUsers(){
+    this._UserService.getAllUsers().subscribe({
+      next:(data:User[])=>{
+        this.users=data;
+        console.log("fetched all users"+this.users);
+      },
+      error:(err)=>
+        console.log("error fetching users"+err)
+    });
+  }
   openModal(isEdit: boolean = false, user?: User) {
     this.isModalOpen = true;
     this.isEditMode = isEdit;
     if (isEdit && user) {
-      this.username = user.username;
+      this.name = user.name;
       this.email = user.email;
       this.password = user.password;
-      this.role = user.roleid;
+      this.role = user.roleId;
     } else {
       this.clearForm();
     }
@@ -62,7 +72,7 @@ export class UsersComponent {
   }
 
   clearForm() {
-    this.username = '';
+    this.name = '';
     this.email = '';
     this.password = '';
   }
@@ -72,26 +82,26 @@ export class UsersComponent {
       const userIndex = this.users.findIndex(user => user.email === this.email);
       if (userIndex !== -1) {
         this.users[userIndex] = {
-          username: this.username,
+          name: this.name,
           email: this.email,
           password: this.password,
-          roleid: this.role
+          roleId: this.role
         };
         console.log(this.users[userIndex] );
 
       }
     } else {
       const newUser: User = {
-        username: this.username,
+        name: this.name,
         email: this.email,
         password: this.password,
-        roleid: this.role
+        roleId: this.role
       };
-      
       this._UserService.createUser(newUser).subscribe({
         next: (response) => {
+
           // success
-          console.log(response);
+          console.log("user created successfully-->:"+response);
           this.users.push(response);
         },
         error: (error) => {
