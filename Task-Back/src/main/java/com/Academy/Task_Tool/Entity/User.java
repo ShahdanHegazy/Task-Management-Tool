@@ -1,12 +1,19 @@
 package com.Academy.Task_Tool.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="users")
 public class User {
     @Id
@@ -23,11 +30,16 @@ public class User {
     @Column(name="password")
     private String password;
 
-    @Column(name="roleId")
-    private Integer role_id;
 
     @Column(name="create_at")
-    private Timestamp createAt;
+    private LocalDateTime createAt;
 
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
+
+    @JsonBackReference
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
 }
