@@ -12,6 +12,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
+    private String username;
+    private String password;
 
     private Integer id;
     @NotBlank(message="username is required.")
@@ -22,6 +24,7 @@ public class UserDto {
     @Email(message = "Email must be valid")
     @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
     private String email;
+
 
     @NotBlank(message = "Password is required .")
     @Size(min = 5 ,message = "password must be at least 5 characters")
