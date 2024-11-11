@@ -16,4 +16,11 @@ export class UserService {
   getAllUsers():Observable<User[]> {
     return this._HttpClient.get<User[]>("/api/all-users-with-roles")
   }
+  // deleteUser(user:User):Observable<string>{
+  //   return this._HttpClient.delete<string>("/delete",user.email)
+  // }
+  // deleteUserById(id: number) {
+  //   return this.http.delete<User>(`http://localhost:8080/api/users/${id}`);
+  // }
+
 }
