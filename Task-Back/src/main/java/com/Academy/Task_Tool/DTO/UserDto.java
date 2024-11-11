@@ -9,10 +9,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class UserDto {
+    private String username;
+    private String password;
 
     private String name;
     private String email;
-    private String password;
     private Integer roleId;
 
 

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 
 @Entity
@@ -13,6 +14,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Data
 
 public class Comment {
     @Id
@@ -28,4 +30,17 @@ public class Comment {
 
     @Column(name = "update_at")
     private String update_at ;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_id", nullable = false)
+    private Task task;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id" , nullable = false)
+    private User user;
+
+
+
+
+
 }
