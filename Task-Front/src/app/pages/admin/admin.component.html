@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <div class="d-flex">
   <div>
-    <app-sidebar></app-sidebar>
+    <app-sidebar [data]="sidebarData"></app-sidebar>
   </div>
   <div style="width:calc(100% - 200px);" class="bg-light">
     <router-outlet></router-outlet>

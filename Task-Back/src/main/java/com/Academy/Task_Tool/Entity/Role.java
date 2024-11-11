@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
+
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,12 +20,10 @@ public class Role {
     private Integer role_id;
 
     @Column(name="role_name")
+    private String roleName;
+
+
     private String name;
-
-//    @JsonManagedReference
-//    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<User> users;
-
 
 // Optional: If you want to see users assigned to each role
      @JsonManagedReference
