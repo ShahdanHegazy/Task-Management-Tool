@@ -234,24 +234,24 @@ export class UsersComponent implements OnInit {
         roleId: this.role,
         id: 0
       };
-          console.log(newUser);
-      // this._UserService.createUser(newUser).subscribe({
-      //   next: (response) => {
+          // console.log(newUser);
+      this._UserService.createUser(newUser).subscribe({
+        next: (response) => {
 
-      //     // success
-      //     console.log("user created successfully-->:"+response);
-      //     this.users.push(response);
-      //     this.showAlert()
-      //   },
-      //   error: (error) => {
-      //     // failure
-      //     console.error('Error:', error);
-      //   },
-      //   complete: () => {
-      //     // complete
-      //     console.log('Request completed');
-      //   }
-      // });
+          // success
+          console.log("user created successfully-->:"+response);
+          this.users.push(response);
+          this.showAlert()
+        },
+        error: (error) => {
+          // failure
+          console.error('Error:', error);
+        },
+        complete: () => {
+          // complete
+          console.log('Request completed');
+        }
+      });
 
 
     }
