@@ -1,5 +1,8 @@
 .sidebar{
   background-color:#333;
+  width: 200px;
+  min-height:90vh;
+  height: 100%;
 }
 .sidebar .nav-link {
   padding: 10px 15px;
