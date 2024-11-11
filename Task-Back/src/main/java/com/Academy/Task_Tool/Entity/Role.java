@@ -22,9 +22,6 @@ public class Role {
     @Column(name="role_name")
     private String roleName;
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "role")
-    private List<User> users;
 
     private String name;
 

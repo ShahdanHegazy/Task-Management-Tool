@@ -1,5 +1,13 @@
 package com.Academy.Task_Tool.Services;
 
+import com.Academy.Task_Tool.DTO.UserDto;
+import com.Academy.Task_Tool.DTO.UserResponseDto;
+import com.Academy.Task_Tool.DTO.UserUpDataDto;
+import com.Academy.Task_Tool.Entity.Role;
+import com.Academy.Task_Tool.Entity.User;
+import com.Academy.Task_Tool.Repository.ProjectRepository;
+import com.Academy.Task_Tool.Repository.RoleRepository;
+import com.Academy.Task_Tool.Repository.UserRepository;
 import com.Academy.Task_Tool.Repository.UserRepsitory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

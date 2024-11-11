@@ -45,10 +45,10 @@ public class User {
         this.deleted = true;
     }
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id")
-    private Role role;
+//    @JsonIgnore
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "role_id")
+//    private Role role_id;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
