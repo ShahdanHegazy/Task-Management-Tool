@@ -1,6 +1,5 @@
 package com.Academy.Task_Tool.DTO;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,10 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class UserResponseDto {
-    private Integer id;
+public class ProjectManagerDto {
+
+    private Integer Id ;
     private String name;
-    private String email;
-    private Integer roleId;
 
 }

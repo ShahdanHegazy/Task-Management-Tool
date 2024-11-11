@@ -1,8 +1,7 @@
 package com.Academy.Task_Tool.Services;
 
-import com.Academy.Task_Tool.DTO.UserDto;
-import com.Academy.Task_Tool.DTO.UserResponseDto;
-import com.Academy.Task_Tool.DTO.UserUpDataDto;
+import com.Academy.Task_Tool.DTO.*;
+import com.Academy.Task_Tool.Entity.Project;
 import com.Academy.Task_Tool.Entity.Role;
 import com.Academy.Task_Tool.Entity.User;
 import com.Academy.Task_Tool.Repository.ProjectRepository;
@@ -55,8 +54,11 @@ public class AdminService {
 
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private ProjectRepository projectRepository;
 
-    public User createUser(UserDto userDto) {
+    // method for create user within admin
+    public UserDto createUser(UserDto userDto) {
         User user = new User();
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
@@ -69,12 +71,23 @@ public class AdminService {
                 .orElseThrow(() -> new RuntimeException("Role not found"));
         user.setRole(role);
 
-        return userRepsitory.save(user);
+        User savedUser =userRepsitory.save(user);
+
+        // convert savedUser to UserDto
+
+        UserDto savedUserDto=new UserDto();
+        savedUserDto.setId(user.getId());
+        savedUserDto.setName(savedUser.getName());
+        savedUserDto.setEmail(savedUser.getEmail());
+        savedUserDto.setPassword(savedUser.getPassword());
+        savedUserDto.setRoleId(role.getRole_id());
+        return savedUserDto;
     }
 
     public List<UserResponseDto> getAllUsersWithRole() {
         return userRepsitory.findAll().stream()
                 .map(user -> new UserResponseDto(
+                        user.getId(),
                         user.getName(),
                         user.getEmail(),
                         user.getRole().getRole_id()
@@ -115,5 +128,52 @@ public class AdminService {
         return userRepsitory.save(user);  // Save and return the updated user
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////
+
+// method for create new project
+    public Project createProject(ProjectDto projectDto){
+        Project project=new Project();
+        project.setProjectName(projectDto.getProjectName());
+        project.setStart_date(projectDto.getStart_date());
+        project.setEnd_date(projectDto.getEnd_date());
+        project.setDescription(projectDto.getDescription());
+
+        // Fetch the project manager by ID and set it
+
+        User projectManager =userRepsitory.findById(projectDto.getProjectManagerId())
+                .orElseThrow(()-> new RuntimeException("Project manager not found"));
+        project.setProjectManager(projectManager);
+
+        return projectRepository.save(project);  // Save and return the new project
+    }
+
+    // method for retrieve project Manager
+    public List <ProjectManagerDto> getAllProjectManager(){
+        // Fetch all users and map them to ProjectManagerDto
+        return userRepsitory.findAll().stream()
+                .map(user -> new ProjectManagerDto(user.getId(), user.getName()))
+                .collect(Collectors.toList());
+    }
+
+    //method for retrieve details of project by id ;
+
+//    public ProjectDto getAllDetailsProject( Integer id){
+//        return projectRepository.findById(id)
+//                .map(project -> new ProjectDto(
+//                        project.getProject_id(),
+//                        project.getProjectName(),
+//                        project.getProjectManager() != null ? project.getProjectManager().getName() : "No Manager",
+//                        project.getStart_date(),
+//                        project.getEnd_date(),
+//                        project.getDescription()
+//                ))
+//                .orElseThrow(() -> new RuntimeException("Project not found with id: " + id));
+//    }
+
+
+    // method for update data of project
+//    public Project updateProject(Integer id,){
+//
+//    }
 
 }

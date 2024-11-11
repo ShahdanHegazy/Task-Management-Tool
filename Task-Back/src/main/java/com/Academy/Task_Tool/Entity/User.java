@@ -25,17 +25,17 @@ public class User {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="Name")
+    @Column(name="Name",nullable = false)
     private String name;
 
-    @Column(name="email")
+    @Column(name="email",nullable = false,unique = true)
     private String email;
 
-    @Column(name="password")
+    @Column(name="password", nullable = false)
     private String password;
 
 
-    @Column(name="create_at")
+    @Column(name="create_at",nullable = false)
     private LocalDateTime createAt;
 
     @Where(clause = "deleted = false")

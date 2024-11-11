@@ -25,11 +25,6 @@ public class Role {
 
     private String name;
 
-//    @JsonManagedReference
-//    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<User> users;
-
-
 // Optional: If you want to see users assigned to each role
      @JsonManagedReference
      @OneToMany(mappedBy = "role")
