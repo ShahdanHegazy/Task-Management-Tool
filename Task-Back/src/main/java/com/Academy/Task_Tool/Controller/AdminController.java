@@ -1,31 +1,41 @@
 package com.Academy.Task_Tool.Controller;
 
-import com.Academy.Task_Tool.DTO.UserDto;
-import com.Academy.Task_Tool.Entity.User;
 import com.Academy.Task_Tool.Services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
 public class AdminController {
     @Autowired
-    private AdminService adminService;
-
-    // Soft delete a user
-    @PutMapping("/softDelete/{userId}")
-    public ResponseEntity<String> softDeleteUser(@PathVariable Integer userId) {
-        adminService.softDeleteUser(userId);
-        return ResponseEntity.ok("User marked as deleted successfully");
+    private AdminService adminservice;
+    // GET endpoint to fetch project count
+    @GetMapping("/count/project")
+    public ResponseEntity<Integer> getprojectCount() {
+        Integer projectCount = adminservice.getProjectCount();
+        return ResponseEntity.ok(projectCount);
     }
 
-            // PUT: Update an existing user
-        @PutMapping("/updateUser/{userId}")
-        public ResponseEntity<UserDto> updateUser(@PathVariable("userId") Integer userId, @RequestBody UserDto userDetails) {
-            UserDto user = adminService.updateUser(userId, userDetails);
-            return ResponseEntity.ok(user);
+
+
+
+
+    // GET endpoint to fetch user count by role_id
+    private final AdminService adminService;
+
+    @Autowired
+    public AdminController(AdminService adminService) {
+        this.adminService = adminService;
+    }
+
+    // Endpoint to get user count for a specific role_id
+    @GetMapping("/count-by-role-id/{roleId}")
+    public long getUserCountByRoleId(@PathVariable Integer roleId) {
+        return adminService.getUserCountByRoleId(roleId);
     }
 
 

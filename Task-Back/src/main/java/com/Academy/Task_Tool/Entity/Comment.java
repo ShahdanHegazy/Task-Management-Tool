@@ -31,7 +31,7 @@ public class Comment {
     @Column(name = "update_at")
     private String update_at ;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_id", nullable = false)
     private Task task;
 
@@ -40,13 +40,7 @@ public class Comment {
     private User user;
 
 
-    public Task getTask_id() {
-        return task;
-    }
 
-    public void setUser(List<User> users) {
-        this.user = user;
-    }
 
 
 }

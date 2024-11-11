@@ -1,24 +1,22 @@
 package com.Academy.Task_Tool.Repository;
 
 import com.Academy.Task_Tool.Entity.User;
-import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+
 
 @Repository
 public interface UserRepsitory extends JpaRepository<User,Integer> {
+    // Custom query to count users by role
+//    @Query("SELECT u.role AS role, COUNT(u) AS count FROM User u GROUP BY u.role")
+//    List<Map<String, Object>> countUsersByRole_id(Integer role_id);
 
-    // Find by id, excluding soft deleted records
-    Optional<User> findByIdAndDeletedFalse(Integer userId);
+    @Query("SELECT COUNT(u) FROM User u WHERE u.role.id = :roleId")
+    long countUsersByRoleId(Integer roleId);
 
-    // Custom query to perform a soft delete on a user
-    @Modifying
-    @Transactional
-    @Query("UPDATE User u SET u.deleted = true WHERE u.id = :id")
-    void softDeleteUserById(Integer id);
+
 }

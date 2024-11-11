@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
-//    List<Comment> findByTaskId(Long taskId);
+//    List<Comment> findByTaskId(Integer taskId);
 
 }
 
