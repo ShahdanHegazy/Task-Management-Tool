@@ -7,6 +7,9 @@ import lombok.Data;
 
 import java.util.List;
 
+import java.util.List;
+import java.util.Set;
+
 @Entity
 @Data
 @Table(name="roles")
@@ -14,7 +17,7 @@ public class Role {
     @Id
     @Column(name = "role_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer roleId;
+    private Integer role_id;
 
     @Column(name="role_name")
     private String roleName;
@@ -22,5 +25,17 @@ public class Role {
     @JsonBackReference
     @OneToMany(mappedBy = "role")
     private List<User> users;
+
+    private String name;
+
+//    @JsonManagedReference
+//    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<User> users;
+
+
+// Optional: If you want to see users assigned to each role
+     @JsonManagedReference
+     @OneToMany(mappedBy = "role")
+     private List<User> users;
 
 }

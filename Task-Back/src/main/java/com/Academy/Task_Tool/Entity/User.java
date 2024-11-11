@@ -1,15 +1,23 @@
 package com.Academy.Task_Tool.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.*;
 import lombok.Data;
 import org.hibernate.annotations.Where;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="users")
 public class User {
     @Id
@@ -26,8 +34,9 @@ public class User {
     @Column(name="password")
     private String password;
 
+
     @Column(name="create_at")
-    private Timestamp createAt;
+    private LocalDateTime createAt;
 
     @Where(clause = "deleted = false")
     @Column(name = "deleted")
@@ -41,5 +50,12 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
+
+    @JsonBackReference
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
 }

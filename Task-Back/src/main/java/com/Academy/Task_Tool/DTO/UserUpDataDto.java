@@ -8,14 +8,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class UserDto {
-    private String username;
-    private String password;
-
+public class UserUpDataDto {
     private String name;
     private String email;
-    private String password;
     private Integer roleId;
-
 
 }

@@ -7,15 +7,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-public class UserDto {
-    private String username;
-    private String password;
-
+public class UserResponseDto {
     private String name;
     private String email;
-    private String password;
     private Integer roleId;
 
-
+    public UserResponseDto(String name,String email, Integer roleId){
+        this.name=name;
+        this.email=email;
+        this.roleId=roleId;
+    }
 }
