@@ -14,4 +14,8 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     @Query("SELECT u FROM User u WHERE u.isDeleted = false")
     List<User> findAllActiveUsers();
 
+    @Query("SELECT COUNT(u) FROM User u WHERE u.role.id = :roleId")
+    long countUsersByRoleId(Integer roleId);
+
+
 }

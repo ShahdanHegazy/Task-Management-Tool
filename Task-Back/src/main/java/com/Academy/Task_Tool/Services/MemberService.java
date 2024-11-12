@@ -38,7 +38,7 @@ public class MemberService {
                 .map(project -> {
                     ProjectDto projectDTO = new ProjectDto();
                     projectDTO.setProject_id(project.getProject_id());
-                    projectDTO.setTitle(project.getTitle());
+                    projectDTO.setProjectName(project.getProjectName());
                     return projectDTO;
                 })
                 .collect(Collectors.toList());
@@ -72,11 +72,33 @@ public class MemberService {
     }
 
     public ResponseEntity<String> moveTask(int taskId, int sourceListId, int targetListId) {
-        Task task = taskRepository.findById(taskId).orElseThrow(()-> new EntityNotFoundException("Task not found"));
-//        List sourceList = taskStatusRepository.findById(sourceListId).orElseThrow(()-> new EntityNotFoundException("Task status not found"));
-//        List targetList = taskStatusRepository.findById(targetListId).orElseThrow(()-> new EntityNotFoundException("Task status not found"));
 
-        return null;
+               /* Card card = cardRepository.findById(cardId)
+                        .orElseThrow(() -> new EntityNotFoundException("Card not found"));
+
+                List sourceList = listRepository.findById(sourceListId)
+                        .orElseThrow(() -> new EntityNotFoundException("Source list not found"));
+
+                List destinationList = listRepository.findById(destinationListId)
+                        .orElseThrow(() -> new EntityNotFoundException("Destination list not found"));
+
+                // Remove card from source list
+                sourceList.getCards().remove(card);
+
+                // Add card to destination list
+                destinationList.getCards().add(card);
+                card.setList(destinationList);
+
+                // Update card order in both lists (optional, depending on your implementation)
+                // ...
+
+                // Save changes
+                cardRepository.save(card);
+                listRepository.save(sourceList);
+                listRepository.save(destinationList);
+
+        }*/
+        return null ;
     }
 
     // update task status
