@@ -2,8 +2,6 @@ package com.Academy.Task_Tool.Controller;
 
 import com.Academy.Task_Tool.DTO.ProjectDto;
 import com.Academy.Task_Tool.DTO.TaskDto;
-import com.Academy.Task_Tool.Entity.Comment;
-import com.Academy.Task_Tool.Entity.Task;
 import com.Academy.Task_Tool.Services.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +32,8 @@ public class MemberController {
 
 
 //    @GetMapping ("/project{projectId}/task{taskId}")
-//    public ResponseEntity<Task> getTask(@PathVariable int projectId, @PathVariable int taskId) {
-//        return memberService.getTask(projectId,taskId);
+//    public ResponseEntity<Card> getCard(@PathVariable int projectId, @PathVariable int taskId) {
+//        return memberService.getCard(projectId,taskId);
 //    }
 //
 //    @PostMapping("/project{projectId}/task{taskId}")

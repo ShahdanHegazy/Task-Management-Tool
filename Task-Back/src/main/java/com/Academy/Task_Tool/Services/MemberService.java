@@ -4,7 +4,6 @@ import com.Academy.Task_Tool.DTO.ProjectDto;
 import com.Academy.Task_Tool.DTO.TaskDto;
 import com.Academy.Task_Tool.Entity.*;
 import com.Academy.Task_Tool.Repository.*;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 public class MemberService {
     
     @Autowired
-    TaskRepository taskRepository;
+    CardRepository cardRepository;
     @Autowired
     CommentRepository commentRepository;
     @Autowired
@@ -26,7 +25,7 @@ public class MemberService {
     @Autowired
     ProjectRepository projectRepository;
     @Autowired
-    TaskStatusRepository taskStatusRepository;
+    ListRepository listRepository;
 
 //get all assigned projects
     public ResponseEntity<List<ProjectDto>> getAllAssignedProjects(int userId) {
@@ -52,8 +51,8 @@ public class MemberService {
         Project project = projectRepository.findById(projectId).orElseThrow(
                 ()->new RuntimeException("Project not found")
         );
-        Set<Task> tasks = project.getAssignedTasks();
-        List<TaskDto> taskDtos = tasks.stream()
+        Set<Card> cards = project.getAssignedCards();
+        List<TaskDto> taskDtos = cards.stream()
                 .map(
                         task -> {
                             TaskDto taskDTO = new TaskDto();
@@ -106,8 +105,8 @@ public class MemberService {
 
 
 //    //get task
-//    public ResponseEntity<Task> getTask(int projectId, int taskId) {
-//         taskRepository.findById(taskId);
+//    public ResponseEntity<Card> getCard(int projectId, int taskId) {
+//         cardRepository.findById(taskId);
 //        return new ResponseEntity<>(HttpStatus.OK);
 //    }
 //

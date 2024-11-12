@@ -4,13 +4,12 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Timestamp;
-import java.util.Set;
 import java.util.List;
 
 @Entity
 @Data
 @Table(name="tasks")
-public class Task {
+public class Card {
     @Id
     @Column(name = "task_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
