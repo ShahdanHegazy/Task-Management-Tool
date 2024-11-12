@@ -1,14 +1,9 @@
 import { Component } from '@angular/core';
-import { NgClass, NgFor, NgIf} from '@angular/common';
+import {NgClass, NgFor, NgIf, NgStyle} from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import {Project} from '../../interfaces/project';
 
-interface Project {
-  id: number;
-  name: string;
-  pm: string;
-  startDate:Date;
-  endDate:Date;
-}
+
 
 @Component({
   selector: 'app-projects',
@@ -17,7 +12,8 @@ interface Project {
     NgIf,
     NgFor,
     NgClass,
-    FormsModule
+    FormsModule,
+    NgStyle
   ],
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.css']
@@ -25,15 +21,17 @@ interface Project {
 export class ProjectsComponent {
   projectName = '';
   projectPM = '';
-  projectStartDate :any;
-  projectEndDate: any ;
-  projects: Project[] = [];
-  projectIdCounter = 1;
+  projectStartDate: any;
+  projectEndDate: any;
+  projectDescription = '';
+  projectIdCounter = 0;
   isModalOpen = false;
   isEditMode = false;
   editProjectId: number | null = null;
+  projects: Project[] = [];
+  hoveredProject: Project | null = null;
+  hoverPosition = { x: 0, y: 0 };
   pms = ['John Doe', 'Jane Smith', 'Ahmed Ali'];
-  members=[['ahmed', 'John','khaled','mahmoud'],['salah', 'sayed','shaheen','mahmoud']]
 
   openModal(isEdit: boolean = false, project?: Project) {
     this.isModalOpen = true;
@@ -42,9 +40,9 @@ export class ProjectsComponent {
       this.editProjectId = project.id;
       this.projectName = project.name;
       this.projectPM = project.pm;
-      this.projectStartDate=project.startDate;
-      this.projectEndDate=project.endDate;
-      
+      this.projectStartDate = project.startDate;
+      this.projectEndDate = project.endDate;
+      this.projectDescription = project.description;
     } else {
       this.clearForm();
     }
@@ -60,33 +58,34 @@ export class ProjectsComponent {
   createOrUpdateProject() {
     if (this.projectName && this.projectPM) {
       if (this.isEditMode && this.editProjectId !== null) {
-        // Update project
         const projectIndex = this.projects.findIndex(p => p.id === this.editProjectId);
         if (projectIndex !== -1) {
           this.projects[projectIndex] = {
             id: this.editProjectId,
             name: this.projectName,
             pm: this.projectPM,
-            startDate:this.projectStartDate,
-            endDate:this.projectEndDate
+            startDate: this.projectStartDate,
+            endDate: this.projectEndDate,
+            description: this.projectDescription,
+            members: ['Ahmed', 'John', 'Khaled'] // Example members
           };
         }
       } else {
-        // Create new project
-        this.projects.push({
+        const newProject: Project = {
           id: this.projectIdCounter++,
           name: this.projectName,
           pm: this.projectPM,
-          startDate:this.projectStartDate,
-          endDate:this.projectEndDate
-        });
+          startDate: this.projectStartDate,
+          endDate: this.projectEndDate,
+          description: this.projectDescription,
+          members: ['Ahmed', 'John', 'Khaled']
+        };
+        this.projects.push(newProject);
       }
-      console.log(this.projects[this.projectIdCounter-2]);
       this.closeModal();
     }
-    
   }
-  //Delete project
+
   deleteProject(projectId: number) {
     this.projects = this.projects.filter(project => project.id !== projectId);
   }
@@ -96,7 +95,16 @@ export class ProjectsComponent {
     this.projectPM = '';
     this.projectStartDate = '';
     this.projectEndDate = '';
+    this.projectDescription = '';
   }
 
+  showDetails(project: Project) {
+    this.hoveredProject = project;
+    // @ts-ignore
+    this.hoverPosition = { x: event.clientX + 10, y: event.clientY + 10 };
+  }
 
+  hideDetails() {
+    this.hoveredProject = null;
+  }
 }

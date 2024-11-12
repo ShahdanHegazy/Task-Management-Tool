@@ -21,20 +21,18 @@ import java.util.List;
 @RequestMapping("/api")
 public class AdminController {
     @Autowired
-    private AdminService adminservice;
+    private AdminService adminService;
+
+
     // GET endpoint to fetch project count
     @GetMapping("/count/project")
     public ResponseEntity<Integer> getprojectCount() {
-        Integer projectCount = adminservice.getProjectCount();
+        Integer projectCount = adminService.getProjectCount();
         return ResponseEntity.ok(projectCount);
     }
 
-
-
-
-
     // GET endpoint to fetch user count by role_id
-    private final AdminService adminService;
+//    private final AdminService adminService;
 
     @Autowired
     public AdminController(AdminService adminService) {

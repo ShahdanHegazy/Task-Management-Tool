@@ -23,14 +23,15 @@ public class AdminService {
     // GET endpoint to fetch project count
     @Autowired
     private ProjectRepository projectRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private UserRepository userRepsitory;
     private Object role_id;
 
     public Integer getProjectCount() {
         return projectRepository.countAllProject();
     }
-
-
-
 
     // GET endpoint to fetch user count by role_id
     private final UserRepsitory userRepository;
@@ -50,12 +51,9 @@ public class AdminService {
 
 
 
-    private UserRepository userRepsitory;
 
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private ProjectRepository projectRepository;
+
+
 
     // method for create user within admin
     public UserDto createUser(UserDto userDto) {
