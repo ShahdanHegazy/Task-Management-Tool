@@ -27,6 +27,7 @@ public class AdminController {
     @Autowired
     private UserRepository userRepository;
 
+
     // GET endpoint to fetch project count
     @GetMapping("/count/project")
     public ResponseEntity<Integer> getprojectCount() {
@@ -47,6 +48,7 @@ public class AdminController {
     public long getUserCountByRoleId(@PathVariable Integer roleId) {
         return adminService.getUserCountByRoleId(roleId);
     }
+
 
 
     @PostMapping("/admin/createUser")

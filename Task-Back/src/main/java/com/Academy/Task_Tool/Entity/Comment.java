@@ -4,13 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 
 @Entity
 @Table(name = "comment")
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -33,14 +30,11 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_id", nullable = false)
-    private Task task;
+    private Card card;
 
     @ManyToOne
     @JoinColumn(name = "user_id" , nullable = false)
     private User user;
-
-
-
 
 
 }

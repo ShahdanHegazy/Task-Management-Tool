@@ -19,23 +19,31 @@ public class AdminService {
     // GET endpoint to fetch project count
     @Autowired
     private ProjectRepository projectRepository;
-//    @Autowired
-//    private UserRepository userRepsitory;
+
     @Autowired
     private RoleRepository roleRepository;
 
     @Autowired
     private  UserRepository userRepository;
 
+
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+
     private Object role_id;
+//    @Autowired
+//    private final UserRepsitory userRepository;
 
     public Integer getProjectCount() {
         return projectRepository.countAllProject();
     }
+
+
+
+
     // GET endpoint to fetch user count by role_id
-
-
-
     @Autowired
     public AdminService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -60,6 +68,7 @@ public class AdminService {
         Role role = roleRepository.findById(userDto.getRoleId())
                 .orElseThrow(() -> new RuntimeException("Role not found"));
         user.setRole(role);
+
 
         User savedUser =userRepository.save(user);
 
@@ -86,10 +95,12 @@ public class AdminService {
     }
 
     public User softDeleteUser(Integer id) {
+
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         user.setIsDeleted(true);  // Mark the user as deleted
         userRepository.save(user); // Save the updated user
+
         return user;
     }
 
@@ -104,6 +115,7 @@ public class AdminService {
     }
 
     public UserUpDataDto updateUser(Integer userId, UserUpDataDto userUpDataDto) {
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -123,6 +135,7 @@ public class AdminService {
             user.setRole(role);
         }
 
+
         // map user entity to userDto
          user = userRepository.save(user);// Save user
         UserUpDataDto updateUser=new UserUpDataDto();
@@ -131,6 +144,7 @@ public class AdminService {
         updateUser.setPassword(user.getPassword());
         updateUser.setRoleId(user.getRole().getRole_id());
         return updateUser;
+
     }
 
     ///////////////////////////////////////////////////////////////////////////////////
@@ -159,6 +173,8 @@ public class AdminService {
                 .map(user -> new ProjectManagerDto(user.getId(), user.getName()))
                 .collect(Collectors.toList());
     }
+
+
 
     //method for retrieve details of project by id ;
 

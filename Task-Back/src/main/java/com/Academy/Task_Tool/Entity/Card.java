@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name="tasks")
-public class Task {
+public class Card {
     @Id
     @Column(name = "task_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +31,12 @@ public class Task {
     @Column(name="create_at")
     private Timestamp createAt;
 
-    @Column(name="create_by")
-    private String createBy;
+    @Column(name="assigned_to")
+    private String assignedTo;
+
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "project_id")
+    private Project project;
 
     @OneToMany(mappedBy = "task")
     private List<Comment> comments;

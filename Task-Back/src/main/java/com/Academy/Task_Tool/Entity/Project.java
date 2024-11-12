@@ -1,20 +1,18 @@
 package com.Academy.Task_Tool.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.sql.Timestamp;
+import java.util.Set;
+
 import java.time.LocalDateTime;
 
 @Table(name = "project")
 @Entity
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Project {
@@ -23,7 +21,7 @@ public class Project {
     @Column(name = "project_id")
     private Integer project_id;
 
-    @Column(name = "Project_Name")
+    @Column(name = "project_name")
     private String projectName;
 
     @Column(name = "description")
@@ -43,4 +41,12 @@ public class Project {
     @JoinColumn(name = "project_manager_id", referencedColumnName = "id")
     private User projectManager;
 
+    @ManyToMany(mappedBy = "assignedProjects")
+    private Set<User> assignedUsers;
+
+    @JsonBackReference
+    @OneToMany(mappedBy="project")
+    private Set<Card> assignedCards;
+
 }
+

@@ -23,8 +23,6 @@ public class Role {
     private String roleName;
 
 
-    private String name;
-
 // Optional: If you want to see users assigned to each role
      @JsonManagedReference
      @OneToMany(mappedBy = "role")
