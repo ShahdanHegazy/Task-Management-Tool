@@ -18,5 +18,4 @@ public interface ProjectRepository extends JpaRepository<Project,Integer> {
 //     Custom query to count all project
     @Query("SELECT COUNT(u.project_id) FROM Project u")
     Integer countAllProject();
-
 }
