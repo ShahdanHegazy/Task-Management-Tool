@@ -12,6 +12,7 @@ import org.hibernate.annotations.Where;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -38,12 +39,12 @@ public class User {
     @Column(name="create_at",nullable = false)
     private LocalDateTime createAt;
 
-    @Where(clause = "deleted = false")
-    @Column(name = "deleted")
-    private Boolean deleted = false;
-    public void markAsDeleted() {
-        this.deleted = true;
-    }
+//    @Where(clause = "deleted = false")
+//    @Column(name = "deleted")
+//    private Boolean deleted = false;
+//    public void markAsDeleted() {
+//        this.deleted = true;
+//    }
 
 //    @JsonIgnore
 //    @ManyToOne(fetch = FetchType.LAZY)
@@ -57,5 +58,6 @@ public class User {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Role role;
+
 
 }

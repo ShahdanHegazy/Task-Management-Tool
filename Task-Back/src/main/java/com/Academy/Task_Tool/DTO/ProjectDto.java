@@ -17,7 +17,6 @@ public class ProjectDto {
     private String description;
     private LocalDateTime start_date;
     private LocalDateTime end_date;
-//    private String description;
     private Integer projectManagerId;
 
 }
