@@ -11,7 +11,9 @@ import org.hibernate.annotations.Where;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -58,4 +60,12 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    @JsonBackReference
+    @ManyToMany
+    @JoinTable(
+            name = "user_project",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id")
+    )
+    private Set<Project> assignedProjects;
 }

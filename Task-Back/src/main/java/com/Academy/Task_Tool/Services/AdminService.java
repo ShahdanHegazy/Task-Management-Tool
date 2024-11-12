@@ -7,7 +7,7 @@ import com.Academy.Task_Tool.Entity.User;
 import com.Academy.Task_Tool.Repository.ProjectRepository;
 import com.Academy.Task_Tool.Repository.RoleRepository;
 import com.Academy.Task_Tool.Repository.UserRepository;
-import com.Academy.Task_Tool.Repository.UserRepsitory;
+import com.Academy.Task_Tool.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,15 +15,19 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import java.util.List;
-import java.util.Map;
-
 @Service
 public class AdminService {
     // GET endpoint to fetch project count
     @Autowired
     private ProjectRepository projectRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+
     private Object role_id;
+//    @Autowired
+//    private final UserRepsitory userRepository;
 
     public Integer getProjectCount() {
         return projectRepository.countAllProject();
@@ -33,29 +37,16 @@ public class AdminService {
 
 
     // GET endpoint to fetch user count by role_id
-    private final UserRepsitory userRepository;
+
 
     @Autowired
-    public AdminService(UserRepsitory userRepository) {
+    public AdminService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     public long getUserCountByRoleId(Integer roleId) {
         return userRepository.countUsersByRoleId(roleId);
     }
-
-
-
-
-
-
-
-    private UserRepository userRepsitory;
-
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private ProjectRepository projectRepository;
 
     // method for create user within admin
     public UserDto createUser(UserDto userDto) {
@@ -71,7 +62,7 @@ public class AdminService {
                 .orElseThrow(() -> new RuntimeException("Role not found"));
         user.setRole(role);
 
-        User savedUser =userRepsitory.save(user);
+        User savedUser = userRepository.save(user);
 
         // convert savedUser to UserDto
 
@@ -85,7 +76,7 @@ public class AdminService {
     }
 
     public List<UserResponseDto> getAllUsersWithRole() {
-        return userRepsitory.findAll().stream()
+        return userRepository.findAll().stream()
                 .map(user -> new UserResponseDto(
                         user.getId(),
                         user.getName(),
@@ -96,18 +87,18 @@ public class AdminService {
     }
 
     public void softDeleteUser(Integer id) {
-        User user = userRepsitory.findById(id)
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         user.setIsDeleted(true);  // Mark the user as deleted
-        userRepsitory.save(user); // Save the updated user
+        userRepository.save(user); // Save the updated user
     }
 
     public List<User> getAllActiveUsers() {
-        return userRepsitory.findAllActiveUsers(); // Fetch non-deleted users
+        return userRepository.findAllActiveUsers(); // Fetch non-deleted users
     }
 
     public User updateUser(Integer userId, UserUpDataDto userUpdateDto) {
-        User user = userRepsitory.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         // Update fields if provided
@@ -125,7 +116,7 @@ public class AdminService {
                     .orElseThrow(() -> new RuntimeException("Role not found"));
             user.setRole(role);
         }
-        return userRepsitory.save(user);  // Save and return the updated user
+        return userRepository.save(user);  // Save and return the updated user
     }
 
     ///////////////////////////////////////////////////////////////////////////////////
@@ -140,7 +131,7 @@ public class AdminService {
 
         // Fetch the project manager by ID and set it
 
-        User projectManager =userRepsitory.findById(projectDto.getProjectManagerId())
+        User projectManager =userRepository.findById(projectDto.getProjectManagerId())
                 .orElseThrow(()-> new RuntimeException("Project manager not found"));
         project.setProjectManager(projectManager);
 
@@ -150,10 +141,12 @@ public class AdminService {
     // method for retrieve project Manager
     public List <ProjectManagerDto> getAllProjectManager(){
         // Fetch all users and map them to ProjectManagerDto
-        return userRepsitory.findAll().stream()
+        return userRepository.findAll().stream()
                 .map(user -> new ProjectManagerDto(user.getId(), user.getName()))
                 .collect(Collectors.toList());
     }
+
+
 
     //method for retrieve details of project by id ;
 

@@ -1,12 +1,15 @@
 package com.Academy.Task_Tool.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -43,4 +46,12 @@ public class Project {
     @JoinColumn(name = "project_manager_id", referencedColumnName = "id")
     private User projectManager;
 
+    @ManyToMany(mappedBy = "assignedProjects")
+    private Set<User> assignedUsers;
+
+    @JsonBackReference
+    @OneToMany(mappedBy="project")
+    private Set<Task> assignedTasks;
+
 }
+

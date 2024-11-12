@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.util.Set;
 import java.util.List;
 
 @Entity
@@ -31,8 +32,12 @@ public class Task {
     @Column(name="create_at")
     private Timestamp createAt;
 
-    @Column(name="create_by")
-    private String createBy;
+    @Column(name="assigned_to")
+    private String assignedTo;
+
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "project_id")
+    private Project project;
 
     @OneToMany(mappedBy = "task")
     private List<Comment> comments;

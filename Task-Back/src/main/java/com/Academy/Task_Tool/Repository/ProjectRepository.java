@@ -8,12 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-@Repository
-public interface ProjectRepository extends JpaRepository<Project,Integer> {
-
-     Optional<Project> findById(Integer project_Id);
-  
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
