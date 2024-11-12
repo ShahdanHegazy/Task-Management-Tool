@@ -3,6 +3,8 @@ package com.Academy.Task_Tool.Controller;
 import com.Academy.Task_Tool.DTO.*;
 import com.Academy.Task_Tool.Entity.Project;
 import com.Academy.Task_Tool.Entity.User;
+import com.Academy.Task_Tool.Repository.UserRepository;
+import com.Academy.Task_Tool.Repository.UserRepository;
 import com.Academy.Task_Tool.Services.AdminService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ import java.util.List;
 public class AdminController {
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private UserRepository userRepository;
+
 
 
     // GET endpoint to fetch project count
@@ -68,14 +73,25 @@ public class AdminController {
         return "User soft deleted successfully";
     }
 
+//   @DeleteMapping("/admin/delete/{id}")
+//   public UserResponseDto softDeleteUser(@PathVariable Integer id) {
+//    User user=adminService.softDeleteUser(id);
+//
+//    UserResponseDto userResponseDto=new UserResponseDto();
+//     userResponseDto.setName(user.getName());
+//     userResponseDto.setEmail(user.getEmail());
+//     userResponseDto.setRoleId(user.getRole().getRole_id());
+//    return userResponseDto;
+//}
+
 // endpoint for retrieve active user
     @GetMapping("/admin/active/users")
-    public List<User> getAllActiveUsers() {
+    public List<UserResponseDto> getAllActiveUsers() {
         return adminService.getAllActiveUsers();
     }
 
     @PutMapping("/admin/update/{userId}")
-    public User updateUser(@PathVariable Integer userId, @RequestBody UserUpDataDto userUpdateDto) {
+    public  UserUpDataDto updateUser(@PathVariable Integer userId, @RequestBody UserUpDataDto userUpdateDto) {
         return adminService.updateUser(userId, userUpdateDto);
     }
 

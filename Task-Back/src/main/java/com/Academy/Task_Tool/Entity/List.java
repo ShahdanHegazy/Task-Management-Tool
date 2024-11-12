@@ -15,7 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class TaskStatus {
+public class List {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 

@@ -11,7 +11,10 @@ import org.hibernate.annotations.Where;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
+
+import java.util.Set;
 
 @Entity
 @Getter
@@ -25,25 +28,25 @@ public class User {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="Name",nullable = false)
+    @Column(name="name")
     private String name;
 
-    @Column(name="email",nullable = false,unique = true)
+    @Column(name="email")
     private String email;
 
-    @Column(name="password", nullable = false)
+    @Column(name="password")
     private String password;
 
 
-    @Column(name="create_at",nullable = false)
+    @Column(name="create_at")
     private LocalDateTime createAt;
 
-    @Where(clause = "deleted = false")
-    @Column(name = "deleted")
-    private Boolean deleted = false;
-    public void markAsDeleted() {
-        this.deleted = true;
-    }
+//    @Where(clause = "deleted = false")
+//    @Column(name = "deleted")
+//    private Boolean deleted = false;
+//    public void markAsDeleted() {
+//        this.deleted = true;
+//    }
 
 //    @JsonIgnore
 //    @ManyToOne(fetch = FetchType.LAZY)
@@ -57,5 +60,14 @@ public class User {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @JsonBackReference
+    @ManyToMany
+    @JoinTable(
+            name = "user_project",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id")
+    )
+    private Set<Project> assignedProjects;
 
 }
