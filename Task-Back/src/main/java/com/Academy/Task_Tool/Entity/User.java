@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+
 import java.util.Set;
 
 @Entity
@@ -40,12 +41,12 @@ public class User {
     @Column(name="create_at")
     private LocalDateTime createAt;
 
-    @Where(clause = "deleted = false")
-    @Column(name = "deleted")
-    private Boolean deleted = false;
-    public void markAsDeleted() {
-        this.deleted = true;
-    }
+//    @Where(clause = "deleted = false")
+//    @Column(name = "deleted")
+//    private Boolean deleted = false;
+//    public void markAsDeleted() {
+//        this.deleted = true;
+//    }
 
 //    @JsonIgnore
 //    @ManyToOne(fetch = FetchType.LAZY)
@@ -68,4 +69,5 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "project_id")
     )
     private Set<Project> assignedProjects;
+
 }

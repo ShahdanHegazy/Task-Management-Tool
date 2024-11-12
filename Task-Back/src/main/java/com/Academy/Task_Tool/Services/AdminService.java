@@ -7,7 +7,6 @@ import com.Academy.Task_Tool.Entity.User;
 import com.Academy.Task_Tool.Repository.ProjectRepository;
 import com.Academy.Task_Tool.Repository.RoleRepository;
 import com.Academy.Task_Tool.Repository.UserRepository;
-import com.Academy.Task_Tool.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +19,14 @@ public class AdminService {
     // GET endpoint to fetch project count
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private  UserRepository userRepository;
+
+
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -37,8 +44,6 @@ public class AdminService {
 
 
     // GET endpoint to fetch user count by role_id
-
-
     @Autowired
     public AdminService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -47,6 +52,8 @@ public class AdminService {
     public long getUserCountByRoleId(Integer roleId) {
         return userRepository.countUsersByRoleId(roleId);
     }
+
+/////////////////////////////////////////////////////////////////
 
     // method for create user within admin
     public UserDto createUser(UserDto userDto) {
@@ -62,7 +69,8 @@ public class AdminService {
                 .orElseThrow(() -> new RuntimeException("Role not found"));
         user.setRole(role);
 
-        User savedUser = userRepository.save(user);
+
+        User savedUser =userRepository.save(user);
 
         // convert savedUser to UserDto
 
@@ -86,37 +94,57 @@ public class AdminService {
                 .collect(Collectors.toList());
     }
 
-    public void softDeleteUser(Integer id) {
+    public User softDeleteUser(Integer id) {
+
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         user.setIsDeleted(true);  // Mark the user as deleted
         userRepository.save(user); // Save the updated user
+
+        return user;
     }
 
-    public List<User> getAllActiveUsers() {
-        return userRepository.findAllActiveUsers(); // Fetch non-deleted users
+    public List<UserResponseDto> getAllActiveUsers() {
+        return userRepository.findAllActiveUsers().stream()
+                .map(user->new UserResponseDto(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getRole().getRole_id()
+        )).collect(Collectors.toList()); // Fetch non-deleted users
     }
 
-    public User updateUser(Integer userId, UserUpDataDto userUpdateDto) {
+    public UserUpDataDto updateUser(Integer userId, UserUpDataDto userUpDataDto) {
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         // Update fields if provided
-        if (userUpdateDto.getName() != null) {
-            user.setName(userUpdateDto.getName());
+        if (userUpDataDto.getName() != null) {
+            user.setName(userUpDataDto.getName());
         }
-        if (userUpdateDto.getEmail() != null) {
-            user.setEmail(userUpdateDto.getEmail());
+        if (userUpDataDto.getEmail() != null) {
+            user.setEmail(userUpDataDto.getEmail());
         }
-//        if (userUpdateDto.getPassword() != null) {
-//            user.setPassword(userUpdateDto.getPassword());
-//        }
-        if (userUpdateDto.getRoleId() != null) {
-            Role role = roleRepository.findById(userUpdateDto.getRoleId())
+        if (userUpDataDto.getPassword() != null) {
+            user.setPassword(userUpDataDto.getPassword());
+        }
+        if (userUpDataDto.getRoleId() != null) {
+            Role role = roleRepository.findById(userUpDataDto.getRoleId())
                     .orElseThrow(() -> new RuntimeException("Role not found"));
             user.setRole(role);
         }
-        return userRepository.save(user);  // Save and return the updated user
+
+
+        // map user entity to userDto
+         user = userRepository.save(user);// Save user
+        UserUpDataDto updateUser=new UserUpDataDto();
+        updateUser.setName(user.getName());
+        updateUser.setEmail(user.getEmail());
+        updateUser.setPassword(user.getPassword());
+        updateUser.setRoleId(user.getRole().getRole_id());
+        return updateUser;
+
     }
 
     ///////////////////////////////////////////////////////////////////////////////////
