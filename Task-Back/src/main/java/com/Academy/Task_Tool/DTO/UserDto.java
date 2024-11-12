@@ -16,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
-    
+
     @NotBlank(message="username is required.")
     @Size(min=4 , max=12, message="username must be between 4 and 12 characters long.")
     private int id;

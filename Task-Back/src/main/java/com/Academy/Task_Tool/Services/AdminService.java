@@ -27,10 +27,7 @@ public class AdminService {
     private  UserRepository userRepository;
 
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleRepository;
+
 
     private Object role_id;
 //    @Autowired

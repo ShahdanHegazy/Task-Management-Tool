@@ -138,8 +138,7 @@ import { FormsModule } from '@angular/forms';
 import { Role } from '../../enums/Role';
 import { User } from '../../interfaces/User';
 import { UserService } from '../../services/user.service';
-// import { json } from 'stream/consumers';
-
+import {response} from 'express';
 
 @Component({
   selector: 'app-users',
@@ -167,6 +166,7 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(){
     this.fetchAllUsers();
+    console.log(this.users);
   }
 
   roleNames = {
@@ -190,6 +190,7 @@ export class UsersComponent implements OnInit {
     this.isModalOpen = true;
     this.isEditMode = isEdit;
     if (isEdit && user) {
+      this.id=user.id;
       this.name = user.name;
       this.email = user.email;
       this.password = user.password;
@@ -213,33 +214,50 @@ export class UsersComponent implements OnInit {
   }
 
   createOrUpdateUser() {
+    // UpdateMode
+    let upadatedUser;
     if (this.isEditMode) {
-      const userIndex = this.users.findIndex(user => user.id === this.id);
-      if (userIndex !== -1) {
-        this.users[userIndex] = {
-          id:this.id,
-          name: this.name,
-          email: this.email,
-          password: this.password,
-          roleId: this.role
-        };
-        console.log(this.users[userIndex]);
+      console.log("before up->"+this.id)
+      upadatedUser = {
+        id: this.id,
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        roleId: this.role
+      };
+      this._UserService.updateUserById(this.id, upadatedUser).subscribe({
+        next: (response) =>{
+          console.log("User updated successfully:", response)
+          const index = this.users.findIndex(user => user.id === response.id);
+          if (index !== -1) {
+            this.users[index] = response;  // تحديث المستخدم في الـ array
+          }
+        },
+        error: (error) => {
+          console.error('Error updating user:', error);
+        },
+        complete: () => {
+      console.log("after up->"+this.id)
+          console.log('Update request completed');
+        }
+      })
 
-      }
-    } else {
+
+      console.log(upadatedUser);
+    }
+    // CreateMode
+    else {
       const newUser: User = {
         name: this.name,
         email: this.email,
         password: this.password,
         roleId: this.role,
-        id: 0
+        id: this.id
       };
-          // console.log(newUser);
       this._UserService.createUser(newUser).subscribe({
         next: (response) => {
-
           // success
-          console.log("user created successfully-->:"+response);
+          console.log("Response: " + JSON.stringify(response, null, 2));
           this.users.push(response);
           this.showAlert()
         },
@@ -258,22 +276,20 @@ export class UsersComponent implements OnInit {
     this.closeModal();
   }
 
-  deleteUser(duser: User) {
-    this.users = this.users.filter(user => user.id !== duser.id);
-  }
-  // deleteUser(duser: User) {
-  //   this._UserService.deleteUserById(duser.id).subscribe({
-  //     next: () => {
-  //       console.log(`User with ID ${duser.id} deleted successfully.`);
-  //       // حذف المستخدم من الـ array بالـ id
-  //       this.users = this.users.filter(user => user.id !== duser.id);
-  //     },
-  //     error: (error) => console.error("Error deleting user:", error),
-  //     complete: () => console.log("Delete request completed")
-  //   });
-  // }
 
- showAlert(){
+  deleteUser(duser: User) {
+    this._UserService.deleteUserById(duser.id).subscribe({
+      next: () => {
+        console.log(`User with ID ${duser.id} deleted successfully.`);
+        this.users = this.users.filter(user => user.id !== duser.id);
+      },
+      error: (error) => console.error("Error deleting user:", error),
+      complete: () => console.log("Delete request completed")
+    });
+  }
+
+
+  showAlert(){
    this.successMsg=true
     setTimeout(()=>{
       this.successMsg=false

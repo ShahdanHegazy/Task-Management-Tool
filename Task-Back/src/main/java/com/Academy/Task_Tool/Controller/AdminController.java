@@ -28,12 +28,17 @@ public class AdminController {
     private UserRepository userRepository;
 
 
+
     // GET endpoint to fetch project count
     @GetMapping("/count/project")
     public ResponseEntity<Integer> getprojectCount() {
         Integer projectCount = adminService.getProjectCount();
         return ResponseEntity.ok(projectCount);
     }
+
+
+
+
 
     // GET endpoint to fetch user count by role_id
 //    private final AdminService adminService;
