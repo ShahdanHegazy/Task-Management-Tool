@@ -38,7 +38,7 @@ public class Card {
    @JoinColumn(name = "project_id")
     private Project project;
 
-    @OneToMany(mappedBy = "task")
+    @OneToMany(mappedBy = "card")
     private List<Comment> comments;
 
 
