@@ -17,8 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="users")
@@ -41,26 +40,19 @@ public class User {
     @Column(name="create_at")
     private LocalDateTime createAt;
 
-//    @Where(clause = "deleted = false")
-//    @Column(name = "deleted")
-//    private Boolean deleted = false;
-//    public void markAsDeleted() {
-//        this.deleted = true;
-//    }
+    //Relations
 
-//    @JsonIgnore
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "role_id")
-//    private Role role_id;
+    //relation with comment
+    @OneToMany(mappedBy = "user")
+    private Set<Comment> comments;
 
-    @Column(name = "is_deleted")
-    private Boolean isDeleted = false;
-
+    //relation with role
     @JsonBackReference
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Role role;
 
+    //relation with projects
     @JsonBackReference
     @ManyToMany
     @JoinTable(
@@ -69,5 +61,16 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "project_id")
     )
     private Set<Project> assignedProjects;
+
+    // For soft delete
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
+
+    //    @Where(clause = "deleted = false")
+//    @Column(name = "deleted")
+//    private Boolean deleted = false;
+//    public void markAsDeleted() {
+//        this.deleted = true;
+//    }
 
 }

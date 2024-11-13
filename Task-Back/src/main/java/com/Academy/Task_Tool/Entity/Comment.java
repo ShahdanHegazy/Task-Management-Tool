@@ -19,22 +19,29 @@ public class Comment {
     @Column(name = "comment_id" )
     private Integer commentid;
 
+    @Column(name = "content")
+    private String content;
+
     @Column(name = "creat_at" )
     private Timestamp creat_at;
 
-    @Column(name = "content")
-    private String content;
 
     @Column(name = "update_at")
     private String update_at ;
 
+    //Relations
+
+    // relation with card
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "task_id", nullable = false)
+    @JoinColumn(name = "card_id", nullable = false)
     private Card card;
 
+    // relation with user
     @ManyToOne
-    @JoinColumn(name = "user_id" , nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
-
+    //For soft delete
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
 }

@@ -27,6 +27,10 @@ public class AdminService {
     private  UserRepository userRepository;
 
 
+//    @Autowired
+//    private UserRepository userRepository;
+//    @Autowired
+//    private RoleRepository roleRepository;
 
 
     private Object role_id;
@@ -149,7 +153,7 @@ public class AdminService {
 // method for create new project
     public Project createProject(ProjectDto projectDto){
         Project project=new Project();
-        project.setProjectName(projectDto.getProjectName());
+        project.setProjectTitle(projectDto.getProjectTitle());
         project.setStart_date(projectDto.getStart_date());
         project.setEnd_date(projectDto.getEnd_date());
         project.setDescription(projectDto.getDescription());
