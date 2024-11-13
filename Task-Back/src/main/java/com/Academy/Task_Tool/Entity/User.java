@@ -15,8 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="users")
@@ -40,13 +39,22 @@ public class User {
     @Column(name="create_at")
     private LocalDateTime createAt;
 
+
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
+  
+    //Relations
+    //relation with comment
+   @JsonManagedReference
+    @OneToMany(mappedBy = "user")
+    private Set<Comment> comments;
 
-    @JsonManagedReference
+    //relation with role
+    @JsonBackReference
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Role role;
+
 
     @ManyToMany
     @JoinTable(

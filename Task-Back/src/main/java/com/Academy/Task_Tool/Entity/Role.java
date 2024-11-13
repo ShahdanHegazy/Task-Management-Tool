@@ -29,4 +29,8 @@ public class Role {
      @OneToMany(mappedBy = "role")
      private List<User> users;
 
+     // For soft delete
+     @Column(name = "is_deleted")
+     private Boolean isDeleted = false;
+
 }

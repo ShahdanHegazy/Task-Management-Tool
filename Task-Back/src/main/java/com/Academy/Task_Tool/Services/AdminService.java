@@ -26,7 +26,15 @@ public class AdminService {
     @Autowired
     private  UserRepository userRepository;
 
-//    private Object role_id;
+
+
+//    @Autowired
+//    private UserRepository userRepository;
+//    @Autowired
+//    private RoleRepository roleRepository;
+
+
+  
 
     public Integer getProjectCount() {
         return projectRepository.countAllProject();
@@ -135,7 +143,7 @@ public class AdminService {
 // method for  project within admin
     public ProjectDto createProject(ProjectDto projectDto){
         Project project=new Project();
-        project.setProjectName(projectDto.getProjectName());
+        project.setProjectTitle(projectDto.getProjectTitle());
         project.setStart_date(projectDto.getStart_date());
         project.setEnd_date(projectDto.getEnd_date());
         project.setDescription(projectDto.getDescription());
