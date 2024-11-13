@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {NgClass, NgFor, NgIf, NgStyle} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {Project} from '../../interfaces/project';
+import {ProjectService} from '../../services/project.service';
 
 
 
@@ -31,8 +32,15 @@ export class ProjectsComponent {
   projects: Project[] = [];
   hoveredProject: Project | null = null;
   hoverPosition = { x: 0, y: 0 };
-  pms = ['John Doe', 'Jane Smith', 'Ahmed Ali'];
+  pms:string[] = [];
 
+  constructor(private _ProjectService:ProjectService) {
+  }
+  fetchAllPms(){
+    this._ProjectService.getProjectsManagers().subscribe({
+      next:(response)=> this.pms= response.map(pm=>pm.name)
+    })
+  }
   openModal(isEdit: boolean = false, project?: Project) {
     this.isModalOpen = true;
     this.isEditMode = isEdit;
@@ -67,7 +75,7 @@ export class ProjectsComponent {
             startDate: this.projectStartDate,
             endDate: this.projectEndDate,
             description: this.projectDescription,
-            members: ['Ahmed', 'John', 'Khaled'] // Example members
+            members: [] // Example members
           };
         }
       } else {

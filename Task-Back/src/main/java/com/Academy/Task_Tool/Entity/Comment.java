@@ -30,7 +30,7 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_id", nullable = false)
-    private Card card;
+    private Card task;
 
     @ManyToOne
     @JoinColumn(name = "user_id" , nullable = false)

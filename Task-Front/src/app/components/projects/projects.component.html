@@ -85,7 +85,7 @@
         <h5 class="card-title">Project Details</h5>
         <p><strong>Start Date:</strong> {{ hoveredProject.startDate }}</p>
         <p><strong>End Date:</strong> {{ hoveredProject.endDate }}</p>
-        <p><strong>Members:</strong> {{ hoveredProject.members.join(', ') }}</p>
+        <p><strong>Members:</strong> {{ hoveredProject.members?.join(', ') }}</p>
         <p><strong>Description:</strong> {{ hoveredProject.description }}</p>
       </div>
     </div>

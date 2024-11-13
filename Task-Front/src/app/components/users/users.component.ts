@@ -270,6 +270,8 @@ export class UsersComponent implements OnInit {
           console.log('Request completed');
         }
       });
+          console.log(newUser);
+
 
 
     }
@@ -279,8 +281,9 @@ export class UsersComponent implements OnInit {
 
   deleteUser(duser: User) {
     this._UserService.deleteUserById(duser.id).subscribe({
-      next: () => {
+      next: (response) => {
         console.log(`User with ID ${duser.id} deleted successfully.`);
+        console.log("response back is --->"+response);
         this.users = this.users.filter(user => user.id !== duser.id);
       },
       error: (error) => console.error("Error deleting user:", error),

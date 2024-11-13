@@ -5,5 +5,5 @@ export interface Project {
   startDate:Date;
   endDate:Date;
   description:string;
-  members:string[];
+  members?: string[];
 }
