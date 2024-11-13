@@ -1,18 +1,10 @@
 package com.Academy.Task_Tool.Controller;
 
 import com.Academy.Task_Tool.DTO.*;
-import com.Academy.Task_Tool.Entity.Project;
-import com.Academy.Task_Tool.Entity.User;
-import com.Academy.Task_Tool.Repository.UserRepository;
 import com.Academy.Task_Tool.Repository.UserRepository;
 import com.Academy.Task_Tool.Services.AdminService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +15,9 @@ import java.util.List;
 @RequestMapping("/api")
 public class AdminController {
     @Autowired
-    private AdminService adminService;
+    private final AdminService adminService;
     @Autowired
     private UserRepository userRepository;
-
 
     // GET endpoint to fetch project count
     @GetMapping("/count/project")
@@ -34,9 +25,6 @@ public class AdminController {
         Integer projectCount = adminService.getProjectCount();
         return ResponseEntity.ok(projectCount);
     }
-
-    // GET endpoint to fetch user count by role_id
-//    private final AdminService adminService;
 
     @Autowired
     public AdminController(AdminService adminService) {
@@ -48,18 +36,18 @@ public class AdminController {
     public long getUserCountByRoleId(@PathVariable Integer roleId) {
         return adminService.getUserCountByRoleId(roleId);
     }
+ ////////////////////////////////////////////////////////////////////////////////
 
-
-
-    @PostMapping("/admin/createUser")
-    public UserDto createUser(@Valid @RequestBody UserDto userDto) {
-        return adminService.createUser(userDto);
+    @PostMapping(value = "/admin/createUser",consumes ="application/json",produces = "application/json")
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
+        UserDto createdUser = adminService.createUser(userDto);
+        return ResponseEntity.status(HttpStatus.OK).body(createdUser);
     }
-//  endpoint for retrieve all users
-    @GetMapping("/admin/all-users-with-roles")
-    public List<UserResponseDto> getAllUsersWithRoles() {
-        return adminService.getAllUsersWithRole();
-    }
+//  endpoint for retrieve all users active and non active ;
+//    @GetMapping("/admin/all-users-with-roles")
+//    public List<UserResponseDto> getAllUsersWithRoles() {
+//        return adminService.getAllUsersWithRole();
+//    }
 
 // endpoint for delete user by id
     @DeleteMapping("/admin/delete/{id}")
@@ -68,18 +56,7 @@ public class AdminController {
         return "User soft deleted successfully";
     }
 
-//   @DeleteMapping("/admin/delete/{id}")
-//   public UserResponseDto softDeleteUser(@PathVariable Integer id) {
-//    User user=adminService.softDeleteUser(id);
-//
-//    UserResponseDto userResponseDto=new UserResponseDto();
-//     userResponseDto.setName(user.getName());
-//     userResponseDto.setEmail(user.getEmail());
-//     userResponseDto.setRoleId(user.getRole().getRole_id());
-//    return userResponseDto;
-//}
-
-// endpoint for retrieve active user
+// endpoint for retrieve All active user
     @GetMapping("/admin/active/users")
     public List<UserResponseDto> getAllActiveUsers() {
         return adminService.getAllActiveUsers();
@@ -93,27 +70,28 @@ public class AdminController {
     //////////////////////////////////////////////////////////////////
 
     @PostMapping("/admin/createProject")
-    public Project createProject(@RequestBody ProjectDto projectDto) {
+    public ProjectDto createProject(@RequestBody ProjectDto projectDto) {
         return adminService.createProject(projectDto);
     }
 
     @GetMapping("/admin/project-managers")
     public List<ProjectManagerDto> getAllProjectManagers() {
-        return adminService.getAllProjectManager();
+        return adminService.getAllActiveProjectManagers();
     }
 
-//    @GetMapping("/admin/projectDetails/{id}")
-//    public ProjectDto getAllDetailsProject(@PathVariable Integer id) {
-//        return adminService.getAllDetailsProject(id);
-//    }
+    @DeleteMapping("/admin/deleteProject/{id}")
+    public void softDeleteProject(@PathVariable Integer id) {
+        adminService.softDeleteProject(id);
+    }
 
-//    @PutMapping("/admin/updateproject/{id}")
-//    public Project updateProject(@PathVariable Integer id , )
-//
-//    @GetMapping("/admin/list-project")
-//    public List<ProjectResponseDto> getAllProjects() {
-//        return adminService.getAllProject();
-//    }
+    @PutMapping("/admin/updateProject/{projectId}")
+    public  ProjectUpDateDto updateProject(@PathVariable Integer projectId, @RequestBody ProjectUpDateDto userUpdateDto) {
+        return adminService.updateProject(projectId, userUpdateDto);
+    }
 
+    @GetMapping("/admin/active/projects")
+    public List<ProjectResponseDto> getAllActiveProjects() {
+        return adminService.getAllActiveProjects();
+    }
 
 }

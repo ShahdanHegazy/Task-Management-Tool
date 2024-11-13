@@ -12,7 +12,6 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @ToString
 @Data
-
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +28,7 @@ public class Comment {
     private String update_at ;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "task_id", nullable = false)
+    @JoinColumn(name = "card_id", nullable = false)
     private Card card;
 
     @ManyToOne

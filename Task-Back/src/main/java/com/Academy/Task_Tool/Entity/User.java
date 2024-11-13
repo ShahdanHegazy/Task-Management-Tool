@@ -1,8 +1,6 @@
 package com.Academy.Task_Tool.Entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,6 +20,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="users")
+//@JsonIdentityInfo(generator = )
 public class User {
     @Id
     @Column(name="Id")
@@ -41,27 +40,14 @@ public class User {
     @Column(name="create_at")
     private LocalDateTime createAt;
 
-//    @Where(clause = "deleted = false")
-//    @Column(name = "deleted")
-//    private Boolean deleted = false;
-//    public void markAsDeleted() {
-//        this.deleted = true;
-//    }
-
-//    @JsonIgnore
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "role_id")
-//    private Role role_id;
-
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
-    @JsonBackReference
+    @JsonManagedReference
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @JsonBackReference
     @ManyToMany
     @JoinTable(
             name = "user_project",

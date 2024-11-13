@@ -1,6 +1,7 @@
 package com.Academy.Task_Tool.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -24,7 +25,7 @@ public class Role {
 
 
 // Optional: If you want to see users assigned to each role
-     @JsonManagedReference
+     @JsonBackReference
      @OneToMany(mappedBy = "role")
      private List<User> users;
 
