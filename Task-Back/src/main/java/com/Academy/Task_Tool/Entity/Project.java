@@ -2,6 +2,7 @@ package com.Academy.Task_Tool.Entity;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,6 +34,9 @@ public class Project {
     @Column(name = "end_date")
     private LocalDateTime end_date;
 
+    @Column(name="isDeleted")
+    private Boolean isDeleted=false;
+  
     //Relations
 
     // relation with user for project manager
@@ -42,7 +46,9 @@ public class Project {
     private User projectManager;
 
     //relation with users for memebers
+
     @ManyToMany(mappedBy = "assignedProjects")
+    @JsonIgnore
     private Set<User> assignedUsers;
 
     //relation with cards
@@ -50,9 +56,6 @@ public class Project {
     @OneToMany(mappedBy="project")
     private Set<Card> assignedCards;
 
-    //For soft delete
-
-    @Column(name = "is_deleted")
-    private Boolean isDeleted = false;
+ 
 }
 

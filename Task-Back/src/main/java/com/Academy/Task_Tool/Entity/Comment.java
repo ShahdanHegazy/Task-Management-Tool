@@ -12,7 +12,6 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @ToString
 @Data
-
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
