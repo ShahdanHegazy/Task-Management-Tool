@@ -6,8 +6,8 @@ import java.sql.Timestamp;
 
 
 @Data
-public class TaskDto {
-    private Integer taskId;
+public class CardDto {
+    private Integer cardId;
     private String title;
     private Timestamp dueDate;
     private String description;
@@ -15,5 +15,6 @@ public class TaskDto {
     private Timestamp createAt;
     private String createBy;
     private String assignedTo;
+
 
 }

@@ -1,7 +1,7 @@
 package com.Academy.Task_Tool.Controller;
 
+import com.Academy.Task_Tool.DTO.CardDto;
 import com.Academy.Task_Tool.DTO.ProjectDto;
-import com.Academy.Task_Tool.DTO.TaskDto;
 import com.Academy.Task_Tool.Services.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class MemberController {
         return memberService.getAllAssignedProjects(userId);
     }
     @GetMapping("/project{projectId}/alltasks")
-    public ResponseEntity<List<TaskDto>> getProjectWithTasks(@PathVariable int projectId) {
+    public ResponseEntity<List<CardDto>> getProjectWithTasks(@PathVariable int projectId) {
         return memberService.getProjectWithTasks(projectId);
     }
 

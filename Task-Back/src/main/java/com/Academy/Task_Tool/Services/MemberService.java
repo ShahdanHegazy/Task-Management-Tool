@@ -1,7 +1,7 @@
 package com.Academy.Task_Tool.Services;
 
 import com.Academy.Task_Tool.DTO.ProjectDto;
-import com.Academy.Task_Tool.DTO.TaskDto;
+import com.Academy.Task_Tool.DTO.CardDto;
 import com.Academy.Task_Tool.Entity.*;
 import com.Academy.Task_Tool.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class MemberService {
                 .map(project -> {
                     ProjectDto projectDTO = new ProjectDto();
                     projectDTO.setProject_id(project.getProject_id());
-                    projectDTO.setProjectName(project.getProjectName());
+                    projectDTO.setProjectTitle(project.getProjectTitle());
                     return projectDTO;
                 })
                 .collect(Collectors.toList());
@@ -47,27 +47,27 @@ public class MemberService {
 
 
     //get all tasks
-    public ResponseEntity<List<TaskDto>> getProjectWithTasks(int projectId) {
+    public ResponseEntity<List<CardDto>> getProjectWithTasks(int projectId) {
         Project project = projectRepository.findById(projectId).orElseThrow(
                 ()->new RuntimeException("Project not found")
         );
         Set<Card> cards = project.getAssignedCards();
-        List<TaskDto> taskDtos = cards.stream()
+        List<CardDto> cardDtos = cards.stream()
                 .map(
                         task -> {
-                            TaskDto taskDTO = new TaskDto();
-                            taskDTO.setTaskId(task.getTaskId());
+                            CardDto taskDTO = new CardDto();
+                            taskDTO.setCardId(task.getCardId());
                             taskDTO.setTitle(task.getTitle());
                             taskDTO.setDescription(task.getDescription());
                             taskDTO.setPriority(task.getPriority());
                             taskDTO.setPriority(task.getPriority());
                             taskDTO.setDueDate(task.getDueDate());
                             taskDTO.setCreateAt(task.getCreateAt());
-                            taskDTO.setAssignedTo(task.getAssignedTo());
+                            taskDTO.setAssignedTo(String.valueOf(task.getAssignedTo()));
                             return taskDTO;
                         }).collect(Collectors.toList());
 
-        return new ResponseEntity<>(taskDtos, HttpStatus.OK);
+        return new ResponseEntity<>(cardDtos, HttpStatus.OK);
     }
 
     public ResponseEntity<String> moveTask(int taskId, int sourceListId, int targetListId) {
