@@ -23,7 +23,7 @@ public class Project {
     private Integer project_id;
 
     @Column(name = "project_title")
-    private String projectTitle;
+    private String projectName;
 
     @Column(name = "description")
     private String description;

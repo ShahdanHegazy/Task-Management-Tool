@@ -143,7 +143,7 @@ public class AdminService {
 // method for  project within admin
     public ProjectDto createProject(ProjectDto projectDto){
         Project project=new Project();
-        project.setProjectTitle(projectDto.getProjectTitle());
+        project.setProjectName(projectDto.getProjectName());
         project.setStart_date(projectDto.getStart_date());
         project.setEnd_date(projectDto.getEnd_date());
         project.setDescription(projectDto.getDescription());
