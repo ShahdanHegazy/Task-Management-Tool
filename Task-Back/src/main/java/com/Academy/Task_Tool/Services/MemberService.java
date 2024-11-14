@@ -37,7 +37,7 @@ public class MemberService {
                 .map(project -> {
                     ProjectDto projectDTO = new ProjectDto();
                     projectDTO.setProject_id(project.getProject_id());
-                    projectDTO.setProjectTitle(project.getProjectTitle());
+                    projectDTO.setProjectName(project.getProjectName());
                     return projectDTO;
                 })
                 .collect(Collectors.toList());

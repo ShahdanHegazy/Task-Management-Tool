@@ -65,8 +65,8 @@ public class Card {
     @JoinColumn(name = "project_id")
     private Project project;
   
-    @OneToMany(mappedBy = "card")
-    private List<Comment> comments;
+//    @OneToMany(mappedBy = "card")
+//    private List<Comment> comments;
 
 
     //For soft delete
