@@ -20,33 +20,39 @@ import { ProjectManager } from '../../interfaces/project-manager';
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.css']
 })
-export class ProjectsComponent implements OnInit{
-  project_id: number|undefined = 0;
+export class ProjectsComponent implements OnInit {
+  project_id: number | undefined = 0;
   projectName = '';
-  projectManagerId :number|null=null;
-  start_date: Date|null=null;
-  end_date: Date|null=null;
+  projectManagerId: number | null = null;
+  start_date: Date | null = null;
+  end_date: Date | null = null;
   description = '';
   isModalOpen = false;
   isEditMode = false;
   hoveredProject: Project | null = null;
-  hoverPosition = { x: 0, y: 0 };
+  hoverPosition = {x: 0, y: 0};
   projects: Project[] = [];
-  pms:ProjectManager[] = [];
-  members:string[] = [];
+  pms: ProjectManager[] = [];
+  members: string[] = [];
 
-  constructor(private _ProjectService:ProjectService) {
+  constructor(private _ProjectService: ProjectService) {
   }
+
   ngOnInit() {
     this.fetchAllPms();
   }
 
-  fetchAllPms(){
+  fetchAllPms() {
     this._ProjectService.getProjectsManagers().subscribe({
-      next:(response)=> {this.pms=response},
-      error:(err)=>{console.error("there is wrong something"+JSON.stringify(err, null, 2))}
+      next: (response) => {
+        this.pms = response
+      },
+      error: (err) => {
+        console.error("there is wrong something" + JSON.stringify(err, null, 2))
+      }
     })
   }
+
   openModal(isEdit: boolean = false, project?: Project) {
     this.isModalOpen = true;
     this.isEditMode = isEdit;
@@ -71,48 +77,48 @@ export class ProjectsComponent implements OnInit{
 
   createOrUpdateProject() {
     // Update Mood
-      if (this.isEditMode) {
-          let project:Project = {
-            project_id: this.project_id,
-            projectName: this.projectName,
-            projectManagerId: this.projectManagerId,
-            start_date: this.start_date,
-            end_date: this.end_date,
-            description: this.description,
-            members: this.members // Example members
-          };
-          // this._ProjectService.updateProject(this.id,project).subscribe({
-          //   next:(response)=>{
-          //     const projectIndex=this.projects.findIndex((project)=>project.id ==response.id)
-          //     this.projects[projectIndex]=response;
-          //   },
-          //   error:(err)=>console.error(err)
-          // })
+    if (this.isEditMode) {
+      let project: Project = {
+        project_id: this.project_id,
+        projectName: this.projectName,
+        projectManagerId: this.projectManagerId,
+        start_date: this.start_date,
+        end_date: this.end_date,
+        description: this.description,
+        members: this.members // Example members
+      };
+      // this._ProjectService.updateProject(this.id,project).subscribe({
+      //   next:(response)=>{
+      //     const projectIndex=this.projects.findIndex((project)=>project.id ==response.id)
+      //     this.projects[projectIndex]=response;
+      //   },
+      //   error:(err)=>console.error(err)
+      // })
 
-      } 
-      // Create Mood
-      else {
-        const newProject: Project = {
-          projectName: this.projectName,
-          projectManagerId: this.projectManagerId,
-          start_date: this.start_date,
-          end_date: this.end_date,
-          description: this.description,
-        };
-        this._ProjectService.createProject(newProject).subscribe({
-          next:(response)=>{
-            console.log(response);
-            
+    }
+    // Create Mood
+    else {
+      const newProject: Project = {
+        projectName: this.projectName,
+        projectManagerId: this.projectManagerId,
+        start_date: this.start_date,
+        end_date: this.end_date,
+        description: this.description,
+      };
+      this._ProjectService.createProject(newProject).subscribe({
+        next: (response) => {
+          console.log(response);
+
           // this.projects.push(response);
-          },
-          error:(err)=> {
-            console.error(err)
-          }
-        })
-        console.log(newProject);
-        
-      }
-      this.closeModal();
+        },
+        error: (err) => {
+          console.error(err)
+        }
+      })
+      console.log(newProject);
+
+    }
+    this.closeModal();
 
   }
 
@@ -131,7 +137,7 @@ export class ProjectsComponent implements OnInit{
   showDetails(project: Project) {
     this.hoveredProject = project;
     // @ts-ignore
-    this.hoverPosition = { x: event.clientX + 10, y: event.clientY + 10 };
+    this.hoverPosition = {x: event.clientX + 10, y: event.clientY + 10};
   }
 
   hideDetails() {
