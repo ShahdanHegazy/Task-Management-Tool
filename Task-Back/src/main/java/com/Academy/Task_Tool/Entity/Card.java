@@ -66,7 +66,7 @@ public class Card {
     private Project project;
   
     @OneToMany(mappedBy = "card")
-    private List<Comment> comments;
+//    private List<Comment> comments;
 
 
     //For soft delete
