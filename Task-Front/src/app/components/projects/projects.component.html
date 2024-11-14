@@ -20,22 +20,22 @@
                 required />
             </div>
             <div class="mb-3">
-              <label for="projectStartDate" class="form-label">Project Start Date</label>
-              <input type="date" id="projectStartDate" class="form-control" [(ngModel)]="projectStartDate" name="projectStartDate" required />
+              <label for="start_date" class="form-label">Project Start Date</label>
+              <input type="date" id="start_date" class="form-control" [(ngModel)]="start_date" name="start_date" required />
             </div>
             <div class="mb-3">
-              <label for="projectEndDate" class="form-label">Project End Date</label>
-              <input type="date" id="projectEndDate" class="form-control" [(ngModel)]="projectEndDate" name="projectEndDate" required />
+              <label for="end_date" class="form-label">Project End Date</label>
+              <input type="date" id="end_date" class="form-control" [(ngModel)]="end_date" name="end_date" required />
             </div>
             <div class="mb-3">
               <label for="description" class="form-label">Description</label>
-              <textarea type="text" id="description" class="form-control" [(ngModel)]="projectDescription" name="projectDescription" required ></textarea>
+              <textarea type="text" id="description" class="form-control" [(ngModel)]="description" name="description" required ></textarea>
             </div>
             <div class="mb-3">
-              <label for="projectPM" class="form-label">Project Manager</label>
-              <select id="projectPM" class="form-select dropdown dropdown-menu-dark" [(ngModel)]="projectPM" name="projectPM" required>
-                <option value="">Select a PM</option>
-                <option *ngFor="let pm of pms" [value]="pm">{{ pm }}</option>
+              <label for="projectManagerId" class="form-label">Project Manager</label>
+              <select id="projectManagerId" class="form-select dropdown dropdown-menu-dark" [(ngModel)]="projectManagerId" name="projectManagerId" required>
+                <option disabled value="">Select a PM</option>
+                <option *ngFor="let pm of pms" [value]="pm.id">{{ pm.name }}</option>
               </select>
             </div>
           </form>
@@ -67,13 +67,13 @@
       </thead>
       <tbody>
       <tr *ngFor="let project of projects" (mouseenter)="showDetails(project)" (mouseleave)="hideDetails()">
-        <td>{{ project.name }}</td>
-        <td>{{ project.pm }}</td>
+        <td>{{ project.projectName }}</td>
+        <td>{{ project.projectManagerId }}</td>
         <td>
           <button class="btn btn-warning btn-md" (click)="openModal(true, project)">Update</button>
         </td>
         <td>
-          <button class="btn btn-danger btn-md" (click)="deleteProject(project.id)">Delete</button>
+          <button class="btn btn-danger btn-md" (click)="deleteProject(project.project_id?project.project_id:0)">Delete</button>
         </td>
       </tr>
       </tbody>
@@ -83,10 +83,10 @@
     <div class="card" *ngIf="hoveredProject" [ngStyle]="{'position': 'absolute', 'top': hoverPosition.y + 'px', 'left': hoverPosition.x + 'px'}">
       <div class="card-body">
         <h5 class="card-title">Project Details</h5>
-        <p><strong>Start Date:</strong> {{ hoveredProject.startDate }}</p>
-        <p><strong>End Date:</strong> {{ hoveredProject.endDate }}</p>
+        <p><strong>Start Date:</strong> {{ hoveredProject.start_date }}</p>
+        <p><strong>End Date:</strong> {{ hoveredProject.end_date }}</p>
         <p><strong>Members:</strong> {{ hoveredProject.members?.join(', ') }}</p>
-        <p><strong>Description:</strong> {{ hoveredProject.description }}</p>
+        <p class="w-50"><strong>Description:</strong> {{ hoveredProject.description }}</p>
       </div>
     </div>
 
