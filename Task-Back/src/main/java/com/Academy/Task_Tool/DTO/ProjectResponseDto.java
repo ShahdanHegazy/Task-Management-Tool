@@ -1,20 +1,21 @@
 package com.Academy.Task_Tool.DTO;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ProjectResponseDto {
-
+    private Integer project_id;
     private String projectName;
     private String projectManagerName;
-    private LocalDateTime start_date;
-    private LocalDateTime end_date;
+    private LocalDate start_date;
+    private LocalDate end_date;
     private String description;
 
 }

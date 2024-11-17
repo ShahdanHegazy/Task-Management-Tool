@@ -1,20 +1,23 @@
 package com.Academy.Task_Tool.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import com.Academy.Task_Tool.Entity.List;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+
+import java.time.LocalDate;
+import java.util.Set;
 
 @Table(name = "project")
 @Entity
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Project {
@@ -23,24 +26,39 @@ public class Project {
     @Column(name = "project_id")
     private Integer project_id;
 
-    @Column(name = "Project_Name")
+    @Column(name = "project_title")
     private String projectName;
 
     @Column(name = "description")
     private String description;
 
     @Column(name = "start_date")
-    private LocalDateTime start_date;
+    private LocalDate start_date;
 
     @Column(name = "end_date")
-    private LocalDateTime end_date;
+    private LocalDate end_date;
 
-//    @Column(name = "status")
-//    private String status;
+    @Column(name="isDeleted")
+    private Boolean isDeleted=false;
+  
+    //Relations
 
+    // relation with user for project manager
     @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "project_manager_id", referencedColumnName = "id")
     private User projectManager;
 
+    //relation with users for users
+
+    @ManyToMany(mappedBy = "assignedProjects")
+    @JsonIgnore
+    private java.util.List<User> assignedUsers;
+
+    //relation with cards
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private java.util.List<List> lists ;
+
+ 
 }
+

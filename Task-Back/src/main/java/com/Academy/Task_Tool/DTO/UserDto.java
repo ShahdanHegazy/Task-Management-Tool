@@ -2,20 +2,18 @@ package com.Academy.Task_Tool.DTO;
 
 
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.Academy.Task_Tool.Entity.Project;
+import com.Academy.Task_Tool.Entity.User;
+import lombok.*;
 
-@Getter
-@Setter
+import java.util.Set;
+
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
-    private String username;
-    private String password;
-
-    private Integer id;
+    private int id;
+  
     @NotBlank(message="username is required.")
     @Size(min=4 , max=12, message="username must be between 4 and 12 characters long.")
     private String name;
@@ -32,6 +30,5 @@ public class UserDto {
 
     @NotNull(message = "RoleId is required.")
     private Integer roleId;
-
 
 }
