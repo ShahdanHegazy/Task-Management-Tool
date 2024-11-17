@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import com.Academy.Task_Tool.Entity.List;
+
+import java.util.ArrayList;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -46,16 +49,15 @@ public class Project {
     @JoinColumn(name = "project_manager_id", referencedColumnName = "id")
     private User projectManager;
 
-    //relation with users for memebers
+    //relation with users for users
 
     @ManyToMany(mappedBy = "assignedProjects")
     @JsonIgnore
-    private Set<User> assignedUsers;
+    private java.util.List<User> assignedUsers;
 
     //relation with cards
-    @JsonBackReference
-    @OneToMany(mappedBy="project")
-    private Set<Card> assignedCards;
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private java.util.List<List> lists ;
 
  
 }

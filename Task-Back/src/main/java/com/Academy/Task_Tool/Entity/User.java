@@ -10,6 +10,7 @@ import org.hibernate.annotations.Where;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import java.util.Set;
@@ -47,7 +48,7 @@ public class User {
     //relation with comment
    @JsonManagedReference
     @OneToMany(mappedBy = "user")
-    private Set<Comment> comments;
+    private List<Comment> comments;
 
     //relation with role
     @JsonBackReference
@@ -62,6 +63,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "project_id")
     )
-    private Set<Project> assignedProjects;
+    private List<Project> assignedProjects;
+//    private Set<Project> projects = new HashSet<>();
 
 }

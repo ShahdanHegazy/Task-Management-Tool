@@ -15,6 +15,4 @@ public class ProjectDto {
     private LocalDate start_date;
     private LocalDate end_date;
     private Integer projectManagerId;
-
-
 }
