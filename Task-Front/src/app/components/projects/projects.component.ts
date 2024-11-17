@@ -31,25 +31,43 @@ export class ProjectsComponent implements OnInit {
   isEditMode = false;
   hoveredProject: Project | null = null;
   hoverPosition = {x: 0, y: 0};
+  alertMessage: string = '';
+  alertType: 'success' | 'error' = 'success';
+  isAlertVisible: boolean = false;
   projects: Project[] = [];
   pms: ProjectManager[] = [];
   members: string[] = [];
+  projectManagerName: string | null | undefined;
 
-  constructor(private _ProjectService: ProjectService) {
-  }
+  constructor(private _ProjectService: ProjectService) {}
+  
 
   ngOnInit() {
     this.fetchAllPms();
+    this.fetchAllProjects();
+
   }
 
   fetchAllPms() {
     this._ProjectService.getProjectsManagers().subscribe({
       next: (response) => {
         this.pms = response
+        
+        
       },
       error: (err) => {
         console.error("there is wrong something" + JSON.stringify(err, null, 2))
       }
+    })
+  }
+  fetchAllProjects(){
+    this._ProjectService.getAllProjects().subscribe({
+      next:(data:Project[])=>{
+        this.projects=data;
+        console.log("fetched all projects"+JSON.stringify(data, null, 2));
+      },
+      error:(err)=>
+        console.log("error fetching projects"+err)
     })
   }
 
@@ -82,19 +100,20 @@ export class ProjectsComponent implements OnInit {
         project_id: this.project_id,
         projectName: this.projectName,
         projectManagerId: this.projectManagerId,
+        projectManagerName: this.projectManagerName,
         start_date: this.start_date,
         end_date: this.end_date,
         description: this.description,
-        members: this.members // Example members
       };
-      // this._ProjectService.updateProject(this.id,project).subscribe({
-      //   next:(response)=>{
-      //     const projectIndex=this.projects.findIndex((project)=>project.id ==response.id)
-      //     this.projects[projectIndex]=response;
-      //   },
-      //   error:(err)=>console.error(err)
-      // })
-
+      this._ProjectService.updateProject(this.project_id,project).subscribe({
+        next:(response)=>{
+            // this.projects[projectIndex]=response;
+            this.showAlert(`Project ${response.projectName} updated successfully`,'success');
+            this.fetchAllProjects();
+          },
+        error:(err)=>console.error(err)
+      })
+      
     }
     // Create Mood
     else {
@@ -104,12 +123,13 @@ export class ProjectsComponent implements OnInit {
         start_date: this.start_date,
         end_date: this.end_date,
         description: this.description,
+        members: ['ahmed','mock','sa']
       };
       this._ProjectService.createProject(newProject).subscribe({
         next: (response) => {
           console.log(response);
-
-          // this.projects.push(response);
+          this.showAlert(`Project ${response.projectName} created successfully`, 'success');
+          this.fetchAllProjects();
         },
         error: (err) => {
           console.error(err)
@@ -123,8 +143,15 @@ export class ProjectsComponent implements OnInit {
   }
 
   deleteProject(id: number) {
-    this.projects = this.projects.filter(project => project.project_id !== this.project_id);
-  }
+    this._ProjectService.deleteProject(id).subscribe({
+      next: (response) => {
+        const index=this.projects.findIndex(p => p.project_id ===id);
+        this.showAlert(`Project with name ${this.projects[index].projectName} deleted successfully`,"success");
+        this.fetchAllProjects();
+      
+    }
+  })
+}
 
   clearForm() {
     this.projectName = '';
@@ -142,5 +169,14 @@ export class ProjectsComponent implements OnInit {
 
   hideDetails() {
     this.hoveredProject = null;
+  }
+  showAlert(message: string, type: 'success' | 'error') {
+    this.alertMessage = message;
+    this.alertType = type;
+    this.isAlertVisible = true;
+
+    setTimeout(() => {
+      this.isAlertVisible = false;
+    }, 2000);
   }
 }

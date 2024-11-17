@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Setter
@@ -13,8 +14,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ProjectUpDateDto {
 private String projectName;
-private LocalDateTime start_date;
-private LocalDateTime end_date;
+private LocalDate start_date;
+private LocalDate end_date;
 private String description;
 private Integer projectManagerId ;
 }

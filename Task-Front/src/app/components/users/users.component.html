@@ -51,7 +51,7 @@
             <div class="mb-3">
               <label for="role" class="form-label">Role</label>
               <select id="role" class="form-select" [(ngModel)]="role" name="role" required #roleInput="ngModel">
-                <option disabled selected value="">Select a Role</option>
+                <option disabled selected value=null>Select a Role</option>
                 <option value=1>Admin</option>
                 <option value=2>Project Manager</option>
                 <option value=3>Member</option>
@@ -92,7 +92,7 @@
       <tr *ngFor="let user of users">
         <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
-        <td>{{ roleNames[user.roleId] }}</td>
+        <td>{{ roleNames[user.roleId?user.roleId:1] }}</td>
         <td>
           <button class="btn btn-warning btn-md" title="Update" (click)="openModal(true, user)">
             Update

@@ -65,12 +65,12 @@ public class Card {
     @JoinColumn(name = "project_id")
     private Project project;
   
-    @OneToMany(mappedBy = "card")
+//    @OneToMany(mappedBy = "card")
 //    private List<Comment> comments;
 
 
     //For soft delete
-    @Column(name = "is_deleted")
-    private Boolean isDeleted = false;
+//    @Column(name = "is_deleted")
+//    private Boolean isDeleted = false;
 
 }

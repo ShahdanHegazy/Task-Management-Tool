@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 import java.time.LocalDateTime;
@@ -29,10 +30,10 @@ public class Project {
     private String description;
 
     @Column(name = "start_date")
-    private LocalDateTime start_date;
+    private LocalDate start_date;
 
     @Column(name = "end_date")
-    private LocalDateTime end_date;
+    private LocalDate end_date;
 
     @Column(name="isDeleted")
     private Boolean isDeleted=false;
