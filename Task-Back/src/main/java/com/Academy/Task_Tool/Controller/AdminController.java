@@ -26,6 +26,7 @@ public class AdminController {
         return ResponseEntity.ok(projectCount);
     }
 
+
     @Autowired
     public AdminController(AdminService adminService) {
         this.adminService = adminService;

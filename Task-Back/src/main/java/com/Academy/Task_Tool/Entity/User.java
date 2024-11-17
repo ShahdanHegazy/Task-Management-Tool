@@ -10,6 +10,7 @@ import org.hibernate.annotations.Where;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import java.util.Set;
@@ -63,5 +64,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "project_id")
     )
     private Set<Project> assignedProjects;
+//    private Set<Project> projects = new HashSet<>();
 
 }

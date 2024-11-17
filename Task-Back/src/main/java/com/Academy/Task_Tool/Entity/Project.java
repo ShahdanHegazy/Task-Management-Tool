@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import java.time.LocalDateTime;
@@ -56,6 +58,6 @@ public class Project {
     @OneToMany(mappedBy="project")
     private Set<Card> assignedCards;
 
- 
+  
 }
 

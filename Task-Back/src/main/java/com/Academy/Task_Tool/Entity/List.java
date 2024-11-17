@@ -15,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class List {
+public class List<C> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
