@@ -58,7 +58,7 @@ public class Card {
     // relation with List
     @ManyToOne
     @JoinColumn(name = "list_id")
-    private List list;
+    private List<Comment> list;
 
     //relation with project
     @ManyToOne
@@ -70,4 +70,10 @@ public class Card {
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
+
+    public void setCreatedBy(String s) {
+    }
+
+    public void setAssignedTo(String s) {
+    }
 }

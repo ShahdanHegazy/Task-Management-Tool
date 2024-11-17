@@ -36,10 +36,6 @@ public class AdminController {
         return ResponseEntity.ok(projectCount);
     }
 
-
-
-
-
     // GET endpoint to fetch user count by role_id
 //    private final AdminService adminService;
 
