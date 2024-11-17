@@ -1,9 +1,11 @@
 package com.Academy.Task_Tool.Entity;
 
 import jakarta.persistence.*;
+import jdk.jshell.execution.Util;
 import lombok.Data;
-
+import com.Academy.Task_Tool.Entity.List;
 import java.sql.Timestamp;
+
 import java.util.Set;
 
 @Entity
@@ -53,20 +55,17 @@ public class Card {
 
     //relaion one to many with comment
     @OneToMany(mappedBy = "card")
-    private Set<Comment> comments;
+    private java.util.List<Comment> comments;
 
     // relation with List
     @ManyToOne
     @JoinColumn(name = "list_id")
-    private List<Comment> list;
+    private List list;
 
     //relation with project
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
-  
-    @OneToMany(mappedBy = "card")
-//    private List<Comment> comments;
 
 
     //For soft delete
