@@ -1,8 +1,6 @@
 package com.Academy.Task_Tool.Entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,6 +20,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="users")
+//@JsonIdentityInfo(generator = )
 public class User {
     @Id
     @Column(name="Id")
@@ -41,9 +40,13 @@ public class User {
     @Column(name="create_at")
     private LocalDateTime createAt;
 
-    //Relations
 
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
+  
+    //Relations
     //relation with comment
+   @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private Set<Comment> comments;
 
@@ -53,8 +56,7 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    //relation with projects
-    @JsonBackReference
+
     @ManyToMany
     @JoinTable(
             name = "user_project",
@@ -63,16 +65,5 @@ public class User {
     )
     private Set<Project> assignedProjects;
 //    private Set<Project> projects = new HashSet<>();
-
-    // For soft delete
-    @Column(name = "is_deleted")
-    private Boolean isDeleted = false;
-
-    //    @Where(clause = "deleted = false")
-//    @Column(name = "deleted")
-//    private Boolean deleted = false;
-//    public void markAsDeleted() {
-//        this.deleted = true;
-//    }
 
 }

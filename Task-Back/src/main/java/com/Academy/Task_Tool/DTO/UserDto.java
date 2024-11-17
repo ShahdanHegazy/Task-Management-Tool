@@ -12,10 +12,10 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
-
+    private int id;
+  
     @NotBlank(message="username is required.")
     @Size(min=4 , max=12, message="username must be between 4 and 12 characters long.")
-    private int id;
     private String name;
 
     @NotBlank(message = "Email is required .")
@@ -30,7 +30,5 @@ public class UserDto {
 
     @NotNull(message = "RoleId is required.")
     private Integer roleId;
-    private Set<Project> assignedProjects;
-
 
 }
