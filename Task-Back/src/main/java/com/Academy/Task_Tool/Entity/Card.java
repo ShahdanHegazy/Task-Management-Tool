@@ -68,9 +68,11 @@ public class Card {
     private Project project;
 
 
+
+
     //For soft delete
-    @Column(name = "is_deleted")
-    private Boolean isDeleted = false;
+//    @Column(name = "is_deleted")
+//    private Boolean isDeleted = false;
 
 
     public void setCreatedBy(String s) {
