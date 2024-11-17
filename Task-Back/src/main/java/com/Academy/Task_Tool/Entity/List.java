@@ -1,6 +1,7 @@
 package com.Academy.Task_Tool.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -15,18 +16,17 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class List<C> {
+public class List {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "list_id")
+    private Integer list_id;
 
-    @Column(name = "status_id")
-    private Integer status_id;
+    @Column(name = "list_name")
+    private String list_name;
 
-    @Column(name = "status_name")
-    private String status_name;
-
-    @Column(name = "position", nullable = false)
-    private Integer position;
+//    @Column(name = "position", nullable = false)
+//    private Integer position;
 
     @Column(name = "created_at", updatable = false)
     @CreationTimestamp
@@ -40,8 +40,9 @@ public class List<C> {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    @OneToMany(mappedBy = "list")
-    private Set<Card> cards;
+    @JsonBackReference
+    @OneToMany(mappedBy = "list", cascade = CascadeType.ALL)
+    private java.util.List<Card> cards ;
 
     //For soft delete
     @Column(name = "is_deleted")

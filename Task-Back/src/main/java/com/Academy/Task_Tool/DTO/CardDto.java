@@ -17,4 +17,5 @@ public class CardDto {
     private String assignedTo;
 
 
+
 }
