@@ -8,12 +8,12 @@ import jakarta.persistence.*;
 import lombok.*;
 import com.Academy.Task_Tool.Entity.List;
 
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import java.time.LocalDate;
 import java.util.Set;
-
-import java.time.LocalDateTime;
 
 @Table(name = "project")
 @Entity
