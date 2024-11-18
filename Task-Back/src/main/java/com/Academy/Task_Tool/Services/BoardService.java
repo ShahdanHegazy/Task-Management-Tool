@@ -76,34 +76,34 @@ public class BoardService {
 
     //get board with lists and cards
 
-//    public java.util.List<BoardDto> getBoard(int projectId) {
-//        Project project = projectRepository.findById(projectId).orElseThrow(() -> new EntityNotFoundException("Project not found"));
-//
-//
-//        java.util.List<BoardDto> lists = project.getLists().stream()
-//                .map((com.Academy.Task_Tool.Entity.List list ) -> {
-//                    BoardDto boardDto =new BoardDto();
-//                    boardDto.setId(list.getList_id());
-//                    boardDto.setName(list.getList_name());
-//                    if (!list.getCards().isEmpty()) {
-//                        boardDto.setCardList(list.getCards().stream()
-//                                .map(card -> {
-//                                    CardBoardDto cardDto = new CardBoardDto();
-//                                    cardDto.setCardId(card.getCardId());
-//                                    cardDto.setTitle(card.getTitle());
-//                                    return cardDto;
-//                                }).collect(Collectors.toList()));
-//                    } else {
-//                        boardDto.setCardList(new ArrayList<>());
-//                    }
-//
-//                    return boardDto;
-//
-//                })
-//                .collect(Collectors.toList());
-//
-//        return lists;
-//    }
+    public java.util.List<BoardDto> getBoard(int projectId) {
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new EntityNotFoundException("Project not found"));
+
+
+        java.util.List<BoardDto> lists = project.getLists().stream()
+                .map((com.Academy.Task_Tool.Entity.List list ) -> {
+                    BoardDto boardDto =new BoardDto();
+                    boardDto.setId(list.getList_id());
+                    boardDto.setName(list.getList_name());
+                    if (!list.getCards().isEmpty()) {
+                        boardDto.setCardList(list.getCards().stream()
+                                .map(card -> {
+                                    CardBoardDto cardDto = new CardBoardDto();
+                                    cardDto.setCardId(card.getCardId());
+                                    cardDto.setTitle(card.getTitle());
+                                    return cardDto;
+                                }).collect(Collectors.toList()));
+                    } else {
+                        boardDto.setCardList(new ArrayList<>());
+                    }
+
+                    return boardDto;
+
+                })
+                .collect(Collectors.toList());
+
+        return lists;
+    }
 
     // create list
     public String addList(ListDto listDto, int projectId) {
@@ -111,13 +111,14 @@ public class BoardService {
         List list =new List();
         list.setList_name(listDto.getList_name());
         list.setProject(project);
+        listRepository.save(list);
         return "added successfully";
     }
 
 
-    public String updateList( ListUpdateDto listUpdateDto , int listId) {
-        List list =new List();
-        list.setList_name(listUpdateDto.getListName());
+    public String updateList( ListDto listUpdateDto , int listId) {
+        List list = listRepository.findById(listId).orElseThrow(() -> new EntityNotFoundException("List not found"));
+        list.setList_name(listUpdateDto.getList_name());
         listRepository.save(list);
         return "updated successfully";
     }
@@ -125,6 +126,7 @@ public class BoardService {
     public String softDeleteList(int listId) {
         List list = listRepository.findById(listId)
                 .orElseThrow(() -> new EntityNotFoundException("List not found"));
+        list.setIsDeleted(true);
         listRepository.save(list);
         return "deleted successfully";
     }
