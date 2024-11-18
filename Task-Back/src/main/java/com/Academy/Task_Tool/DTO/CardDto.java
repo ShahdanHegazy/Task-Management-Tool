@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 
 @Data
 public class CardDto {
+
     private Integer cardId;
     private String title;
     private Timestamp dueDate;
@@ -15,7 +16,5 @@ public class CardDto {
     private Timestamp createAt;
     private String createBy;
     private String assignedTo;
-
-
 
 }

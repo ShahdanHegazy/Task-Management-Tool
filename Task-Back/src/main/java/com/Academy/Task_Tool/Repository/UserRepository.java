@@ -24,6 +24,8 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     @Query("SELECT COUNT(u) FROM User u WHERE u.role.role_id = :roleId AND u.isDeleted = false")
     long countUsersByRoleId(Integer roleId);
 
+    User findUserByEmail(String email);
+
     // in User Repsitory file
     // Custom query to count users by role
 //    @Query("SELECT u.role AS role, COUNT(u) AS count FROM User u GROUP BY u.role")
