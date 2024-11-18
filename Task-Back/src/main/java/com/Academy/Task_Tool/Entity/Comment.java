@@ -21,8 +21,8 @@ public class Comment {
     @Column(name = "content")
     private String content;
 
-    @Column(name = "creat_at" )
-    private Timestamp creat_at;
+    @Column(name = "create_at" )
+    private Timestamp create_at;
 
 
     @Column(name = "update_at")

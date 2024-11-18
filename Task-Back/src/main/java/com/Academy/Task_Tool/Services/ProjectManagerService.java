@@ -30,10 +30,10 @@ public class ProjectManagerService {
     }
 
 //    CREAT card
-public CardDto createCard(CardDto cardDto) {
-    Card card = convertToEntity(cardDto);
-    return convertToDTO(cardRepository.save(card));
-}
+//public CardDto createCard(CardDto cardDto) {
+//    Card card = convertToEntity(cardDto);
+//    return convertToDTO(cardRepository.save(card));
+//}
 
 //  UPDATE CARD
 public CardDto updateCard(Integer cardId, CardDto cardDto) {
@@ -87,17 +87,17 @@ public void deleteCard(Integer cardId) {
         cardDto.setCreateAt(card.getCreateAt());
         return cardDto;
     }
-    private Card convertToEntity(CardDto cardDto) {
-        Card card = new Card();
-        card.setCardId(cardDto.getCardId());
-        card.setPriority(cardDto.getPriority());
-        card.setCardId(cardDto.getCardId());
-        card.setDescription(cardDto.getDescription());
-        card.setTitle(cardDto.getTitle());
-        card.setCreatedBy(String.valueOf(cardDto.getCreateBy()));
-        card.setAssignedTo(String.valueOf(cardDto.getAssignedTo()));
-        card.setDueDate(cardDto.getDueDate());
-        card.setCreateAt(cardDto.getCreateAt());
-        return card;
-    }
+//    private Card convertToEntity(CardDto cardDto) {
+//        Card card = new Card();
+//        card.setCardId(cardDto.getCardId());
+//        card.setPriority(cardDto.getPriority());
+//        card.setCardId(cardDto.getCardId());
+//        card.setDescription(cardDto.getDescription());
+//        card.setTitle(cardDto.getTitle());
+//        card.setCreatedBy(String.valueOf(cardDto.getCreateBy()));
+//        card.setAssignedTo(String.valueOf(cardDto.getAssignedTo()));
+//        card.setDueDate(cardDto.getDueDate());
+//        card.setCreateAt(cardDto.getCreateAt());
+//        return card;
+//    }
 }

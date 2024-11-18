@@ -30,10 +30,10 @@ public class ProjectManagerController {
     }
 
 //    CREAT CARD BY PROJECT ID
-@PostMapping("/projects/{projectId}/cards")
-public CardDto createCard(@RequestBody CardDto cardDto , @PathVariable Integer projectId) {
-    return projectManagerService.createCard(cardDto);
-}
+//@PostMapping("/projects/{projectId}/cards")
+//public CardDto createCard(@RequestBody CardDto cardDto , @PathVariable Integer projectId) {
+//    return projectManagerService.createCard(cardDto);
+//}
 
 //  UPDATE CARD
     @PutMapping("/cards/{cardId}")

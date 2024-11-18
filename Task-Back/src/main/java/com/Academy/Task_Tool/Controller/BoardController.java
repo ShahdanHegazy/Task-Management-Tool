@@ -22,10 +22,10 @@ public class BoardController {
         return new ResponseEntity<>(boardService.getAllAssignedProjects(userId), HttpStatus.OK);
     }
 
-//    @GetMapping("/project/{projectId}")
-//    public ResponseEntity<java.util.List<BoardDto>> getBoard(@PathVariable int projectId) {
-//        return new ResponseEntity<>(boardService.getBoard(projectId),HttpStatus.OK);
-//    }
+    @GetMapping("/project/{projectId}")
+    public ResponseEntity<java.util.List<BoardDto>> getBoard(@PathVariable int projectId) {
+        return new ResponseEntity<>(boardService.getBoard(projectId),HttpStatus.OK);
+    }
 
     @PutMapping("/{projectId}/lists/{sourceListId}/cards/{cardId}/move/{targetListId}")
     public ResponseEntity<String> moveCard(@PathVariable int projectId,
@@ -43,7 +43,7 @@ public class BoardController {
 
 
    @PutMapping ("/list/{listId}")
-    public ResponseEntity<String> updateList(@RequestBody ListUpdateDto listUpdate, @PathVariable int listId) {
+    public ResponseEntity<String> updateList(@RequestBody ListDto listUpdate, @PathVariable int listId) {
         return new ResponseEntity<>(boardService.updateList(listUpdate,listId),HttpStatus.OK);
    }
 
