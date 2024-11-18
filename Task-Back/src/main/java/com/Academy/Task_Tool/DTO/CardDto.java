@@ -16,5 +16,4 @@ public class CardDto {
     private String createBy;
     private String assignedTo;
 
-
 }
