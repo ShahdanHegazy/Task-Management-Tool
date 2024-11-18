@@ -8,6 +8,7 @@ import com.Academy.Task_Tool.Repository.ProjectRepository;
 import com.Academy.Task_Tool.Repository.RoleRepository;
 import com.Academy.Task_Tool.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,7 +27,8 @@ public class AdminService {
     @Autowired
     private  UserRepository userRepository;
 
-
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 //    @Autowired
 //    private UserRepository userRepository;
@@ -57,7 +59,7 @@ public class AdminService {
         User user = new User();
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
+        user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         user.setCreateAt(LocalDateTime.now());
         user.setIsDeleted(false);
 
