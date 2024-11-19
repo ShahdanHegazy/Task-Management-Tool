@@ -1,9 +1,11 @@
 package com.Academy.Task_Tool.Entity;
 
 import jakarta.persistence.*;
+import jdk.jshell.execution.Util;
 import lombok.Data;
-
+import com.Academy.Task_Tool.Entity.List;
 import java.sql.Timestamp;
+
 import java.util.Set;
 
 @Entity
@@ -15,22 +17,22 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cardId;
 
-    @Column(name="title")
+    @Column(name = "title")
     private String title;
 
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
 
-    @Column(name="due_date")
+    @Column(name = "due_date")
     private Timestamp dueDate;
 
-    @Column(name="priority")
-    private String  priority;
+    @Column(name = "priority")
+    private String priority;
 
-    @Column(name="create_at")
+    @Column(name = "create_at")
     private Timestamp createAt;
 
-    @Column(name="update_at")
+    @Column(name = "update_at")
     private Timestamp updateAt;
 
 
@@ -53,30 +55,21 @@ public class Card {
 
     //relaion one to many with comment
     @OneToMany(mappedBy = "card")
-    private Set<Comment> comments;
+    private java.util.List<Comment> comments;
 
     // relation with List
     @ManyToOne
     @JoinColumn(name = "list_id")
-    private List<Comment> list;
+    private List list;
 
     //relation with project
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
-  
-//    @OneToMany(mappedBy = "card")
-//    private List<Comment> comments;
 
 
-    //For soft delete
+    //    For soft delete
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
-
-    public void setCreatedBy(String s) {
-    }
-
-    public void setAssignedTo(String s) {
-    }
 }

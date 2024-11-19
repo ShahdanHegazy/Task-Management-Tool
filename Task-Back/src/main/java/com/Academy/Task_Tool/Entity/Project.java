@@ -6,12 +6,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import com.Academy.Task_Tool.Entity.List;
 
+
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.Set;
 
 @Table(name = "project")
 @Entity
@@ -31,10 +33,10 @@ public class Project {
     private String description;
 
     @Column(name = "start_date")
-    private LocalDateTime start_date;
+    private LocalDate start_date;
 
     @Column(name = "end_date")
-    private LocalDateTime end_date;
+    private LocalDate end_date;
 
     @Column(name="isDeleted")
     private Boolean isDeleted=false;
@@ -47,17 +49,16 @@ public class Project {
     @JoinColumn(name = "project_manager_id", referencedColumnName = "id")
     private User projectManager;
 
-    //relation with users for memebers
+    //relation with users for users
 
     @ManyToMany(mappedBy = "assignedProjects")
     @JsonIgnore
-    private Set<User> assignedUsers;
+    private java.util.List<User> assignedUsers;
 
     //relation with cards
-    @JsonBackReference
-    @OneToMany(mappedBy="project")
-    private Set<Card> assignedCards;
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private java.util.List<List> lists ;
 
-  
+ 
 }
 

@@ -23,7 +23,7 @@ export class UsersComponent implements OnInit {
   name = '';
   email = '';
   password = '';
-  role!: Role;
+  role: Role|null=null;
   isModalOpen = false;
   isEditMode = false;
   alertMessage: string = '';
@@ -77,6 +77,7 @@ export class UsersComponent implements OnInit {
     this.name = '';
     this.email = '';
     this.password = '';
+    this.role=null;
   }
 
   createOrUpdateUser() {
@@ -94,10 +95,7 @@ export class UsersComponent implements OnInit {
       this._UserService.updateUserById(this.id, upadatedUser).subscribe({
         next: (response) =>{
           console.log("User updated successfully:", response)
-          const index = this.users.findIndex(user => user.id === response.id);
-          if (index !== -1) {
-            this.users[index] = response;  // تحديث المستخدم في الـ array
-          }
+          this.fetchAllUsers()
           this.showAlert('User updated successfully!', 'success');
 
         },
@@ -127,7 +125,7 @@ export class UsersComponent implements OnInit {
         next: (response) => {
           // success
           console.log("Response: " + JSON.stringify(response, null, 2));
-          this.users.push(response);
+          this.fetchAllUsers()
           this.showAlert('User created successfully!', 'success');
         },
         error: (error) => {
@@ -152,12 +150,11 @@ export class UsersComponent implements OnInit {
   deleteUser(duser: User) {
     this._UserService.deleteUserById(duser.id).subscribe({
       next: (response) => {
-        console.log(`User with ID ${duser.id} deleted successfully.`);
-
+        console.log(`User with ID ${duser.name} deleted successfully.`);
         console.log("response back is --->"+response);
 
         this.users = this.users.filter(user => user.id !== duser.id);
-        this.showAlert(`User with ID ${duser.id} deleted successfully.`, 'success');
+        this.showAlert(`User with Name ${duser.name} deleted successfully.`, 'success');
       },
       error: (error) => {console.error("Error deleting user:", error);
         this.showAlert('Failed to delete user. Please try again.', 'error')},

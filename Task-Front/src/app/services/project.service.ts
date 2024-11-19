@@ -17,7 +17,14 @@ export class ProjectService {
   createProject(project: Project): Observable<Project> {
     return this._HttpClient.post<Project>("/api/admin/createProject", project)
   } 
-  // updateProject(id: number, project: Project): Observable<Project> {
-  //   return this._HttpClient.post<Project>("jkjk/{id}", project)
-  // }
+  getAllProjects(): Observable<Project[]>{
+    return this._HttpClient.get<Project[]>("/api/admin/active/projects")
+  }
+  updateProject(projectId: number|undefined, project: Project): Observable<Project> {
+    return this._HttpClient.put<Project>(`/api/admin/updateProject/${projectId}`, project)
+  }
+
+  deleteProject(projectId: number|undefined): Observable<string>{
+    return this._HttpClient.delete<string>(`/api/admin/deleteProject/${projectId}`, { responseType: 'text' as 'json' })
+  }
 }

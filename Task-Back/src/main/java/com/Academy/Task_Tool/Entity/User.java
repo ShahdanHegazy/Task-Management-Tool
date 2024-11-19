@@ -48,7 +48,7 @@ public class User {
     //relation with comment
    @JsonManagedReference
     @OneToMany(mappedBy = "user")
-    private Set<Comment> comments;
+    private List<Comment> comments;
 
     //relation with role
     @JsonBackReference
@@ -56,14 +56,13 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
-
+// relation with projects
     @ManyToMany
     @JoinTable(
             name = "user_project",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "project_id")
     )
-    private Set<Project> assignedProjects;
-//    private Set<Project> projects = new HashSet<>();
+    private List<Project> assignedProjects;
 
 }
