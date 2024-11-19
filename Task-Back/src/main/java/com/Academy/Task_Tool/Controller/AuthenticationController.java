@@ -30,7 +30,6 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequest) {
-
         try {
             // Authenticate user using email and password
             UsernamePasswordAuthenticationToken authenticationToken =

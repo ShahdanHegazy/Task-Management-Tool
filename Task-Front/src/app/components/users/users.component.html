@@ -1,8 +1,10 @@
 <div class="container mt-5">
   <!-- Create User Button -->
-  <button class="btn btn-primary mb-3" (click)="openModal()">
-    Create User <i class="fas fa-add"></i>
-  </button>
+    <div class="w-100 d-flex justify-content-end">
+      <button class="btn btn-primary mb-3 me-0" (click)="openModal()">
+        Create User <i class="fas fa-add"></i>
+      </button>
+    </div>
     <!-- Modal -->
   <div class="modal" tabindex="-1" [ngClass]="{ 'd-block': isModalOpen }" (click)="closeModal()">
     <div class="modal-dialog" (click)="$event.stopPropagation()">
@@ -94,7 +96,7 @@
         <td>{{ user.email }}</td>
         <td>{{ roleNames[user.roleId?user.roleId:1] }}</td>
         <td>
-          <button class="btn btn-warning btn-md" title="Update" (click)="openModal(true, user)">
+          <button class="btn btn-update btn-md" title="Update" (click)="openModal(true, user)">
             Update
           </button>
         </td>
