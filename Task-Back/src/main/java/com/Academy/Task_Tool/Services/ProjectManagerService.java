@@ -113,8 +113,6 @@ public void deleteCard(Integer cardId) {
     @Autowired
     private CommentRepository commentRepository;
 
-    @Autowired
-    private CardRepository cardRepository2;
 
     // Retrieve all comments for a specific task
     public List<CommentDto> getCommentsByCardId(Integer cardId) {
@@ -138,7 +136,7 @@ public void deleteCard(Integer cardId) {
         comment.setContent(comment.getContent());
         comment.setUpdate_at(comment.getUpdate_at());
         comment.setCard(card);
-        comment.setCreat_at(new Timestamp(System.currentTimeMillis()));
+        comment.setCreate_at(new Timestamp(System.currentTimeMillis()));
         comment.setIsDeleted(false);
 
         return convertToDTO(commentRepository.save(comment));
@@ -166,7 +164,7 @@ public void deleteCard(Integer cardId) {
     private CommentDto convertToDTO(Comment comment) {
         CommentDto dto = new CommentDto();
         dto.setContent(comment.getContent());
-        dto.setCreatedAt(comment.getCreat_at());
+        dto.setCreatedAt(comment.getCreate_at());
         dto.setUpdatedAt(comment.getUpdate_at());
         dto.setCardId(comment.getCard().getCardId());
         dto.setDeleted(comment.getIsDeleted());

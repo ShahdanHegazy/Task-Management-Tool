@@ -72,4 +72,10 @@ public class Card {
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
+    public void setCreatedBy(String s) {
+    }
+
+    public void setAssignedTo(String s) {
+    }
+
 }
