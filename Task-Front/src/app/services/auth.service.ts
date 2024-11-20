@@ -14,11 +14,11 @@ export class AuthService {
 
   constructor(private _HttpClient:HttpClient) { }
   login(user:Login): Observable<LoginResponse> {
-    return this._HttpClient.post<LoginResponse>('/auth/login' ,user);
+    return this._HttpClient.post<LoginResponse>('/api/auth/login' ,user);
   }
 
-  
-  setRoleId(roleId:number) {
+
+    setRoleId(roleId:number) {
     this.roleId = roleId;
   }
   setUserId(userId:number) {
