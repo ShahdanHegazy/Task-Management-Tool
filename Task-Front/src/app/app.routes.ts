@@ -6,7 +6,7 @@ import {UsersComponent} from './components/users/users.component';
 import {ProjectsComponent} from './components/projects/projects.component';
 import {ProjectmanagerComponent} from './pages/projectmanager/projectmanager.component';
 import {CardComponent} from './components/card/card.component';
-import {Project1Component} from './components/project-1/project-1.component';
+import {ProjectComponent} from './components/project/project.component';
 
 
 

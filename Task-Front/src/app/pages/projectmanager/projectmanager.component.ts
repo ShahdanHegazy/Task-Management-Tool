@@ -20,7 +20,7 @@ export class ProjectmanagerComponent {
     {
       title: 'Project 1',
       icon: 'fas fa-folder me-2',
-      router: 'project-1',
+      router: 'project',
     },
   ];
 
