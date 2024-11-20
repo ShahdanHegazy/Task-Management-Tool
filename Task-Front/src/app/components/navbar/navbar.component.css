@@ -26,15 +26,4 @@
   padding: 0 20px;
 }
 
-/* Log Out Button Styling */
-.logout-btn {
-  margin-left: auto;
-  width: auto;
-  background-color: #5a5a5a;
-  color: white;
-  border-color: transparent;
-  padding:8px 15px;
-}
-.logout-btn:hover{
-  background-color: #444;
-}
+

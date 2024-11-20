@@ -18,3 +18,7 @@
     color: #721c24;
     border: 1px solid #f5c6cb;
   }
+  .btn-update{
+    background-color: #7352de !important;
+    color: white !important;
+  }

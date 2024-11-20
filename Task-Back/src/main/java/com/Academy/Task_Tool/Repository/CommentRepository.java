@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CommentRepository extends JpaRepository<Comment, Integer> {
-//    List<Comment> findByCardIdAndDeletedFalse(Integer cardId);
-//    Optional<Comment> findByIdAndDeletedFalse(Integer    commentId);
-}
+    public interface CommentRepository extends JpaRepository<Comment, Integer> {
+        List<Comment> findByCardCardIdAndIsDeletedFalse(Integer cardId); // Get all non-deleted comments for a task
+
+        Optional<Comment> findByCommentidAndCardCardIdAndIsDeletedFalse(Integer commentId, Integer cardId); // Find specific comment for a task
+    }
+
