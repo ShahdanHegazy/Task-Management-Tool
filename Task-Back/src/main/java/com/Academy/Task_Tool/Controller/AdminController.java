@@ -5,11 +5,14 @@ import com.Academy.Task_Tool.Repository.UserRepository;
 import com.Academy.Task_Tool.Services.AdminService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 
 @RestController
 @RequestMapping("/api")
@@ -44,11 +47,6 @@ public class AdminController {
         UserDto createdUser = adminService.createUser(userDto);
         return ResponseEntity.status(HttpStatus.OK).body(createdUser);
     }
-//  endpoint for retrieve all users active and non active ;
-//    @GetMapping("/admin/all-users-with-roles")
-//    public List<UserResponseDto> getAllUsersWithRoles() {
-//        return adminService.getAllUsersWithRole();
-//    }
 
 // endpoint for delete user by id
     @DeleteMapping("/admin/delete/{id}")
@@ -58,9 +56,16 @@ public class AdminController {
     }
 
 // endpoint for retrieve All active user
+//    @GetMapping("/admin/active/users")
+//    public List<UserResponseDto> getAllActiveUsers() {
+//        return adminService.getAllActiveUsers();
+//    }
+
+
     @GetMapping("/admin/active/users")
-    public List<UserResponseDto> getAllActiveUsers() {
-        return adminService.getAllActiveUsers();
+    public Page<UserResponseDto> getAllActiveUsers(@RequestParam(defaultValue = "0") int page,
+                                                   @RequestParam(defaultValue = "10") int size) {
+        return adminService.getAllActiveUsers(PageRequest.of(page, size));
     }
 
     @PutMapping("/admin/update/{userId}")
