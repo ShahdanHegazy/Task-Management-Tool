@@ -17,22 +17,22 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cardId;
 
-    @Column(name="title")
+    @Column(name = "title")
     private String title;
 
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
 
-    @Column(name="due_date")
+    @Column(name = "due_date")
     private Timestamp dueDate;
 
-    @Column(name="priority")
-    private String  priority;
+    @Column(name = "priority")
+    private String priority;
 
-    @Column(name="create_at")
+    @Column(name = "create_at")
     private Timestamp createAt;
 
-    @Column(name="update_at")
+    @Column(name = "update_at")
     private Timestamp updateAt;
 
 
@@ -68,16 +68,14 @@ public class Card {
     private Project project;
 
 
-
-
-    //For soft delete
-//    @Column(name = "is_deleted")
-//    private Boolean isDeleted = false;
-
+    //    For soft delete
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
 
     public void setCreatedBy(String s) {
     }
 
     public void setAssignedTo(String s) {
     }
+
 }

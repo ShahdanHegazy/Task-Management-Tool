@@ -1,20 +1,12 @@
-<div class=" text-white p-3 sidebar">
-  <ul *ngFor="let data1 of data" class="nav flex-column mt-5">
-
-    <li class="nav-item mb-4">
+<div class=" text-white p-3 sidebar d-flex justify-content-between flex-column ">
+  <ul  class="nav flex-column ">
+    <li *ngFor="let data1 of data" class="nav-item mt-1">
       <a class="nav-link text-white" routerLink={{data1.router}}>
         <i class={{data1.icon}}></i> {{data1.title}}
       </a>
     </li>
-    <!-- <li class="nav-item mb-4">
-      <a class="nav-link text-white" routerLink="projects">
-        <i class="fas fa-folder me-2"></i> Projects
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link text-white" routerLink="users">
-        <i class="fas fa-users me-4"></i> Users
-      </a>
-    </li> -->
   </ul>
+  <button class="btn btn-outline-danger logout-btn w-100 " type="button">
+    Log Out
+  </button>
 </div>

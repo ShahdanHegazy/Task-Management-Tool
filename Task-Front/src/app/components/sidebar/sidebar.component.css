@@ -5,8 +5,8 @@
   height: 100%;
 }
 .sidebar .nav-link {
-  padding: 10px 15px;
-  border-radius: 8px;
+  padding: 10px ;
+  border-radius: 2px;
   transition: background-color 0.3s ease, color 0.3s ease;
   font-weight: 500;
   border-bottom:1px solid #484848;
@@ -21,3 +21,9 @@
   background-color: #6c757d;
   color: #ffffff;
 }
+.logout-btn {
+ 
+color: white;
+  transform: translateY(-40px) !important;
+}
+

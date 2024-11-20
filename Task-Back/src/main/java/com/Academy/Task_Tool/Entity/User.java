@@ -56,7 +56,7 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
-
+// relation with projects
     @ManyToMany
     @JoinTable(
             name = "user_project",
@@ -64,6 +64,14 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "project_id")
     )
     private List<Project> assignedProjects;
-//    private Set<Project> projects = new HashSet<>();
+
+    // relation with managed projects
+    @JsonBackReference
+    @OneToMany(mappedBy = "projectManager", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Project> managedProjects;
+
+
+
+
 
 }
