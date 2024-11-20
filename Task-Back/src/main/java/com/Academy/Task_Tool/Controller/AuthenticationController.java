@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api")
 public class AuthenticationController {
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -28,7 +28,7 @@ public class AuthenticationController {
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequest) {
         try {
             // Authenticate user using email and password
