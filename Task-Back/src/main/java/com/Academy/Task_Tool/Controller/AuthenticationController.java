@@ -29,6 +29,7 @@ public class AuthenticationController {
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 
+
     @PostMapping(value="/auth/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequest) {
         try {

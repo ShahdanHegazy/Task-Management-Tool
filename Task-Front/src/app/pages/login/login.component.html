@@ -39,6 +39,11 @@
           <i class="fa-solid fa-spinner fa-spin"></i>
         }
       </button>
+        <div>
+          <p *ngIf='failed' class="text-danger"> Incorrect email or password </p>
+          <p *ngIf='success' class="alert alert-success"> successfully signed in </p>
+        </div>
+      
     </form>
     <hr class="my-4">
   </div>
