@@ -4,13 +4,19 @@ import com.Academy.Task_Tool.DTO.*;
 import com.Academy.Task_Tool.Entity.Project;
 import com.Academy.Task_Tool.Entity.Role;
 import com.Academy.Task_Tool.Entity.User;
+import com.Academy.Task_Tool.GolbalException.EmailAlreadyExistsException;
 import com.Academy.Task_Tool.Repository.ProjectRepository;
 import com.Academy.Task_Tool.Repository.RoleRepository;
 import com.Academy.Task_Tool.Repository.UserRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+//import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
+//import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,6 +62,9 @@ public class AdminService {
 
     // method for user within admin
     public UserDto createUser(UserDto userDto) {
+        if(userRepository.existsByEmail(userDto.getEmail())){
+            throw new EmailAlreadyExistsException("email" + userDto.getEmail() + "already exists");
+        }
         User user = new User();
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
@@ -78,6 +87,9 @@ public class AdminService {
         savedUserDto.setRoleId(role.getRole_id());
         return savedUserDto;
     }
+
+    //        user=userRepository.findByEmail(userDto.getEmail())
+//                .orElseThrow(() -> new RuntimeException("enter another email"));
 
     public List<UserResponseDto> getAllUsersWithRole() {
         return userRepository.findAll().stream()
@@ -129,16 +141,30 @@ public class AdminService {
         return updateUser;
     }
 
-    public List<UserResponseDto> getAllActiveUsers() {
-        return userRepository.findAllActiveUsers().stream()
+//    public List<UserResponseDto> getAllActiveUsers() {
+//        return userRepository.findAllActiveUsers().stream()
+//                .map(user->new UserResponseDto(
+//                user.getId(),
+//                user.getName(),
+//                user.getEmail(),
+//                user.getPassword(),
+//                user.getRole().getRole_id()
+//        )).collect(Collectors.toList()); // Fetch non-deleted users
+//    }
+
+
+    public Page<UserResponseDto> getAllActiveUsers(Pageable pageable) {
+        return userRepository.findAllActiveUsers(pageable)
                 .map(user->new UserResponseDto(
-                user.getId(),
-                user.getName(),
-                user.getEmail(),
-                user.getPassword(),
-                user.getRole().getRole_id()
-        )).collect(Collectors.toList()); // Fetch non-deleted users
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getPassword(),
+                        user.getRole().getRole_id()
+                )); // Fetch non-deleted users
     }
+
+
 
     ///////////////////////////////////////////////////////////////////////////////////
 

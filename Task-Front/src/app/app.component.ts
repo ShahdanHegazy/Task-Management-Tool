@@ -4,11 +4,12 @@ import {LoginComponent} from './pages/login/login.component';
 import {TaskFormComponent} from './components/task-form/task-form.component';
 import {SidebarComponent} from './components/sidebar/sidebar.component';
 import {AdminComponent} from './pages/admin/admin.component';
+import {UsersComponent} from './components/users/users.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, LoginComponent, TaskFormComponent, SidebarComponent, AdminComponent],
+  imports: [RouterOutlet, LoginComponent, TaskFormComponent, SidebarComponent, AdminComponent, UsersComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

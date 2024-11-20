@@ -1,0 +1,33 @@
+<div class="toolbar">
+  <button  (click)="showTextarea = true" *ngIf="!showTextarea" class="toolbar-button">Add List
+    <i class="fas fa-add"></i></button>
+  <button (click)="openMemberPopup()">Choose Member</button>
+  <div *ngIf="showTextarea" class="toolbar-input">
+    <textarea [(ngModel)]="newListName" placeholder="Enter list name"></textarea>
+    <div class="button-container">
+      <button (click)="addList()">Add List</button>
+      <button (click)="cancelAddList()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="list-container" *ngFor="let list of lists; let i = index">
+  <div class="card">
+    <h3>{{ list }}</h3>
+    <button (click)="showTaskInput[i] = true" *ngIf="!showTaskInput[i]" class="toolbar-button1">Create Task
+      <i class="fas fa-add"></i></button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" *ngIf="isModalOpen">
+  <div class="modal-content">
+    <span class="close" (click)="closeMemberPopup()">&times;</span>
+    <label for="memberSelect">Choose a member:</label>
+    <select id="memberSelect">
+      <option *ngFor="let member of members" [value]="member">{{ member }}</option>
+    </select>
+  </div>
+</div>
+
+
