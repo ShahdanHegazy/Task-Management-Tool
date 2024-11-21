@@ -4,18 +4,31 @@ import { AdminComponent } from './pages/admin/admin.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import { UsersComponent } from './components/users/users.component';
 import { ProjectsComponent } from './components/projects/projects.component';
+import {ProjectmanagerComponent} from './pages/projectmanager/projectmanager.component';
+import { TaskFormComponent } from './components/task-form/task-form.component';
+import { authGuard } from './auth.guard';
+import { projectManagerGuard } from './project-manager.guard';
+import { adminGuard } from './admin.guard';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   {
     path: "admin", component: AdminComponent,
+    canActivate:[authGuard,adminGuard],
     children: [
       { path: "", component: StatisticsComponent },
       { path: "users", component: UsersComponent },
       { path: "projects", component: ProjectsComponent }
     ]
   },
+  {path:"projectmanager" ,component:ProjectmanagerComponent ,
+   canActivate:[authGuard,projectManagerGuard]
+   ,children :[
+      {path:"" ,component:CardComponent},
+      {path:"project" ,component:ProjectComponent},
+]},
   { path: '**', redirectTo: '/login' },
 
 ];
+

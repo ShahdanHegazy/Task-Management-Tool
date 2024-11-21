@@ -7,6 +7,7 @@ import com.Academy.Task_Tool.jwt.JwtService;
 import org.hibernate.dialect.PostgreSQLStructPGObjectJdbcType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api")
 public class AuthenticationController {
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -28,7 +29,8 @@ public class AuthenticationController {
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 
-    @PostMapping("/login")
+
+    @PostMapping(value="/auth/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequest) {
         try {
             // Authenticate user using email and password
@@ -45,12 +47,12 @@ public class AuthenticationController {
 
             // Create response
             LoginResponseDto response = new LoginResponseDto(token, "Login successful");
-            return ResponseEntity.ok(response);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception ex) {
             // Handle authentication failure
             LoginResponseDto response = new LoginResponseDto(null, "Invalid email or password");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .contentType(MediaType.APPLICATION_JSON).body(response);
         }
-
     }
 }

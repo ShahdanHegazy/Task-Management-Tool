@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import com.Academy.Task_Tool.Entity.List;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("/api")
 public class BoardController {
     @Autowired
     BoardService boardService;

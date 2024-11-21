@@ -27,4 +27,7 @@ export class ProjectService {
   deleteProject(projectId: number|undefined): Observable<string>{
     return this._HttpClient.delete<string>(`/api/admin/deleteProject/${projectId}`, { responseType: 'text' as 'json' })
   }
+  getProjectsCount(): Observable<number> {
+    return this._HttpClient.get<number>(`/api/count/project`)
+  }
 }

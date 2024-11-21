@@ -4,23 +4,26 @@ import {FormsModule} from '@angular/forms';
 import {Project} from '../../interfaces/project';
 import {ProjectService} from '../../services/project.service';
 import { ProjectManager } from '../../interfaces/project-manager';
-
-
-
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 @Component({
   selector: 'app-projects',
   standalone: true,
   imports: [
     NgIf,
+    DialogModule,ButtonModule, InputTextModule,
     NgFor,
     NgClass,
     FormsModule,
-    NgStyle
+
+    
   ],
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.css']
 })
 export class ProjectsComponent implements OnInit {
+  mems=['ahmed','ali','sayed','reda','mohamed','ahmed','ali','sayed','reda','mohamed']
   project_id: number | undefined = 0;
   projectName = '';
   projectManagerId: number | null = null;
@@ -29,15 +32,15 @@ export class ProjectsComponent implements OnInit {
   description = '';
   isModalOpen = false;
   isEditMode = false;
-  hoveredProject: Project | null = null;
-  hoverPosition = {x: 0, y: 0};
+  viewedProject: Project | null = null;
   alertMessage: string = '';
   alertType: 'success' | 'error' = 'success';
   isAlertVisible: boolean = false;
   projects: Project[] = [];
   pms: ProjectManager[] = [];
-  members: string[] = [];
+  members: string[] = ['ahmed','ali'];
   projectManagerName: string | null | undefined;
+  visible: boolean=false;
 
   constructor(private _ProjectService: ProjectService) {}
   
@@ -51,9 +54,7 @@ export class ProjectsComponent implements OnInit {
   fetchAllPms() {
     this._ProjectService.getProjectsManagers().subscribe({
       next: (response) => {
-        this.pms = response
-        
-        
+        this.pms = response    
       },
       error: (err) => {
         console.error("there is wrong something" + JSON.stringify(err, null, 2))
@@ -107,7 +108,6 @@ export class ProjectsComponent implements OnInit {
       };
       this._ProjectService.updateProject(this.project_id,project).subscribe({
         next:(response)=>{
-            // this.projects[projectIndex]=response;
             this.showAlert(`Project ${response.projectName} updated successfully`,'success');
             this.fetchAllProjects();
           },
@@ -123,7 +123,7 @@ export class ProjectsComponent implements OnInit {
         start_date: this.start_date,
         end_date: this.end_date,
         description: this.description,
-        members: ['ahmed','mock','sa']
+        members: this.members
       };
       this._ProjectService.createProject(newProject).subscribe({
         next: (response) => {
@@ -142,6 +142,7 @@ export class ProjectsComponent implements OnInit {
 
   }
 
+
   deleteProject(id: number) {
     this._ProjectService.deleteProject(id).subscribe({
       next: (response) => {
@@ -151,6 +152,11 @@ export class ProjectsComponent implements OnInit {
       
     }
   })
+}
+confirmDeleteProject(id: number){
+  if(confirm(`Are you sure you want to delete this project?`)){
+    this.deleteProject(id);
+  }
 }
 
   clearForm() {
@@ -162,13 +168,20 @@ export class ProjectsComponent implements OnInit {
   }
 
   showDetails(project: Project) {
-    this.hoveredProject = project;
+    this.viewedProject = project;
     // @ts-ignore
-    this.hoverPosition = {x: event.clientX + 10, y: event.clientY + 10};
+    // this.hoverPosition = {x: event.clientX - 200, y: event.clientY + 10};
   }
-
+  showDialog(){
+    this.visible=true;
+  }
+  
+  closeDialog(){
+    this.visible=false;
+    
+  }
   hideDetails() {
-    this.hoveredProject = null;
+    this.viewedProject = null;
   }
   showAlert(message: string, type: 'success' | 'error') {
     this.alertMessage = message;

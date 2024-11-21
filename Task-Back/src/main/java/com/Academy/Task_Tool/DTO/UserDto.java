@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import com.Academy.Task_Tool.Entity.Project;
 import com.Academy.Task_Tool.Entity.User;
 import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.Set;
 
