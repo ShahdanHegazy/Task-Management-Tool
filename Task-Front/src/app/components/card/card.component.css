@@ -1,13 +1,15 @@
 .card {
-  width: 300px;
+  width:230px;
   padding: 20px;
   border: 1px solid #ccc;
   background-color: #aba6d9 ;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-  margin: 90px;
+  border-radius: 27px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform  0.3s ease;
+  margin: 70px;
   display: inline-block;
+  height:calc(350px - 200px);
+  min-height: 100px;
 }
 
 

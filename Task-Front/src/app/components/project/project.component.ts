@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {Component} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgForOf, NgIf} from '@angular/common';
+
 
 
 @Component({
@@ -10,19 +11,23 @@ import {NgForOf, NgIf} from '@angular/common';
   imports: [
     FormsModule,
     NgIf,
-    NgForOf
+    NgForOf,
+    ReactiveFormsModule
   ],
   styleUrls: ['./project.component.css']
 })
-export class ProjectComponent implements OnInit{
+
+export class ProjectComponent {
   showTextarea = false;
   newListName = '';
-  lists: string[] = [];
   tasks: string[][] = [];
+  lists: string[] = [];
   showTaskInput: boolean[] = [];
   showForm: boolean = false;
-  members: string[] = ['mariam', 'Bob', 'Charlie', 'Diana'];
+  members: string[] = ['mariam', 'habiba', 'shahdan', 'Diana'];
   selectedMembers: string[] = [];
+  selectedMemberText: string | null = null;
+  dropdownOpen: boolean = false;
 
 
 
@@ -32,6 +37,7 @@ export class ProjectComponent implements OnInit{
       this.tasks.push([]); // Create an empty array for tasks for this new list
       this.showTaskInput.push(false); // Manage task input visibility for the new card
       this.newListName = '';
+
     }
     this.showTextarea = false;
   }
@@ -40,8 +46,6 @@ export class ProjectComponent implements OnInit{
     this.showTextarea = false;
     this.newListName = '';
   }
-
-// Method to remove a list by index
 
   removeList(index: number): void {
     this.lists.splice(index, 1); // Removes one element at the specified index
@@ -55,16 +59,22 @@ export class ProjectComponent implements OnInit{
     this.showForm = false;
   }
 
-  onMemberSelected(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    const selectedMember = target.value;
-
-    if (selectedMember && !this.selectedMembers.includes(selectedMember)) {
-      this.selectedMembers.push(selectedMember);
+  onMemberSelected(member: string) {
+    if (!this.selectedMembers.includes(member)) {
+      this.selectedMembers.push(member);
     }
+    this.selectedMemberText = member; // Update trigger text
+    this.dropdownOpen = false; // Close dropdown after selection
+  }
+
+
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
   }
 
   addMember() {
 
   }
+
+
 }
