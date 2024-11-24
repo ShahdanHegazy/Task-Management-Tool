@@ -1,19 +1,18 @@
 package com.Academy.Task_Tool.Services;
 import com.Academy.Task_Tool.DTO.CardDto;
 import com.Academy.Task_Tool.DTO.CommentDto;
+import com.Academy.Task_Tool.DTO.ListAllMembersDto;
 import com.Academy.Task_Tool.DTO.ProjectMemberAssignmentDto;
 import com.Academy.Task_Tool.Entity.Card;
 import com.Academy.Task_Tool.Entity.Comment;
 import com.Academy.Task_Tool.Entity.Project;
 import com.Academy.Task_Tool.Entity.User;
-import com.Academy.Task_Tool.Repository.CardRepository;
-import com.Academy.Task_Tool.Repository.CommentRepository;
-import com.Academy.Task_Tool.Repository.ProjectRepository;
-import com.Academy.Task_Tool.Repository.UserRepository;
+import com.Academy.Task_Tool.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +22,8 @@ public class ProjectManagerService {
     
     @Autowired
     private CardRepository cardRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
 //    public List<CardDto> getCardsByProjectId(Integer projectId) {
 //        return cardRepository.findByProjectIdAndIsDeletedFalse(projectId);
@@ -180,5 +181,18 @@ public void deleteCard(Integer cardId) {
     }
 
 
+    public List<ListAllMembersDto> getAllMembers(Integer roleId) {
+        roleId=3;
 
+         List<User> users=userRepository.findByRoleIDAndIsDeletedFalse(3);
+         List<ListAllMembersDto> listAllMembersDto=users.stream()
+                 .map(user -> {
+                     ListAllMembersDto userDto = new ListAllMembersDto();
+                     userDto.setUserId(user.getId());
+                     userDto.setName(user.getName());
+                     return userDto;
+                 })
+                 .collect(Collectors.toList());
+         return listAllMembersDto;
+    }
 }

@@ -20,10 +20,10 @@ public class List {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "list_id")
-    private Integer list_id;
+    private Integer listId;
 
     @Column(name = "list_name")
-    private String list_name;
+    private String listName;
 
 //    @Column(name = "position", nullable = false)
 //    private Integer position;

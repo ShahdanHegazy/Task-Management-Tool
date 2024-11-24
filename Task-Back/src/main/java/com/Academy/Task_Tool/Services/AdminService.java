@@ -36,18 +36,14 @@ public class AdminService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-//    @Autowired
-//    private UserRepository userRepository;
-//    @Autowired
-//    private RoleRepository roleRepository;
-
-
-  
-
+    // Dashboard
+    // total number of projects
     public Integer getProjectCount() {
+
         return projectRepository.countAllProject();
     }
 
+    // total number of users
     // GET endpoint to fetch user count by role_id
     @Autowired
     public AdminService(UserRepository userRepository) {
@@ -59,8 +55,8 @@ public class AdminService {
     }
 
 /////////////////////////////////////////////////////////////////
-
-    // method for user within admin
+// CRUD USERS
+    // create user
     public UserDto createUser(UserDto userDto) {
         if(userRepository.existsByEmail(userDto.getEmail())){
             throw new EmailAlreadyExistsException("email" + userDto.getEmail() + "already exists");
@@ -88,8 +84,7 @@ public class AdminService {
         return savedUserDto;
     }
 
-    //        user=userRepository.findByEmail(userDto.getEmail())
-//                .orElseThrow(() -> new RuntimeException("enter another email"));
+
 
     public List<UserResponseDto> getAllUsersWithRole() {
         return userRepository.findAll().stream()
@@ -103,12 +98,14 @@ public class AdminService {
                 .collect(Collectors.toList());
     }
 
+    // delete user
     public void softDeleteUser(Integer id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         user.setIsDeleted(true);  // Mark the user as deleted
         userRepository.save(user);
     }
+    //update user
 
     public UserUpDataDto updateUser(Integer userId, UserUpDataDto userUpDataDto) {
 
@@ -168,7 +165,7 @@ public class AdminService {
 
     ///////////////////////////////////////////////////////////////////////////////////
 
-// method for  project within admin
+// method for  project within admin (crete project )
     public ProjectDto createProject(ProjectDto projectDto){
         Project project=new Project();
         project.setProjectName(projectDto.getProjectName());
@@ -245,10 +242,11 @@ public class AdminService {
                 .map(project -> new ProjectResponseDto(
                         project.getProject_id(),
                         project.getProjectName(),
-                        project.getProjectManager() != null ? project.getProjectManager().getName() : "No Manager",
+                        project.getProjectManager() != null ? project.getProjectManager().getName() : "No Manager Assigned",
                         project.getStart_date(),
                         project.getEnd_date(),
-                        project.getDescription()
+                        project.getDescription(),
+                        project.getAssignedUsers()
                 )).collect(Collectors.toList());
 
     }

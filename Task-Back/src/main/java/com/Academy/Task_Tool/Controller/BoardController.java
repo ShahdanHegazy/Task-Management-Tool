@@ -17,9 +17,13 @@ public class BoardController {
     BoardService boardService;
 
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<java.util.List<ProjectDto>> getAllAssignedProjects(@PathVariable int userId) {
+    @GetMapping("member/{userId}")
+    public ResponseEntity<java.util.List<AssignedProjDto>> getAllAssignedProjects(@PathVariable int userId) {
         return new ResponseEntity<>(boardService.getAllAssignedProjects(userId), HttpStatus.OK);
+    }
+    @GetMapping("pm/{userId}")
+    public ResponseEntity<java.util.List<AssignedProjDto>> getAllManagedProjects(@PathVariable int userId) {
+        return new ResponseEntity<>(boardService.getAllManagedProjects(userId), HttpStatus.OK);
     }
 
     @GetMapping("/project/{projectId}")
@@ -37,13 +41,13 @@ public class BoardController {
     }
 
     @PostMapping   ("/project/{projectId}")
-    public ResponseEntity<String> addList(@RequestBody ListDto listDto, @PathVariable int projectId) {
+    public ResponseEntity<ListDto> addList(@RequestBody ListDto listDto, @PathVariable int projectId) {
         return new ResponseEntity<>(boardService.addList(listDto ,projectId),HttpStatus.CREATED);
     }
 
 
    @PutMapping ("/list/{listId}")
-    public ResponseEntity<String> updateList(@RequestBody ListDto listUpdate, @PathVariable int listId) {
+    public ResponseEntity<ListDto> updateList(@RequestBody ListDto listUpdate, @PathVariable int listId) {
         return new ResponseEntity<>(boardService.updateList(listUpdate,listId),HttpStatus.OK);
    }
 
