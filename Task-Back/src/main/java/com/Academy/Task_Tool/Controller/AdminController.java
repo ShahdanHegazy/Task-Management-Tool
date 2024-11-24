@@ -25,11 +25,13 @@ public class AdminController {
 
     // Dashboard
     // GET endpoint to fetch project count
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/count/project")
     public ResponseEntity<Integer> getprojectCount() {
         Integer projectCount = adminService.getProjectCount();
         return ResponseEntity.ok(projectCount);
     }
+
 
 
     @Autowired
@@ -38,6 +40,7 @@ public class AdminController {
     }
 
     // Endpoint to get user count for a specific role_id
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/count-by-role-id/{roleId}")
     public long getUserCountByRoleId(@PathVariable Integer roleId) {
         return adminService.getUserCountByRoleId(roleId);
@@ -46,6 +49,7 @@ public class AdminController {
 
     //CRUD USERS
     // create user
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(value = "/admin/createUser",consumes ="application/json",produces = "application/json")
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
         UserDto createdUser = adminService.createUser(userDto);
@@ -54,6 +58,7 @@ public class AdminController {
 
     // delete user
 // endpoint for delete user by id
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/admin/delete/{id}")
     public String softDeleteUser(@PathVariable Integer id) {
         adminService.softDeleteUser(id);
@@ -68,6 +73,7 @@ public class AdminController {
 
 
     // list of users
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/admin/active/users")
     public Page<UserResponseDto> getAllActiveUsers(@RequestParam(defaultValue = "0") int page,
                                                    @RequestParam(defaultValue = "10") int size) {
@@ -75,6 +81,7 @@ public class AdminController {
     }
 
     // update user
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/admin/update/{userId}")
     public  UserUpDataDto updateUser(@PathVariable Integer userId, @RequestBody UserUpDataDto userUpdateDto) {
         return adminService.updateUser(userId, userUpdateDto);
@@ -84,30 +91,35 @@ public class AdminController {
 
     //CRUD PROJECTS
     //Create project
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/admin/createProject")
     public ProjectDto createProject(@RequestBody ProjectDto projectDto) {
         return adminService.createProject(projectDto);
     }
 
     // get all project managers
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/admin/project-managers")
     public List<ProjectManagerDto> getAllProjectManagers() {
         return adminService.getAllActiveProjectManagers();
     }
 
     // delete project
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/admin/deleteProject/{id}")
     public void softDeleteProject(@PathVariable Integer id) {
         adminService.softDeleteProject(id);
     }
 
     // update project
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/admin/updateProject/{projectId}")
     public  ProjectUpDateDto updateProject(@PathVariable Integer projectId, @RequestBody ProjectUpDateDto userUpdateDto) {
         return adminService.updateProject(projectId, userUpdateDto);
     }
 
     // list of projects
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/admin/active/projects")
     public List<ProjectResponseDto> getAllActiveProjects() {
         return adminService.getAllActiveProjects();
