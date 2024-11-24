@@ -5,11 +5,15 @@ import com.Academy.Task_Tool.Repository.UserRepository;
 import com.Academy.Task_Tool.Services.AdminService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 
 @RestController
 @RequestMapping("/api")
@@ -19,12 +23,15 @@ public class AdminController {
     @Autowired
     private UserRepository userRepository;
 
+    // Dashboard
     // GET endpoint to fetch project count
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/count/project")
     public ResponseEntity<Integer> getprojectCount() {
         Integer projectCount = adminService.getProjectCount();
         return ResponseEntity.ok(projectCount);
     }
+
 
 
     @Autowired
@@ -33,24 +40,25 @@ public class AdminController {
     }
 
     // Endpoint to get user count for a specific role_id
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/count-by-role-id/{roleId}")
     public long getUserCountByRoleId(@PathVariable Integer roleId) {
         return adminService.getUserCountByRoleId(roleId);
     }
  ////////////////////////////////////////////////////////////////////////////////
 
+    //CRUD USERS
+    // create user
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(value = "/admin/createUser",consumes ="application/json",produces = "application/json")
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
         UserDto createdUser = adminService.createUser(userDto);
         return ResponseEntity.status(HttpStatus.OK).body(createdUser);
     }
-//  endpoint for retrieve all users active and non active ;
-//    @GetMapping("/admin/all-users-with-roles")
-//    public List<UserResponseDto> getAllUsersWithRoles() {
-//        return adminService.getAllUsersWithRole();
-//    }
 
+    // delete user
 // endpoint for delete user by id
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/admin/delete/{id}")
     public String softDeleteUser(@PathVariable Integer id) {
         adminService.softDeleteUser(id);
@@ -58,11 +66,22 @@ public class AdminController {
     }
 
 // endpoint for retrieve All active user
+//    @GetMapping("/admin/active/users")
+//    public List<UserResponseDto> getAllActiveUsers() {
+//        return adminService.getAllActiveUsers();
+//    }
+
+
+    // list of users
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/admin/active/users")
-    public List<UserResponseDto> getAllActiveUsers() {
-        return adminService.getAllActiveUsers();
+    public Page<UserResponseDto> getAllActiveUsers(@RequestParam(defaultValue = "0") int page,
+                                                   @RequestParam(defaultValue = "10") int size) {
+        return adminService.getAllActiveUsers(PageRequest.of(page, size));
     }
 
+    // update user
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/admin/update/{userId}")
     public  UserUpDataDto updateUser(@PathVariable Integer userId, @RequestBody UserUpDataDto userUpdateDto) {
         return adminService.updateUser(userId, userUpdateDto);
@@ -70,26 +89,37 @@ public class AdminController {
 
     //////////////////////////////////////////////////////////////////
 
+    //CRUD PROJECTS
+    //Create project
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/admin/createProject")
     public ProjectDto createProject(@RequestBody ProjectDto projectDto) {
         return adminService.createProject(projectDto);
     }
 
+    // get all project managers
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/admin/project-managers")
     public List<ProjectManagerDto> getAllProjectManagers() {
         return adminService.getAllActiveProjectManagers();
     }
 
+    // delete project
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/admin/deleteProject/{id}")
     public void softDeleteProject(@PathVariable Integer id) {
         adminService.softDeleteProject(id);
     }
 
+    // update project
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/admin/updateProject/{projectId}")
     public  ProjectUpDateDto updateProject(@PathVariable Integer projectId, @RequestBody ProjectUpDateDto userUpdateDto) {
         return adminService.updateProject(projectId, userUpdateDto);
     }
 
+    // list of projects
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/admin/active/projects")
     public List<ProjectResponseDto> getAllActiveProjects() {
         return adminService.getAllActiveProjects();

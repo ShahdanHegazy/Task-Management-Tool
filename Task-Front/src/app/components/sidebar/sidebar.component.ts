@@ -1,6 +1,6 @@
 import { NgFor } from '@angular/common';
 import { Component, Input, input } from '@angular/core';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,5 +13,10 @@ import {RouterLink} from '@angular/router';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
+  constructor(private router:Router){}
  @Input()data:any[]=[];
+ logout(){
+  localStorage.removeItem('authToken');
+  this.router.navigate(['login']);
+ }
 }

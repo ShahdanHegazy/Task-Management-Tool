@@ -66,26 +66,51 @@
       <tr>
         <th>Project Name</th>
         <th>Project Manager</th>
+        <th>Details</th>
         <th>Update</th>
         <th>Delete</th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let project of projects" (mouseenter)="showDetails(project)" (mouseleave)="hideDetails()">
+      <tr *ngFor="let project of projects">
         <td>{{ project.projectName }}</td>
         <td>{{ project.projectManagerName }}</td>
+
+
+
+<td>
+    <p-button class="details" (onClick)="showDialog()" label="view details" />
+    <p-dialog header="Project Details" [(visible)]="visible" [modal]="true" [style]="{ width: '400px' }">
+      <p><b>Project:</b> {{project.projectName}}</p>
+      <p><b>Project Manager:</b> {{project.projectManagerName}}</p>
+      <p><b>Start Date:</b> {{project.start_date}}</p>
+      <p><b>End Date:</b> {{project.end_date}}</p>
+      <div class="member-list-container">
+        <h3>List of Members</h3>
+        <div class="member-list">
+          <div class="member-item" *ngFor="let member of mems">
+            {{ member }}
+          </div>
+        </div>
+      </div>
+      
+      <button pButton class="close" label="Close" (click)="closeDialog()"></button>
+    </p-dialog>
+        
+</td>
+
         <td>
           <button class="btn btn-update btn-md" (click)="openModal(true, project)">Update</button>
         </td>
         <td>
-          <button class="btn btn-danger btn-md" (click)="deleteProject(project.project_id?project.project_id:0)">Delete</button>
+          <button class="btn btn-danger btn-md" (click)="confirmDeleteProject(project.project_id?project.project_id:0)">Delete</button>
         </td>
       </tr>
       </tbody>
     </table>
 
     <!-- Project Details Card -->
-    <div class="card w-25" *ngIf="hoveredProject" [ngStyle]="{'position': 'absolute', 'top': hoverPosition.y + 'px', 'left': hoverPosition.x + 'px'}">
+    <!-- <div class="card w-25" *ngIf="hoveredProject" [ngStyle]="{'position': 'absolute', 'top': hoverPosition.y + 'px', 'left': hoverPosition.x + 'px'}">
       <div class="card-body">
         <h5 class="card-title">Project Details</h5>
         <p><strong>Start Date:</strong> {{ hoveredProject.start_date }}</p>
@@ -93,5 +118,5 @@
         <p><strong>Members:</strong> {{ hoveredProject.members?.join(', ') }}</p>
         <p><strong>Description:</strong> {{ hoveredProject.description }}</p>
       </div>
-    </div>
+    </div> -->
 </div>

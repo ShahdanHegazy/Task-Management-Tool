@@ -162,6 +162,11 @@ export class UsersComponent implements OnInit {
     });
   }
 
+  confirmDeleteUser(duser: User){
+    if(confirm(`Are you sure you want to delete user ${duser.name}?`)){
+      this.deleteUser(duser);
+    }
+  }
 
   showAlert(message: string, type: 'success' | 'error') {
     this.alertMessage = message;

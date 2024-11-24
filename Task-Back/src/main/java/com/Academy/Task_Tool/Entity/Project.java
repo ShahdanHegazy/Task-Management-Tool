@@ -59,6 +59,14 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private java.util.List<List> lists ;
 
+//    @ManyToMany
+//    @JoinTable(
+//            name = "project_members",
+//            joinColumns = @JoinColumn(name = "project_id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_id")
+//    )
+//    private java.util.List<User> members = new ArrayList<>();
+
  
 }
 
