@@ -10,7 +10,9 @@ import com.Academy.Task_Tool.Repository.RoleRepository;
 import com.Academy.Task_Tool.Repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 //import java.awt.print.Pageable;
@@ -19,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +38,9 @@ public class AdminService {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 //    @Autowired
 //    private UserRepository userRepository;
@@ -250,7 +256,17 @@ public class AdminService {
                         project.getEnd_date(),
                         project.getDescription()
                 )).collect(Collectors.toList());
+    }
+    // Update password
+    public void updatePassword(String email, String newPassword) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isEmpty()) {
+            throw new UsernameNotFoundException("User not found with email: " + email);
+        }
 
+        User user = userOpt.get();
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 
 }

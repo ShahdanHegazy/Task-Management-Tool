@@ -8,6 +8,7 @@ import lombok.Data;
 import org.hibernate.annotations.Where;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
@@ -44,7 +45,16 @@ public class User {
 
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
-  
+
+
+    /////////// for reset password;
+    @Column(name="otp")
+    private String otp;
+    @Column(name="expriration_time")
+    private Instant otpExpirationTime;
+
+    //////////////////////////
+
     //Relations
     //relation with comment
    @JsonManagedReference
@@ -58,6 +68,7 @@ public class User {
     private Role role;
 
 // relation with projects
+    @JsonBackReference
     @ManyToMany
     @JoinTable(
             name = "user_project",

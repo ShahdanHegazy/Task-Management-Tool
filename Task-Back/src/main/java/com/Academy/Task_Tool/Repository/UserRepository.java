@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Page;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.domain.Pageable;
 
 @Repository
@@ -16,7 +18,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 //    List<User> findAllActiveUsers();
 
 
-    @Query("SELECT u FROM User u WHERE u.isDeleted = false ")
+    @Query("SELECT u FROM User u WHERE u.isDeleted = false ORDER BY u.role.role_id ASC ")
     Page<User> findAllActiveUsers(Pageable pageable);
 
   
@@ -29,6 +31,8 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     long countUsersByRoleId(Integer roleId);
 
    User findUserByEmail(String email);
+
+    Optional<User> findByEmail(String email);
 
     // in User Repsitory file
     // Custom query to count users by role
