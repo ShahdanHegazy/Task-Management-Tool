@@ -75,28 +75,28 @@ private ProjectManagerService projectManagerService1;
          return projectManagerService.getCommentsByCardId(CardId);
     }
 
-    // Retrieve a specific comment by commentId and taskId
+    // Retrieve a specific comment by commentId and cardId
     @PreAuthorize("hasAnyRole('ROLE_PM' , 'ROLE_MEMBER')")
     @GetMapping("/{cardId}/comments/{commentId}")
     public CommentDto getCommentByIdAndTaskId(@PathVariable Integer cardId, @PathVariable Integer commentId) {
         return projectManagerService.getCommentByIdAndCardId(commentId , cardId);
     }
 
-    // Create a new comment for a task
+    // Create a new comment for a card
     @PreAuthorize("hasAnyRole('ROLE_PM' , 'ROLE_MEMBER')")
     @PostMapping("/{cardId}/comments")
     public CommentDto createComment(@PathVariable Integer cardId, @RequestBody CommentDto commentDTO) {
         return projectManagerService.createComment(cardId, commentDTO);
     }
 
-    // Update an existing comment for a task
+    // Update an existing comment for a card
     @PreAuthorize("hasAnyRole('ROLE_PM' , 'ROLE_MEMBER')")
     @PutMapping("/{cardId}/comments/{commentId}")
     public CommentDto updateComment(@PathVariable Integer cardId, @PathVariable Integer commentId, @RequestBody CommentDto commentDTO) {
         return projectManagerService.updateComment(commentId, cardId, commentDTO);
     }
 
-    // Soft delete a comment for a task
+    // Soft delete a comment for a card
     @PreAuthorize("hasAnyRole('ROLE_PM' , 'ROLE_MEMBER')")
     @DeleteMapping("/{cardId}/comments/{commentId}")
     public void deleteComment(@PathVariable Integer cardId, @PathVariable Integer commentId) {

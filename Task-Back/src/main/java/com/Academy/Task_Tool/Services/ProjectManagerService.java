@@ -25,8 +25,8 @@ public class ProjectManagerService {
     @Autowired
     private RoleRepository roleRepository;
 
-//    public List<CardDto> getCardsByProjectId(Integer projectId) {
-//        return cardRepository.findByProjectIdAndIsDeletedFalse(projectId);
+//    public List<CardDto> getProjectWithCards(Integer projectId) {
+//        return cardRepository.findByCardIdAndIsDeletedFalse(projectId);
 //    }
 
 //    GET ALL CARD
@@ -132,7 +132,7 @@ public void deleteCard(Integer cardId) {
     // Create a new comment for a card
     public CommentDto createComment(Integer cardId, CommentDto commentDto) {
         Card card = cardRepository.findById(cardId)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
+                .orElseThrow(() -> new RuntimeException("Card not found"));
         Comment comment = convertToEntity(commentDto);
         comment.setContent(comment.getContent());
         comment.setUpdate_at(comment.getUpdate_at());
