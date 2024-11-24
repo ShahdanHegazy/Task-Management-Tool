@@ -77,4 +77,13 @@ public class User {
     )
     private List<Project> assignedProjects;
 
+    // relation with managed projects
+    @JsonBackReference
+    @OneToMany(mappedBy = "projectManager", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Project> managedProjects;
+
+
+
+
+
 }

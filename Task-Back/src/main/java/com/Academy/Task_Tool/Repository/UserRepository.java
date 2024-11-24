@@ -1,5 +1,6 @@
 package com.Academy.Task_Tool.Repository;
 
+import com.Academy.Task_Tool.Entity.Role;
 import com.Academy.Task_Tool.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -31,8 +32,6 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     long countUsersByRoleId(Integer roleId);
 
    User findUserByEmail(String email);
-
-    Optional<User> findByEmail(String email);
 
     // in User Repsitory file
     // Custom query to count users by role

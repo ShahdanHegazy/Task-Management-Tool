@@ -4,6 +4,7 @@ import com.Academy.Task_Tool.Entity.Project;
 import com.Academy.Task_Tool.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
@@ -21,5 +22,13 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
     @Query("SELECT u FROM Project u WHERE u.isDeleted = false ")
     List<Project> findAllActiveProjects();
+
+    @Query("SELECT p FROM Project p WHERE p.projectManager.id = :userId AND p.isDeleted = false")
+    List<Project> findManagedProjectsByUserId(@Param("userId") int userId);
+
+    @Query("SELECT p FROM Project p JOIN p.assignedUsers u WHERE u.id = :userId AND p.isDeleted = false")
+    List<Project> findAssignedProjectsByUserId(@Param("userId") int userId);
+
+
 
 }

@@ -39,9 +39,6 @@ public class AdminService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
 //    @Autowired
 //    private UserRepository userRepository;
 //    @Autowired
@@ -256,17 +253,7 @@ public class AdminService {
                         project.getEnd_date(),
                         project.getDescription()
                 )).collect(Collectors.toList());
-    }
-    // Update password
-    public void updatePassword(String email, String newPassword) {
-        Optional<User> userOpt = userRepository.findByEmail(email);
-        if (userOpt.isEmpty()) {
-            throw new UsernameNotFoundException("User not found with email: " + email);
-        }
 
-        User user = userOpt.get();
-        user.setPassword(passwordEncoder.encode(newPassword));
-        userRepository.save(user);
     }
 
 }
