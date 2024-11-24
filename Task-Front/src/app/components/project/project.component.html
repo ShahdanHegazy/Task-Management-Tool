@@ -1,41 +1,95 @@
 <div class="toolbar">
     <button  (click)="showTextarea = true" *ngIf="!showTextarea" class="toolbar-button">Add List
     <i class="fas fa-add"></i></button>
-
   <div *ngIf="showTextarea" class="toolbar-input">
     <textarea [(ngModel)]="newListName" placeholder="Enter list name"></textarea>
       <button class="addbtn" (click)="addList()">Add List</button>
-      <button class="cancelbtn" (click)="cancelAddList()">Cancel</button>
+      <button class="cancelbtn" (click)="cancelAddList()">
+        <i class='fas fa-times' style='font-size:17px;'></i></button>
+      </div>
+  <button class="popupbtn" (click)="openForm()"> Choose members of project</button>
+</div>
+<div *ngIf="showForm" class="overlay">
+  <div class="popup-form">
+    <label>
+      <h4>Choose members</h4>
+    </label>
+    <div class="custom-select-trigger" (click)="toggleDropdown()">
+      <button>{{ '--Select members--'}}</button>
     </div>
-  <button class="popupbtn" (click)="openForm()"> Choose member of project</button>
+    <ul *ngIf="dropdownOpen" class="custom-dropdown">
+      <li *ngFor="let member of members" class="dropdown-item">
+        <input
+          type="checkbox"
+          [checked]="selectedMembers.includes(member)"
+          (change)="toggleMemberSelection(member)"
+          id="{{ member }}"
+        />
+        <label for="{{ member }}">{{ member }}</label>
+      </li>
+    </ul>
+    <br>
+    <div style="margin-top: 20px;" *ngIf="selectedMembers.length > 0">
+    </div>
+    <button class="addbtn" (click)="AddMember()">Add</button>
+    <button (click)="closeForm()" style="margin: 10px">Close</button>
   </div>
-
+</div>
 <div class="list-container" *ngFor="let list of lists; let i = index">
   <div class="card">
-        <h3>{{ list }}</h3>
-    <button (click)="showTaskInput[i] = true" *ngIf="!showTaskInput[i]" class="toolbar-button1">Create Task
-      <i class="fas fa-add"></i></button>
+    <h3 style="margin-left:8px">{{ list }}</h3>
+    <button (click)="togglePopup()" class="cardbtn">
+      Create Card <i class="fas fa-add"></i>
+    </button>
+    <div  *ngIf="isPopupVisible" class="popup-overlay">
+      <div class="card shadow" style="height: 555px;">
+        <div class="card-body bg-light">
+          <h1 class="mb-4 text-center fw-bold">Create Task</h1>
+          <form [formGroup]="createTaskForm">
+            <div class="mb-3">
+              <label for="title" class="form-label">Title*</label>
+              <input type="text" formControlName="title" class="form-control" id="title" placeholder="Enter task title" required>
+            </div>
+
+            <div class="mb-3">
+              <label>Assigned*</label>
+              <div class="d-flex flex-wrap">
+                <div *ngFor="let employee of selectedEmployees" class="badge bg-primary me-2 mb-2 d-flex align-items-center">
+                  {{ employee }}
+                  <button type="button" class="btn-close ms-2" aria-label="Remove" (click)="removeEmployee(employee)"></button>
+                </div>
+              </div>
+              <button type="button" class="btn btn-outline-success btn-sm mt-2" (click)="openEmployeeModal()">
+                <i class="fas fa-plus"></i> Add
+              </button>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="dateFrom" class="form-label">Date From*</label>
+                <input formControlName="startDate" type="date" class="form-control" id="dateFrom" required>
+              </div>
+              <div class="col-md-6">
+                <label for="dateTo" class="form-label">Date To*</label>
+                <input formControlName="endDate" type="date" class="form-control" id="dateTo" required>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea formControlName="description" class="form-control" id="description" rows="3" placeholder="Type here"></textarea>
+            </div>
+
+            <button type="submit" (click)="createTask()" class="btn btn-dark btn-block fw-bold w-100">Create</button>
+          </form>
+        </div>
+        <button class="btn-close position-absolute top-0 end-0 m-3" (click)="togglePopup()"></button>
+      </div>
+    </div>
     <!-- Cancel button with icon -->
     <button (click)="removeList(i)" class="cancel-button">
       <i class='fas fa-times' style='font-size:30px;'></i><!-- This shows the cancel (X) icon -->
     </button>
   </div>
 </div>
-
-<div *ngIf="showForm" class="overlay">
-  <div class="popup-form">
-    <label for="membersDropdown"><h4>Choose a member</h4></label>
-    <select id="membersDropdown" (change)="onMemberSelected($event)">
-      <option value="">--Select a member--</option>
-      <option *ngFor="let member of members" [value]="member">{{ member }}</option>
-    </select>
-   <br><br>
-    <div *ngFor="let member of selectedMembers">
-      <div>{{ member }}</div>
-    </div>
-    <button class="addbtn" (click)="addMember()">Add</button>
-    <button (click)="closeForm()" style="margin-left:8px">Close</button>
-  </div>
-</div>
-
 

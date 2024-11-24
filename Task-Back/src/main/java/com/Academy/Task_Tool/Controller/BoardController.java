@@ -17,12 +17,16 @@ public class BoardController {
     @Autowired
     BoardService boardService;
 
+
     @PreAuthorize("hasRole('ROLE_MEMBER')")
+
     @GetMapping("member/{userId}")
     public ResponseEntity<java.util.List<AssignedProjDto>> getAllAssignedProjects(@PathVariable int userId) {
         return new ResponseEntity<>(boardService.getAllAssignedProjects(userId), HttpStatus.OK);
     }
+
     @PreAuthorize("hasRole('ROLE_PM')")
+
     @GetMapping("pm/{userId}")
     public ResponseEntity<java.util.List<AssignedProjDto>> getAllManagedProjects(@PathVariable int userId) {
         return new ResponseEntity<>(boardService.getAllManagedProjects(userId), HttpStatus.OK);
