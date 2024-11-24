@@ -15,7 +15,6 @@ public interface CardRepository extends JpaRepository<Card,Integer>{
 
    Optional<Card> findByCardIdAndIsDeletedFalse(Integer cardId);
 
-
     @Query("SELECT c FROM Card c WHERE c.list.listId = :listId AND c.isDeleted = false")
     List<Card> findAllByListIdAndIsDeletedFalse(@Param("listId") int listId);
 
