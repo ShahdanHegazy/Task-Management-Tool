@@ -1,6 +1,7 @@
 package com.Academy.Task_Tool.Controller;//package com.Academy.Task_Tool.Controller;
 import com.Academy.Task_Tool.DTO.CardDto;
 import com.Academy.Task_Tool.DTO.CommentDto;
+import com.Academy.Task_Tool.DTO.ListAllMembersDto;
 import com.Academy.Task_Tool.DTO.ProjectMemberAssignmentDto;
 import com.Academy.Task_Tool.Entity.Card;
 import com.Academy.Task_Tool.Entity.Project;
@@ -30,11 +31,11 @@ public class ProjectManagerController {
         return projectManagerService.getCardById(cardId);
     }
 
-//    CREAT CARD BY PROJECT ID
-//@PostMapping("/projects/{projectId}/cards")
-//public CardDto createCard(@RequestBody CardDto cardDto , @PathVariable Integer projectId) {
-//    return projectManagerService.createCard(cardDto);
-//}
+  //  CREAT CARD BY PROJECT ID
+@PostMapping("/projects/{projectId}/cards")
+public CardDto createCard(@RequestBody CardDto cardDto , @PathVariable Integer projectId) {
+    return projectManagerService.createCard(cardDto);
+}
 
 //  UPDATE CARD
     @PutMapping("/cards/{cardId}")
@@ -90,6 +91,12 @@ private ProjectManagerService projectManagerService1;
     public void deleteComment(@PathVariable Integer cardId, @PathVariable Integer commentId) {
         projectManagerService.deleteComment(commentId, cardId);
 
+    }
+
+    @GetMapping ("/allmembers")
+    public List<ListAllMembersDto> getAllMembers (Integer roleId)
+    {
+        return projectManagerService.getAllMembers(roleId);
     }
 
 

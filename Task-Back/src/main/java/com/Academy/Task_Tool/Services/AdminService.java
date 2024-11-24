@@ -36,18 +36,14 @@ public class AdminService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-//    @Autowired
-//    private UserRepository userRepository;
-//    @Autowired
-//    private RoleRepository roleRepository;
-
-
-  
-
+    // Dashboard
+    // total number of projects
     public Integer getProjectCount() {
+
         return projectRepository.countAllProject();
     }
 
+    // total number of users
     // GET endpoint to fetch user count by role_id
     @Autowired
     public AdminService(UserRepository userRepository) {
@@ -59,8 +55,8 @@ public class AdminService {
     }
 
 /////////////////////////////////////////////////////////////////
-
-    // method for user within admin
+// CRUD USERS
+    // create user
     public UserDto createUser(UserDto userDto) {
         if(userRepository.existsByEmail(userDto.getEmail())){
             throw new EmailAlreadyExistsException("email" + userDto.getEmail() + "already exists");
@@ -88,8 +84,7 @@ public class AdminService {
         return savedUserDto;
     }
 
-    //        user=userRepository.findByEmail(userDto.getEmail())
-//                .orElseThrow(() -> new RuntimeException("enter another email"));
+
 
     public List<UserResponseDto> getAllUsersWithRole() {
         return userRepository.findAll().stream()
