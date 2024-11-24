@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgForOf, NgIf} from '@angular/common';
 
 
@@ -18,6 +18,7 @@ import {NgForOf, NgIf} from '@angular/common';
 })
 
 export class ProjectComponent {
+  taskForm : any
   showTextarea = false;
   newListName = '';
   tasks: string[][] = [];
@@ -26,9 +27,16 @@ export class ProjectComponent {
   showForm: boolean = false;
   members: string[] = ['mariam', 'habiba', 'shahdan', 'Diana'];
   selectedMembers: string[] = [];
-  selectedMemberText: string | null = null;
   dropdownOpen: boolean = false;
-
+  createTaskForm = new FormGroup({
+    title: new FormControl(null),
+    startDate: new FormControl(null),
+    endDate: new FormControl(null),
+    description: new FormControl(null)
+  });
+  selectedEmployees: string[] = [];
+  employees: string[] = ['Employee 1', 'Employee 2', 'Employee 3', 'Employee 4'];
+  isPopupVisible: boolean=false;
 
 
   addList() {
@@ -57,24 +65,55 @@ export class ProjectComponent {
 
   closeForm() {
     this.showForm = false;
+    this.dropdownOpen = false;
+    this.selectedMembers = [];
   }
-
-  onMemberSelected(member: string) {
-    if (!this.selectedMembers.includes(member)) {
-      this.selectedMembers.push(member);
-    }
-    this.selectedMemberText = member; // Update trigger text
-    this.dropdownOpen = false; // Close dropdown after selection
-  }
-
 
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
   }
 
-  addMember() {
-
+  toggleMemberSelection(member: string) {
+    const index = this.selectedMembers.indexOf(member);
+    if (index > -1) {
+      this.selectedMembers.splice(index, 1);
+    } else {
+      this.selectedMembers.push(member);
+    }
   }
 
+  AddMember() {
+    console.log('Selected members:', this.selectedMembers);
+    this.closeForm();
+  }
 
+  createTask() {
+    this.taskForm = {
+      ...this.createTaskForm.value,
+      assignedEmployees: this.selectedEmployees
+    };
+    console.log(this.taskForm);
+  }
+
+  removeEmployee(employee: string) {
+    this.selectedEmployees = this.selectedEmployees.filter(emp => emp !== employee);
+  }
+
+  openEmployeeModal() {
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('employeeModal'));
+    modal.show();
+  }
+
+  toggleEmployeeSelection(employee: string) {
+    if (this.selectedEmployees.includes(employee)) {
+      this.selectedEmployees = this.selectedEmployees.filter(emp => emp !== employee);
+    } else {
+      this.selectedEmployees.push(employee);
+    }
+  }
+
+  togglePopup() {
+    this.isPopupVisible = !this.isPopupVisible;
+  }
 }
+
