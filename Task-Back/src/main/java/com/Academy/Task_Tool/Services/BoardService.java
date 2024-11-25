@@ -100,7 +100,7 @@ public class BoardService {
 
     //get board with lists and cards
 
-    public java.util.List<BoardDto> getBoard(int projectId) {
+    public ProjectBoardDto getBoard(int projectId) {
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new EntityNotFoundException("Project not found"));
 
 
@@ -125,8 +125,16 @@ public class BoardService {
 
                 })
                 .collect(Collectors.toList());
+        ProjectBoardDto projectBoardDto = new ProjectBoardDto();
+        projectBoardDto.setProject_id(project.getProject_id());
+        projectBoardDto.setProject_name(project.getProjectName());
+        projectBoardDto.setDescription(project.getDescription());
+        projectBoardDto.setStart_date(project.getStart_date());
+        projectBoardDto.setEnd_date(project.getEnd_date());
+        projectBoardDto.setAssignedUsers(project.getAssignedUsers());
+        projectBoardDto.setLists(lists);
 
-        return lists;
+        return projectBoardDto;
     }
 
     // create list
