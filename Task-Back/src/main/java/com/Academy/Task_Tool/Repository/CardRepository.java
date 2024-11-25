@@ -13,7 +13,12 @@ public interface CardRepository extends JpaRepository<Card,Integer>{
 //    List<CardDto> findByProject_Id(Integer project_Id);
     Optional<Card> findByCardId(Integer cardId);
 
+
+//     Optional<Card> findByCardIdAndIsDeletedFalse(Integer cardId);
+
+
    Optional<Card> findByCardIdAndIsDeletedFalse(Integer cardId);
+
 
     @Query("SELECT c FROM Card c WHERE c.list.listId = :listId AND c.isDeleted = false")
     List<Card> findAllByListIdAndIsDeletedFalse(@Param("listId") int listId);
