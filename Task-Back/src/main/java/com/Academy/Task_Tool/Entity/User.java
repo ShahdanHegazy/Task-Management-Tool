@@ -9,11 +9,8 @@ import org.hibernate.annotations.Where;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-
-import java.util.Set;
 
 @Entity
 @Data
@@ -64,7 +61,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "project_id")
     )
-    private List<Project> assignedProjects;
+    private List<Project> assignedProjects = new ArrayList<>();
 
     // relation with managed projects
     @JsonBackReference

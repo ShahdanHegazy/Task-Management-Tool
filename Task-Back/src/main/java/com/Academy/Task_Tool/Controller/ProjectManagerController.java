@@ -20,10 +20,6 @@ public class ProjectManagerController {
     @Autowired
     private ProjectManagerService projectManagerService;
 
-//    @GetMapping("/project{projectId}/alltasks")
-//    public ResponseEntity<List<CardDto>> getProjectWithTasks(@PathVariable int projectId) {
-//        return projectManagerService.getProjectWithCards(projectId);
-//    }
 
 
 //  GET ALL CARD
@@ -60,9 +56,18 @@ private ProjectManagerService projectManagerService1;
 
     @PreAuthorize("hasRole('ROLE_PM')")
     @PostMapping("/assign-user")
-    public ResponseEntity<Project> assignUserToProject(@RequestBody ProjectMemberAssignmentDto dto) {
-        Project updatedProject = projectManagerService1.assignUserToProject(dto);
-        return ResponseEntity.ok(updatedProject);
+    public ResponseEntity<ProjectMemberAssignmentDto> assignUserToProject(@RequestBody ProjectMemberAssignmentDto dto) {
+        projectManagerService1.assignUserToProject(dto);
+        return ResponseEntity.ok(dto);
+    }
+
+
+
+    @PreAuthorize("hasRole('ROLE_PM')")
+    @GetMapping ("/allmembers")
+    public List<ListAllMembersDto> getAllMembers (Integer roleId)
+    {
+        return projectManagerService.getAllMembers(roleId);
     }
 
 
@@ -104,12 +109,7 @@ private ProjectManagerService projectManagerService1;
 
     }
 
-    @PreAuthorize("hasRole('ROLE_PM')")
-    @GetMapping ("/allmembers")
-    public List<ListAllMembersDto> getAllMembers (Integer roleId)
-    {
-        return projectManagerService.getAllMembers(roleId);
-    }
+
 
 
 
