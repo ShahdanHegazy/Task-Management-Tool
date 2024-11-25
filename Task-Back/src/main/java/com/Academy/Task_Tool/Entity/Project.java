@@ -53,19 +53,12 @@ public class Project {
 
     @ManyToMany(mappedBy = "assignedProjects")
     @JsonIgnore
-    private java.util.List<User> assignedUsers;
+    private java.util.List<User> assignedUsers = new ArrayList<>();
 
     //relation with cards
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private java.util.List<List> lists ;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "project_members",
-//            joinColumns = @JoinColumn(name = "project_id"),
-//            inverseJoinColumns = @JoinColumn(name = "user_id")
-//    )
-//    private java.util.List<User> members = new ArrayList<>();
 
  
 }

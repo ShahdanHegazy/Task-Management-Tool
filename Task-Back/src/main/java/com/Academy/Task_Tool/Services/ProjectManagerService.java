@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,17 +67,32 @@ public void deleteCard(Integer cardId) {
     @Autowired
     private UserRepository userRepository;
 
-
+    // Assign members to a project
     public Project assignUserToProject(ProjectMemberAssignmentDto dto) {
         Project project = projectRepository.findById(dto.getProjectId())
                 .orElseThrow(() -> new RuntimeException("Project not found with ID: " + dto.getProjectId()));
-
         User user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found with ID: " + dto.getUserId()));
-
         project.getAssignedUsers().add(user);
+        user.getAssignedProjects().add(project);
+        userRepository.save(user);
+        projectRepository.save(project);
+        return project;
+    }
 
-        return projectRepository.save(project);
+    public List<ListAllMembersDto> getAllMembers(Integer roleId) {
+        roleId=3;
+
+        List<User> users=userRepository.findByRoleIDAndIsDeletedFalse(3);
+        List<ListAllMembersDto> listAllMembersDto=users.stream()
+                .map(user -> {
+                    ListAllMembersDto userDto = new ListAllMembersDto();
+                    userDto.setUserId(user.getId());
+                    userDto.setName(user.getName());
+                    return userDto;
+                })
+                .collect(Collectors.toList());
+        return listAllMembersDto;
     }
 
 
@@ -181,18 +195,5 @@ public void deleteCard(Integer cardId) {
     }
 
 
-    public List<ListAllMembersDto> getAllMembers(Integer roleId) {
-        roleId=3;
 
-         List<User> users=userRepository.findByRoleIDAndIsDeletedFalse(3);
-         List<ListAllMembersDto> listAllMembersDto=users.stream()
-                 .map(user -> {
-                     ListAllMembersDto userDto = new ListAllMembersDto();
-                     userDto.setUserId(user.getId());
-                     userDto.setName(user.getName());
-                     return userDto;
-                 })
-                 .collect(Collectors.toList());
-         return listAllMembersDto;
-    }
 }
