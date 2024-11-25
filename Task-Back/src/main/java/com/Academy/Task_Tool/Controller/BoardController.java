@@ -34,7 +34,7 @@ public class BoardController {
 
     @PreAuthorize("hasAnyRole('ROLE_PM ','ROLE_MEMBER')")
     @GetMapping("/project/{projectId}")
-    public ResponseEntity<java.util.List<BoardDto>> getBoard(@PathVariable int projectId) {
+    public ResponseEntity<ProjectBoardDto> getBoard(@PathVariable int projectId) {
         return new ResponseEntity<>(boardService.getBoard(projectId),HttpStatus.OK);
     }
 
