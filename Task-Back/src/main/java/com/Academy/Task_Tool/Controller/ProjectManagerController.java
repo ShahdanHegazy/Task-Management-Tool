@@ -20,10 +20,6 @@ public class ProjectManagerController {
     @Autowired
     private ProjectManagerService projectManagerService;
 
-//    @GetMapping("/project{projectId}/allcards")
-//    public ResponseEntity<List<CardDto>> getProjectWithCards(@PathVariable int projectId) {
-//        return projectManagerService.getProjectWithCards(projectId);
-//    }
 
 
 //  GET ALL CARD

@@ -24,9 +24,7 @@ public class ProjectManagerService {
     @Autowired
     private RoleRepository roleRepository;
 
-//    public List<CardDto> getProjectWithCards(Integer projectId) {
-//        return cardRepository.findByCardIdAndIsDeletedFalse(projectId);
-//    }
+
 
 //    GET ALL CARD
     public CardDto getCardById(Integer cardId) {
