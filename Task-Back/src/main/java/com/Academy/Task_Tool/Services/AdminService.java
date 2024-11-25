@@ -36,14 +36,21 @@ public class AdminService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    // Dashboard
-    // total number of projects
+
+//    @Autowired
+//    private UserRepository userRepository;
+//    @Autowired
+//    private RoleRepository roleRepository;
+
+
+  
+
     public Integer getProjectCount() {
 
         return projectRepository.countAllProject();
     }
 
-    // total number of users
+
     // GET endpoint to fetch user count by role_id
     @Autowired
     public AdminService(UserRepository userRepository) {
@@ -55,8 +62,7 @@ public class AdminService {
     }
 
 /////////////////////////////////////////////////////////////////
-// CRUD USERS
-    // create user
+
     public UserDto createUser(UserDto userDto) {
         if(userRepository.existsByEmail(userDto.getEmail())){
             throw new EmailAlreadyExistsException("email" + userDto.getEmail() + "already exists");
@@ -83,7 +89,6 @@ public class AdminService {
         savedUserDto.setRoleId(role.getRole_id());
         return savedUserDto;
     }
-
 
 
     public List<UserResponseDto> getAllUsersWithRole() {
@@ -138,6 +143,9 @@ public class AdminService {
         return updateUser;
     }
 
+//     public List<UserResponseDto> getAllActiveUsers() {
+//         return userRepository.findAllActiveUsers().stream()
+
 //    public List<UserResponseDto> getAllActiveUsers() {
 //        return userRepository.findAllActiveUsers().stream()
 //                .map(user->new UserResponseDto(
@@ -152,6 +160,7 @@ public class AdminService {
 
     public Page<UserResponseDto> getAllActiveUsers(Pageable pageable) {
         return userRepository.findAllActiveUsers(pageable)
+
                 .map(user->new UserResponseDto(
                         user.getId(),
                         user.getName(),

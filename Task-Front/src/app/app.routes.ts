@@ -28,7 +28,11 @@ export const routes: Routes = [
       {path:"" ,component:CardComponent},
       {path:"project" ,component:ProjectComponent},
 ]},
+
+  ]
+
   { path: '**', redirectTo: '/login' },
 
 ];
+
 

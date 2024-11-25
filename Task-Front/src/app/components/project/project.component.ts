@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {Component} from '@angular/core';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgForOf, NgIf} from '@angular/common';
+
 
 
 @Component({
@@ -10,20 +11,32 @@ import {NgForOf, NgIf} from '@angular/common';
   imports: [
     FormsModule,
     NgIf,
-    NgForOf
+    NgForOf,
+    ReactiveFormsModule
   ],
   styleUrls: ['./project.component.css']
 })
-export class ProjectComponent implements OnInit{
+
+export class ProjectComponent {
+  taskForm : any
   showTextarea = false;
   newListName = '';
-  lists: string[] = [];
   tasks: string[][] = [];
+  lists: string[] = [];
   showTaskInput: boolean[] = [];
   showForm: boolean = false;
-  members: string[] = ['mariam', 'Bob', 'Charlie', 'Diana'];
+  members: string[] = ['mariam', 'habiba', 'shahdan', 'Diana'];
   selectedMembers: string[] = [];
-
+  dropdownOpen: boolean = false;
+  createTaskForm = new FormGroup({
+    title: new FormControl(null),
+    startDate: new FormControl(null),
+    endDate: new FormControl(null),
+    description: new FormControl(null)
+  });
+  selectedEmployees: string[] = [];
+  employees: string[] = ['Employee 1', 'Employee 2', 'Employee 3', 'Employee 4'];
+  isPopupVisible: boolean=false;
 
 
   addList() {
@@ -32,6 +45,7 @@ export class ProjectComponent implements OnInit{
       this.tasks.push([]); // Create an empty array for tasks for this new list
       this.showTaskInput.push(false); // Manage task input visibility for the new card
       this.newListName = '';
+
     }
     this.showTextarea = false;
   }
@@ -40,8 +54,6 @@ export class ProjectComponent implements OnInit{
     this.showTextarea = false;
     this.newListName = '';
   }
-
-// Method to remove a list by index
 
   removeList(index: number): void {
     this.lists.splice(index, 1); // Removes one element at the specified index
@@ -53,18 +65,55 @@ export class ProjectComponent implements OnInit{
 
   closeForm() {
     this.showForm = false;
+    this.dropdownOpen = false;
+    this.selectedMembers = [];
   }
 
-  onMemberSelected(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    const selectedMember = target.value;
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
 
-    if (selectedMember && !this.selectedMembers.includes(selectedMember)) {
-      this.selectedMembers.push(selectedMember);
+  toggleMemberSelection(member: string) {
+    const index = this.selectedMembers.indexOf(member);
+    if (index > -1) {
+      this.selectedMembers.splice(index, 1);
+    } else {
+      this.selectedMembers.push(member);
     }
   }
 
-  addMember() {
+  AddMember() {
+    console.log('Selected members:', this.selectedMembers);
+    this.closeForm();
+  }
 
+  createTask() {
+    this.taskForm = {
+      ...this.createTaskForm.value,
+      assignedEmployees: this.selectedEmployees
+    };
+    console.log(this.taskForm);
+  }
+
+  removeEmployee(employee: string) {
+    this.selectedEmployees = this.selectedEmployees.filter(emp => emp !== employee);
+  }
+
+  openEmployeeModal() {
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('employeeModal'));
+    modal.show();
+  }
+
+  toggleEmployeeSelection(employee: string) {
+    if (this.selectedEmployees.includes(employee)) {
+      this.selectedEmployees = this.selectedEmployees.filter(emp => emp !== employee);
+    } else {
+      this.selectedEmployees.push(employee);
+    }
+  }
+
+  togglePopup() {
+    this.isPopupVisible = !this.isPopupVisible;
   }
 }
+
