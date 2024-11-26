@@ -1,11 +1,14 @@
 package com.Academy.Task_Tool.Repository;
 
+import com.Academy.Task_Tool.Entity.Role;
 import com.Academy.Task_Tool.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Page;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.domain.Pageable;
 
 @Repository
@@ -29,6 +32,9 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     long countUsersByRoleId(Integer roleId);
 
    User findUserByEmail(String email);
+
+    @Query("SELECT u FROM User u WHERE u.role.role_id = :roleId AND u.isDeleted = false")
+    List<User> findByRoleIDAndIsDeletedFalse(Integer roleId);
 
     // in User Repsitory file
     // Custom query to count users by role

@@ -1,15 +1,13 @@
 package com.Academy.Task_Tool.Services;
 import com.Academy.Task_Tool.DTO.CardDto;
 import com.Academy.Task_Tool.DTO.CommentDto;
+import com.Academy.Task_Tool.DTO.ListAllMembersDto;
 import com.Academy.Task_Tool.DTO.ProjectMemberAssignmentDto;
 import com.Academy.Task_Tool.Entity.Card;
 import com.Academy.Task_Tool.Entity.Comment;
 import com.Academy.Task_Tool.Entity.Project;
 import com.Academy.Task_Tool.Entity.User;
-import com.Academy.Task_Tool.Repository.CardRepository;
-import com.Academy.Task_Tool.Repository.CommentRepository;
-import com.Academy.Task_Tool.Repository.ProjectRepository;
-import com.Academy.Task_Tool.Repository.UserRepository;
+import com.Academy.Task_Tool.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +21,10 @@ public class ProjectManagerService {
     
     @Autowired
     private CardRepository cardRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
-//    public List<CardDto> getCardsByProjectId(Integer projectId) {
-//        return cardRepository.findByProjectIdAndIsDeletedFalse(projectId);
-//    }
+
 
 //    GET ALL CARD
     public CardDto getCardById(Integer cardId) {
@@ -67,17 +65,32 @@ public void deleteCard(Integer cardId) {
     @Autowired
     private UserRepository userRepository;
 
-
+    // Assign members to a project
     public Project assignUserToProject(ProjectMemberAssignmentDto dto) {
         Project project = projectRepository.findById(dto.getProjectId())
                 .orElseThrow(() -> new RuntimeException("Project not found with ID: " + dto.getProjectId()));
-
         User user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found with ID: " + dto.getUserId()));
-
         project.getAssignedUsers().add(user);
+        user.getAssignedProjects().add(project);
+        userRepository.save(user);
+        projectRepository.save(project);
+        return project;
+    }
 
-        return projectRepository.save(project);
+    public List<ListAllMembersDto> getAllMembers(Integer roleId) {
+        roleId=3;
+
+        List<User> users=userRepository.findByRoleIDAndIsDeletedFalse(3);
+        List<ListAllMembersDto> listAllMembersDto=users.stream()
+                .map(user -> {
+                    ListAllMembersDto userDto = new ListAllMembersDto();
+                    userDto.setUserId(user.getId());
+                    userDto.setName(user.getName());
+                    return userDto;
+                })
+                .collect(Collectors.toList());
+        return listAllMembersDto;
     }
 
 
@@ -131,7 +144,7 @@ public void deleteCard(Integer cardId) {
     // Create a new comment for a card
     public CommentDto createComment(Integer cardId, CommentDto commentDto) {
         Card card = cardRepository.findById(cardId)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
+                .orElseThrow(() -> new RuntimeException("Card not found"));
         Comment comment = convertToEntity(commentDto);
         comment.setContent(comment.getContent());
         comment.setUpdate_at(comment.getUpdate_at());

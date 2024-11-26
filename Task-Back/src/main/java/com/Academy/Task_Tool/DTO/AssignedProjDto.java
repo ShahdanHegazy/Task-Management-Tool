@@ -7,14 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
-
-public class ProjectMemberAssignmentDto {
-
-        private Integer projectId;
-        private Integer userId;
-
-
-
-
+public class AssignedProjDto {
+    private Integer project_id;
+    private String project_name;
+    private String project_desc;
 }
