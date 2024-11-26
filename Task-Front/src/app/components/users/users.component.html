@@ -1,7 +1,7 @@
 <div class="container mt-5">
   <!-- Create User Button -->
-    <div class="w-100 d-flex justify-content-end">
-      <button class="btn btn-primary mb-3 me-0" (click)="openModal()">
+    <div class="w-100 d-flex justify-content-end align-items-center mb-3 gap-2">
+      <button class="btn btn-primary  me-0" (click)="openModal()">
         Create User <i class="fas fa-add"></i>
       </button>
     </div>
@@ -79,34 +79,44 @@
   <div *ngIf="isAlertVisible" [ngClass]="{'alert-success': alertType === 'success', 'alert-error': alertType === 'error'}" class="alert">
     {{ alertMessage }}
   </div>
-  <!-- Users table -->
-  <table class="table table-striped table-bordered ">
-    <thead>
-      <tr>
-        <th>Username</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Update</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of users">
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ roleNames[user.roleId?user.roleId:1] }}</td>
-        <td>
-          <button class="btn btn-update btn-md" title="Update" (click)="openModal(true, user)">
-            Update
-          </button>
-        </td>
-        <td>
-          <button class="btn btn-danger btn-md" title="Delete" (click)="confirmDeleteUser(user)">
-            Delete
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+
+  <p-table 
+  tableStyleClass="table table-striped table-bordered"
+  [value]="users" 
+  [paginator]="true" 
+  [rows]="rows" 
+  [lazy]="true" 
+  (onLazyLoad)="loadUsers($event)" 
+  [totalRecords]="totalRecords"
+  responsiveLayout="scroll">
+  
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Update</th>
+      <th>Delete</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-user>
+    <tr>
+      <td>{{ user.name }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ roleNames[user.roleId] }}</td>
+      <td>
+        <button class="btn btn-update btn-md" title="Update" (click)="openModal(true, user)">
+          Update
+        </button>
+      </td>
+      <td>
+        <button class="btn btn-danger btn-md" title="Delete" (click)="confirmDeleteUser(user)">
+          Delete
+        </button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
 
 </div>

@@ -1,0 +1,30 @@
+.sidebar{
+    background-color:#333;
+    width: 200px;
+    min-height:90vh;
+    height: 100%;
+  }
+  .sidebar .nav-link {
+    padding: 10px ;
+    border-radius: 2px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-weight: 500;
+    border-bottom:1px solid #484848;
+  }
+  
+  .sidebar .nav-link:hover {
+    background-color: #495057;
+    color: #ffffff;
+  }
+  
+  .sidebar .nav-link.active {
+    background-color: #6c757d;
+    color: #ffffff;
+  }
+  .logout-btn {
+   
+  color: white;
+    transform: translateY(-40px) !important;
+  }
+  
+  

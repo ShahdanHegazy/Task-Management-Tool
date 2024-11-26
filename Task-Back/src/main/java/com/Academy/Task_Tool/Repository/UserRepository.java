@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 //    List<User> findAllActiveUsers();
 
 
-    @Query("SELECT u FROM User u WHERE u.isDeleted = false ")
+    @Query("SELECT u FROM User u WHERE u.isDeleted = false  ORDER BY u.role.role_id ASC ")
     Page<User> findAllActiveUsers(Pageable pageable);
 
   

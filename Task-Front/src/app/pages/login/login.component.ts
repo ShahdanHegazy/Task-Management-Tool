@@ -40,10 +40,10 @@ export class LoginComponent {
         if (decodedToken.roleId == 1) {
           this._Router.navigate(['/admin']);
         } else if (decodedToken.roleId == 2) {
-          this._Router.navigate(['/project-manager']);
+          this._Router.navigate(['/projectmanager']);
         }
         else if (decodedToken.roleId == 3) {
-          this._Router.navigate(['/project-manager']);
+          this._Router.navigate(['/projectmanager']);
         }
         else {
           this._Router.navigate(['/login']);
