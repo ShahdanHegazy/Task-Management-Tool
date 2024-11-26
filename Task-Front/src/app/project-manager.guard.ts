@@ -9,7 +9,6 @@ export const projectManagerGuard: CanActivateFn = (route, state) => {
 
   if (token) {
     const decodedToken: DecodedToken = jwtDecode(token);
-
     if (decodedToken.roleId === 2 || decodedToken.roleId === 3) {
       return true; 
     }

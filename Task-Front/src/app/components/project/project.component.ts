@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {NgForOf, NgIf} from '@angular/common';
+import {NgFor, NgForOf, NgIf} from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -8,23 +9,35 @@ import {NgForOf, NgIf} from '@angular/common';
   templateUrl: './project.component.html',
   standalone: true,
   imports: [
+    NgFor,
     FormsModule,
-    NgIf,
-    NgForOf
-  ],
+    NgIf
+    ],
   styleUrls: ['./project.component.css']
 })
-export class ProjectComponent implements OnInit{
+export class ProjectComponent implements OnInit {
+
+
+constructor(private _AuthService:AuthService){}
   showTextarea = false;
   newListName = '';
-  lists: string[] = [];
+  lists: string[] = ['project','project55','project66'];
   tasks: string[][] = [];
   showTaskInput: boolean[] = [];
   showForm: boolean = false;
   members: string[] = ['mariam', 'Bob', 'Charlie', 'Diana'];
   selectedMembers: string[] = [];
+  roleId?:number;
 
-
+  ngOnInit(): void {
+    this._AuthService.userData.subscribe(userData => {
+      if (userData) {
+        this.roleId = userData.roleId;
+      }
+    });
+  }
+  
+  
 
   addList() {
     if (this.newListName.trim()) {
@@ -64,7 +77,27 @@ export class ProjectComponent implements OnInit{
     }
   }
 
-  addMember() {
-
+  addMember(): void {
+    alert(`Assigned members: ${this.selectedMembers.join(', ')}`);
+    this.closeForm();
   }
+  
+  addTaskToList(listIndex: number, taskName: string): void {
+    if (taskName.trim()) {
+      this.tasks[listIndex].push(taskName.trim()); // إضافة المهمة في القائمة المطلوبة
+      this.showTaskInput[listIndex] = false; // إخفاء إدخال المهمة بعد الإضافة
+    }
+  }
+  
+  cancelAddTask(listIndex: number): void {
+    this.showTaskInput[listIndex] = false; // إخفاء إدخال المهمة إذا لم يتم الإضافة
+  }
+  
+  removeTask(listIndex: number, taskIndex: number): void {
+    this.tasks[listIndex].splice(taskIndex, 1); // حذف المهمة من القائمة
+  }
+  showSuccessMessage(message: string): void {
+    alert(message); // يمكن استبدالها بمنبه أكثر احترافية
+  }
+  
 }

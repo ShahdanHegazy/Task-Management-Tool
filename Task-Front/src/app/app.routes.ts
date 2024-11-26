@@ -5,10 +5,12 @@ import { StatisticsComponent } from './components/statistics/statistics.componen
 import { UsersComponent } from './components/users/users.component';
 import { ProjectsComponent } from './components/projects/projects.component';
 import {ProjectmanagerComponent} from './pages/projectmanager/projectmanager.component';
-import { TaskFormComponent } from './components/task-form/task-form.component';
 import { authGuard } from './auth.guard';
 import { projectManagerGuard } from './project-manager.guard';
 import { adminGuard } from './admin.guard';
+import { CardComponent } from './components/card/card.component';
+import { ProjectComponent } from './components/project/project.component';
+import { BoardComponent } from './components/board/board.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -26,7 +28,7 @@ export const routes: Routes = [
    canActivate:[authGuard,projectManagerGuard]
    ,children :[
       {path:"" ,component:CardComponent},
-      {path:"project" ,component:ProjectComponent},
+      {path:"project/:id" ,component:BoardComponent},
 ]},
   { path: '**', redirectTo: '/login' },
 

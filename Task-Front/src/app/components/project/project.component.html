@@ -1,41 +1,62 @@
 <div class="toolbar">
-    <button  (click)="showTextarea = true" *ngIf="!showTextarea" class="toolbar-button">Add List
-    <i class="fas fa-add"></i></button>
+  <button (click)="showTextarea = true" *ngIf="!showTextarea" class="toolbar-button">
+    Add List <i class="fas fa-add"></i>
+  </button>
 
   <div *ngIf="showTextarea" class="toolbar-input">
     <textarea [(ngModel)]="newListName" placeholder="Enter list name"></textarea>
-      <button class="addbtn" (click)="addList()">Add List</button>
-      <button class="cancelbtn" (click)="cancelAddList()">Cancel</button>
-    </div>
-  <button class="popupbtn" (click)="openForm()"> Choose member of project</button>
+    <button class="addbtn" (click)="addList()">Add List</button>
+    <button class="cancelbtn" (click)="cancelAddList()">Cancel</button>
   </div>
+  <button class="popupbtn" (click)="openForm()">
+    Choose member of project
+  </button>
+</div>
 
 <div class="list-container" *ngFor="let list of lists; let i = index">
   <div class="card">
-        <h3>{{ list }}</h3>
-    <button (click)="showTaskInput[i] = true" *ngIf="!showTaskInput[i]" class="toolbar-button1">Create Task
-      <i class="fas fa-add"></i></button>
-    <!-- Cancel button with icon -->
-    <button (click)="removeList(i)" class="cancel-button">
-      <i class='fas fa-times' style='font-size:30px;'></i><!-- This shows the cancel (X) icon -->
+    <h3>{{ list }}</h3>
+    
+    <!-- عرض المهام داخل القائمة -->
+    <ul>
+      <li *ngFor="let task of tasks[i]; let j = index">
+        {{ task }}
+        <button (click)="removeTask(i, j)" class="cancel-button">
+          <i class="fas fa-times"></i> <!-- زر الحذف -->
+        </button>
+      </li>
+    </ul>
+
+    <!-- إضافة مهمة جديدة -->
+    <div *ngIf="showTaskInput[i]" class="toolbar-input">
+      <textarea [(ngModel)]="newListName" placeholder="Enter task name"></textarea>
+      <button (click)="addTaskToList(i, newListName)" class="addbtn">Add Task</button>
+      <button (click)="cancelAddTask(i)" class="cancelbtn">Cancel</button>
+    </div>
+    
+    <button (click)="showTaskInput[i] = true" *ngIf="!showTaskInput[i]" class="toolbar-button1">
+      Create Task <i class="fas fa-add"></i>
     </button>
   </div>
 </div>
 
+
 <div *ngIf="showForm" class="overlay">
   <div class="popup-form">
-    <label for="membersDropdown"><h4>Choose a member</h4></label>
+    <label for="membersDropdown">
+      <h4>Choose a member</h4>
+    </label>
     <select id="membersDropdown" (change)="onMemberSelected($event)">
       <option value="">--Select a member--</option>
-      <option *ngFor="let member of members" [value]="member">{{ member }}</option>
+      <option *ngFor="let member of members" [value]="member">
+        {{ member }}
+      </option>
     </select>
-   <br><br>
+    <br /><br />
     <div *ngFor="let member of selectedMembers">
       <div>{{ member }}</div>
     </div>
     <button class="addbtn" (click)="addMember()">Add</button>
-    <button (click)="closeForm()" style="margin-left:8px">Close</button>
+    <button (click)="closeForm()" style="margin-left: 8px">Close</button>
   </div>
 </div>
-
-

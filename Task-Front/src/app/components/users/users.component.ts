@@ -5,59 +5,68 @@ import { FormsModule } from '@angular/forms';
 import { Role } from '../../enums/Role';
 import { User } from '../../interfaces/User';
 import { UserService } from '../../services/user.service';
+import { TableModule } from 'primeng/table';
 
 @Component({
   selector: 'app-users',
   standalone: true,
   imports: [
     NgIf,
-    NgFor,
     NgClass,
-    FormsModule
+    FormsModule, TableModule
   ],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-  id=0;
+  id = 0;
   name = '';
   email = '';
   password = '';
-  role: Role|null=null;
+  role: Role | null = null;
   isModalOpen = false;
   isEditMode = false;
   alertMessage: string = '';
   alertType: 'success' | 'error' = 'success';
   isAlertVisible: boolean = false;
-  constructor(private _UserService: UserService){}
+  users: User[] = [];
+  rows: number = 7;
+  totalRecords: any;
+  constructor(private _UserService: UserService) { }
 
-  ngOnInit(){
-    this.fetchAllUsers();
+  ngOnInit() {
+    this.loadUsers({ first: 0, rows: this.rows });
     console.log(this.users);
   }
-
-  roleNames = {
-    [Role.admin]: 'Admin',
-    [Role.pm]: 'Project Manager',
-    [Role.member]: 'Member'
+  roleNames: { [key: number]: string } = 
+  { 1: 'Admin', 
+    2: 'Project Manager', 
+    3: 'Member' 
   };
-  users: User[]=[];
 
-  fetchAllUsers(){
-    this._UserService.getAllUsers().subscribe({
-      next:(data:User[])=>{
-        this.users=data;
-        console.log("fetched all users"+this.users);
+  
+  
+  loadUsers(event: any): void {
+    const page = event.first / event.rows;
+    const pageSize = event.rows;
+
+    this._UserService.getAllUsers(page, pageSize).subscribe({
+      next: (response: any) => {
+        this.users = response.content;
+        console.log('Fetched Users:', this.users);
+        this.totalRecords = response.totalElements
       },
-      error:(err)=>
-        console.log("error fetching users"+err)
+      error: (err) => {
+        console.error('Error fetching users:', err);
+      },
     });
   }
+
   openModal(isEdit: boolean = false, user?: User) {
     this.isModalOpen = true;
     this.isEditMode = isEdit;
     if (isEdit && user) {
-      this.id=user.id;
+      this.id = user.id;
       this.name = user.name;
       this.email = user.email;
       this.password = user.password;
@@ -77,14 +86,14 @@ export class UsersComponent implements OnInit {
     this.name = '';
     this.email = '';
     this.password = '';
-    this.role=null;
+    this.role = null;
   }
 
   createOrUpdateUser() {
     // UpdateMode
     let upadatedUser;
     if (this.isEditMode) {
-      console.log("before up->"+this.id)
+      console.log("before up->" + this.id)
       upadatedUser = {
         id: this.id,
         name: this.name,
@@ -93,9 +102,10 @@ export class UsersComponent implements OnInit {
         roleId: this.role
       };
       this._UserService.updateUserById(this.id, upadatedUser).subscribe({
-        next: (response) =>{
+        next: (response) => {
           console.log("User updated successfully:", response)
-          this.fetchAllUsers()
+          // this.fetchAllUsers()
+          this.loadUsers({ first: 0, rows: this.rows });
           this.showAlert('User updated successfully!', 'success');
 
         },
@@ -104,7 +114,7 @@ export class UsersComponent implements OnInit {
           this.showAlert('Failed to update user. Please try again.', 'error');
         },
         complete: () => {
-      console.log("after up->"+this.id)
+          console.log("after up->" + this.id)
           console.log('Update request completed');
         }
       })
@@ -123,9 +133,11 @@ export class UsersComponent implements OnInit {
       };
       this._UserService.createUser(newUser).subscribe({
         next: (response) => {
+
           // success
           console.log("Response: " + JSON.stringify(response, null, 2));
-          this.fetchAllUsers()
+          // this.fetchAllUsers()
+          this.loadUsers({ first: 0, rows: this.rows });
           this.showAlert('User created successfully!', 'success');
         },
         error: (error) => {
@@ -138,7 +150,7 @@ export class UsersComponent implements OnInit {
           console.log('Request completed');
         }
       });
-          console.log(newUser);
+      console.log(newUser);
 
 
 
@@ -151,19 +163,21 @@ export class UsersComponent implements OnInit {
     this._UserService.deleteUserById(duser.id).subscribe({
       next: (response) => {
         console.log(`User with ID ${duser.name} deleted successfully.`);
-        console.log("response back is --->"+response);
-
+        console.log("response back is --->" + response);
+        
         this.users = this.users.filter(user => user.id !== duser.id);
         this.showAlert(`User with Name ${duser.name} deleted successfully.`, 'success');
       },
-      error: (error) => {console.error("Error deleting user:", error);
-        this.showAlert('Failed to delete user. Please try again.', 'error')},
+      error: (error) => {
+        console.error("Error deleting user:", error);
+        this.showAlert('Failed to delete user. Please try again.', 'error')
+      },
       complete: () => console.log("Delete request completed")
     });
   }
 
-  confirmDeleteUser(duser: User){
-    if(confirm(`Are you sure you want to delete user ${duser.name}?`)){
+  confirmDeleteUser(duser: User) {
+    if (confirm(`Are you sure you want to delete user ${duser.name}?`)) {
       this.deleteUser(duser);
     }
   }
@@ -178,5 +192,7 @@ export class UsersComponent implements OnInit {
       this.isAlertVisible = false;
     }, 2000);
   }
+ 
+  
 }
 

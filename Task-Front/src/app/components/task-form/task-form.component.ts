@@ -41,7 +41,8 @@ export class TaskFormComponent {
   toggleEmployeeSelection(employee: string) {
     if (this.selectedEmployees.includes(employee)) {
       this.selectedEmployees = this.selectedEmployees.filter(emp => emp !== employee);
-    } else {
+    } else 
+    {
       this.selectedEmployees.push(employee);
     }
   }

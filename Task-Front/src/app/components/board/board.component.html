@@ -1,0 +1,129 @@
+<div class="d-flex align-items-start pt-2 flex-wrap">
+    <!-- to do -->
+  <div class="example-container">
+    <h2>To do</h2>
+    <div
+        cdkDropList
+        #todoList="cdkDropList"
+        [cdkDropListData]="todo"
+        [cdkDropListConnectedTo]="[inProgressList, doneList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)"
+        >
+        <div *ngFor="let item of todo; let i = index" class="example-box" cdkDrag (click)="editTask(item, todo)">
+          {{ item.title }}
+          @if(roleId ==2){
+          <button class="delete-btn" (click)="deleteTask(i, todo, $event)">
+            <i class="fas fa-trash"></i>
+          </button>
+        }
+        </div>
+        @if(roleId ==2){
+          <p-button styleClass="btn btn-primary" (onClick)="openDialog(todo)" label="create task" />
+        }
+    </div>  
+  </div>
+<!-- in progress -->
+  <div class="example-container">
+        <h2>In Progress</h2>
+        <div
+            cdkDropList
+            #inProgressList="cdkDropList"
+            [cdkDropListData]="inProgress"
+            [cdkDropListConnectedTo]="[doneList, todoList]"
+            class="example-list"
+            (cdkDropListDropped)="drop($event)"
+            >
+            <div *ngFor="let item of inProgress; let i = index" class="example-box" cdkDrag (click)="editTask(item, inProgress)">
+              {{ item.title }}
+              @if(roleId ==2){
+                <button class="delete-btn" (click)="deleteTask(i, inProgress, $event)">
+                  <i class="fas fa-trash"></i>
+                </button>
+              }
+            </div>
+        </div>
+  </div>
+
+  <!-- done -->
+  <div class="example-container">
+    <h2>Done</h2>
+    <div
+      cdkDropList
+      #doneList="cdkDropList"
+      [cdkDropListData]="done"
+      [cdkDropListConnectedTo]="[todoList, inProgressList]"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)"
+      >
+      <div *ngFor="let item of done; let i = index" class="example-box" cdkDrag (click)="editTask(item, done)">
+        {{ item.title }}
+        @if(roleId ==2){
+        <button class="delete-btn" (click)="deleteTask(i, done, $event)">
+          <i class="fas fa-trash"></i>
+        </button>
+      }
+    </div>
+    </div>
+  </div>
+
+  <!-- Dialog -->
+  <p-dialog
+    header="Create Task"
+    [(visible)]="visible"
+    [modal]="true"
+    [style]="{ width: '30vw' }"
+  >
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="title">Title</label>
+        <input id="title" type="text" pInputText [(ngModel)]="newTask.title" [disabled]="roleId==3"  required/>
+      </div>
+      <div class="p-field">
+        <label for="description">Description</label>
+        <input id="description" type="text" pInputText [(ngModel)]="newTask.description" [disabled]="roleId==3" required/>
+      </div>
+      <div class="p-field">
+        <label for="startDate">Start Date</label>
+        <input id="startDate" type="date" pInputText [(ngModel)]="newTask.startDate" [disabled]="roleId==3" required/>
+      </div>
+      <div class="p-field">
+        <label for="endDate">End Date</label>
+        <input id="endDate" type="date" pInputText [(ngModel)]="newTask.endDate" [disabled]="roleId==3" required/>
+      </div>
+      <div class="p-field mt-2">
+        <div class="card flex justify-content-center">
+          <p-multiSelect 
+              [options]="projectMembers" 
+              [(ngModel)]="newTask.taskMembers" 
+              optionLabel="name" 
+              optionValue=id
+              placeholder="Select Members" 
+              [disabled]="roleId==3"
+              required/>
+      </div>
+      </div>
+    </div>
+    @if(roleId==2){
+      <div class="p-dialog-footer p-0 mt-2 ">
+        <p-button label="Cancel" styleClass="btn btn-danger me-2" (click)="visible = false"></p-button>
+        <p-button label="Save"  styleClass="btn btn-success" (onClick)="createTask()" severity="success"></p-button>
+      </div>
+    }
+  </p-dialog>
+@if(roleId ==2){
+  <div class="d-flex flex-column gap-2 justify-content-center align-items-start">
+    <button class="btn btn-primary" (click)="addMembersToProject()" > Add Members To Project</button>
+    <p-multiSelect 
+      [options]="Allmembers" 
+      [(ngModel)]="selectedMembers" 
+      optionLabel="name" 
+      optionValue="id" 
+      placeholder="Select Members" 
+      (onFocus)="updateSelectedMembers()" 
+      required>
+    </p-multiSelect>
+</div>
+}
+
+</div>

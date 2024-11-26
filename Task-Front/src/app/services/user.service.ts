@@ -7,14 +7,13 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-
   constructor(private _HttpClient:HttpClient) { }
 
   createUser(user: User):Observable<User> {
     return this._HttpClient.post<User>('/api/admin/createUser', user);
   }
-  getAllUsers():Observable<User[]> {
-    return this._HttpClient.get<User[]>("/api/admin/active/users")
+  getAllUsers(page:number,pageSize:number):Observable<any> {
+    return this._HttpClient.get<any>(`/api/admin/active/users?page=${page}&size=${pageSize}`)
   }
   deleteUserById(id:number):Observable<string>{
     return this._HttpClient.delete<string>(`/api/admin/delete/${id}`, { responseType: 'text' as 'json' })

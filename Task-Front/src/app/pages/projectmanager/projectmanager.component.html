@@ -1,8 +1,23 @@
 <app-navbar></app-navbar>
 <div class="d-flex">
   <div>
-    <app-sidebar [data]="sidebarData"></app-sidebar>
-  </div>
+    <div class=" text-white p-3 sidebar d-flex justify-content-between flex-column ">
+    <ul  class="nav flex-column ">
+      <li>
+      <a class="nav-link text-white">
+        <i class="fa-solid fa-home"></i> Dashboard
+      </a>
+      </li>
+      <li *ngFor="let data1 of sidebarData" class="nav-item mt-1">
+        <a class="nav-link text-white" [routerLink]="['/projectmanager/project', data1.id]">
+           {{data1.name}}
+        </a>
+      </li>
+    </ul>
+    <button class="btn btn-outline-danger logout-btn w-100 " (click)="logout()" type="button">
+      Log Out
+    </button>
+  </div>  </div>
   <div style="width:calc(100% - 200px);" class="bg-light">
     <router-outlet></router-outlet>
   </div>
