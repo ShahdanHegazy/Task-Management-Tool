@@ -1,8 +1,5 @@
 package com.Academy.Task_Tool.Controller;//package com.Academy.Task_Tool.Controller;
-import com.Academy.Task_Tool.DTO.CardDto;
-import com.Academy.Task_Tool.DTO.CommentDto;
-import com.Academy.Task_Tool.DTO.ListAllMembersDto;
-import com.Academy.Task_Tool.DTO.ProjectMemberAssignmentDto;
+import com.Academy.Task_Tool.DTO.*;
 import com.Academy.Task_Tool.Entity.Card;
 import com.Academy.Task_Tool.Entity.Project;
 import com.Academy.Task_Tool.Services.ProjectManagerService;
@@ -62,11 +59,12 @@ private ProjectManagerService projectManagerService1;
     }
 
 
-//    @PostMapping("/assign-user")
-//    public ResponseEntity<ProjectMemberAssignmentDto> assignUserToProject(@RequestBody ProjectMemberAssignmentDto dto) {
-//        projectManagerService1.assignUserToProject(dto);
-//        return ResponseEntity.ok(dto);
-//    }
+    @GetMapping("/projects/{projectId}/members")
+    public ResponseEntity<List<UserDto>> getMembersByProjectId(@PathVariable Integer projectId) {
+        List<UserDto> members = projectManagerService.getMembersByProjectId(projectId);
+        return ResponseEntity.ok(members);
+    }
+
 
 
 
