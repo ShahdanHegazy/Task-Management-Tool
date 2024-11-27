@@ -74,7 +74,7 @@
       <tbody>
       <tr *ngFor="let project of projects">
         <td>{{ project.projectName }}</td>
-        <td>{{ project.projectManagerName }}</td>
+        <td>{{ project.projectManager }}</td>
 
 
 
@@ -82,7 +82,7 @@
     <p-button class="details" (onClick)="showDialog()" label="view details" />
     <p-dialog header="Project Details" [(visible)]="visible" [modal]="true" [style]="{ width: '400px' }">
       <p><b>Project:</b> {{project.projectName}}</p>
-      <p><b>Project Manager:</b> {{project.projectManagerName}}</p>
+      <p><b>Project Manager:</b> {{project.projectManager}}</p>
       <p><b>Start Date:</b> {{project.start_date}}</p>
       <p><b>End Date:</b> {{project.end_date}}</p>
       <div class="member-list-container">

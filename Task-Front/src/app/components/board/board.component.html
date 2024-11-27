@@ -97,7 +97,7 @@
               [options]="projectMembers" 
               [(ngModel)]="newTask.taskMembers" 
               optionLabel="name" 
-              optionValue=id
+              optionValue=userId
               placeholder="Select Members" 
               [disabled]="roleId==3"
               required/>
@@ -116,11 +116,10 @@
     <button class="btn btn-primary" (click)="addMembersToProject()" > Add Members To Project</button>
     <p-multiSelect 
       [options]="Allmembers" 
-      [(ngModel)]="selectedMembers" 
+      [(ngModel)]="projectMembers" 
       optionLabel="name" 
-      optionValue="id" 
+      optionValue="userId" 
       placeholder="Select Members" 
-      (onFocus)="updateSelectedMembers()" 
       required>
     </p-multiSelect>
 </div>

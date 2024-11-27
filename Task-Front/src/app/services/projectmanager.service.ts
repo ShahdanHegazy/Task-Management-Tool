@@ -11,7 +11,6 @@ export class ProjectmanagerService{
 
   constructor(private _HttpClient:HttpClient) { }
 
-  
 
   getSignedProjects(pmId:number):Observable<SignedProjects[]>{
    return this._HttpClient.get<SignedProjects[]>(`/api/pm/${pmId}`)

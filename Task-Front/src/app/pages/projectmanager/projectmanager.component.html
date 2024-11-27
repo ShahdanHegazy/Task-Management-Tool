@@ -9,8 +9,8 @@
       </a>
       </li>
       <li *ngFor="let data1 of sidebarData" class="nav-item mt-1">
-        <a class="nav-link text-white" [routerLink]="['/projectmanager/project', data1.id]">
-           {{data1.name}}
+        <a class="nav-link text-white" [routerLink]="['/projectmanager/project', data1.project_id]">
+           {{data1.project_name}}
         </a>
       </li>
     </ul>

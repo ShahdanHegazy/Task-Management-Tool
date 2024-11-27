@@ -30,8 +30,6 @@ export const routes: Routes = [
       {path:"project/:id" ,component:BoardComponent},
 ]},
 
-  ]
-
   { path: '**', redirectTo: '/login' },
 
 ];

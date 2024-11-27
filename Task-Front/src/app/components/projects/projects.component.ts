@@ -39,7 +39,7 @@ export class ProjectsComponent implements OnInit {
   projects: Project[] = [];
   pms: ProjectManager[] = [];
   members: string[] = ['ahmed','ali'];
-  projectManagerName: string | null | undefined;
+  projectManager: string | null | undefined;
   visible: boolean=false;
 
   constructor(private _ProjectService: ProjectService) {}
@@ -101,7 +101,7 @@ export class ProjectsComponent implements OnInit {
         project_id: this.project_id,
         projectName: this.projectName,
         projectManagerId: this.projectManagerId,
-        projectManagerName: this.projectManagerName,
+        projectManager: this.projectManager,
         start_date: this.start_date,
         end_date: this.end_date,
         description: this.description,
