@@ -8,7 +8,9 @@ import com.Academy.Task_Tool.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Array;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +25,8 @@ public class ProjectManagerService {
     private RoleRepository roleRepository;
     @Autowired
     private ListRepository listRepository;
+    @Autowired
+    private EmailService emailService;
 
 
     //    GET ALL CARD
@@ -64,22 +68,68 @@ public void deleteCard(Integer cardId) {
     @Autowired
     private UserRepository userRepository;
 
-    public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
-        Project project = projectRepository.findById(dto.getProjectId())
-                .orElseThrow(() -> new RuntimeException("Project not found with ID: " + dto.getProjectId()));
-        List<User> users = userRepository.findAllById(dto.getUserIds());
-        if (users.size() != dto.getUserIds().size()) {
-            throw new RuntimeException("One or more users not found with the provided IDs");
-        }
-        for (User user : users) {
-            project.getAssignedUsers().add(user);
-            user.getAssignedProjects().add(project);
-        }
-        userRepository.saveAll(users);
-        projectRepository.save(project);
+//    public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
+//        Project project = projectRepository.findById(dto.getProjectId())
+//                .orElseThrow(() -> new RuntimeException("Project not found with ID: " + dto.getProjectId()));
+//        List<User> users = userRepository.findAllById(dto.getUserIds());
+//        if (users.size() != dto.getUserIds().size()) {
+//            throw new RuntimeException("One or more users not found with the provided IDs");
+//        }
+//        for (User user : users) {
+//            if(project.getAssignedUsers().isEmpty())
+//            {
+//                project.getAssignedUsers().add(user);
+//            }
+//            else {
+//                project.getAssignedUsers().clear();
+//                project.getAssignedUsers().add(user);
+//            }
+//            user.getAssignedProjects().add(project);
+//            // Send an email notification
+//            String subject = "You Have Been Assigned to a Project";
+//            String body = "Dear " + user.getName() + ",\n\n" +
+//                    "You have been assigned to the project: " + project.getProjectName() + ".\n\n" +
+//                    "Regards,\nProject Management Team";
+//            emailService.sendEmail(user.getEmail(), subject, body);
+//        }
+//        userRepository.saveAll(users);
+//        projectRepository.save(project);
+//        return project;
+//    }
+public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
+    Project project = projectRepository.findById(dto.getProjectId())
+            .orElseThrow(() -> new RuntimeException("Project not found with ID: " + dto.getProjectId()));
 
-        return project;
+    // Fetch all users from the provided user IDs
+    List<User> users = userRepository.findAllById(dto.getUserIds());
+    if (users.size() != dto.getUserIds().size()) {
+        throw new RuntimeException("One or more users not found with the provided IDs");
     }
+
+    // Clear the existing list of assigned users
+    project.getAssignedUsers().clear();
+
+    // Add the new list of users to the project
+    project.getAssignedUsers().addAll(users);
+
+    // Notify all new users via email and update their project assignments
+    for (User user : users) {
+        user.getAssignedProjects().add(project);
+
+        // Send an email notification
+        String subject = "You Have Been Assigned to a Project";
+        String body = "Dear " + user.getName() + ",\n\n" +
+                "You have been assigned to the project: " + project.getProjectName() + ".\n\n" +
+                "Regards,\nTickTask Team";
+        emailService.sendEmail(user.getEmail(), subject, body);
+    }
+
+    // Save changes to the database
+    projectRepository.save(project);
+    userRepository.saveAll(users);
+
+    return project;
+}
 
     public List<UserDto> getMembersByProjectId(Integer projectId) {
         Project project = projectRepository.findById(projectId)

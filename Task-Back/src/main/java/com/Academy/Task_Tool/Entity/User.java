@@ -63,7 +63,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "project_id")
     )
-    private List<Project> assignedProjects = new ArrayList<>();
+    private Set<Project> assignedProjects ;
 
     // relation with managed projects
     @JsonBackReference
