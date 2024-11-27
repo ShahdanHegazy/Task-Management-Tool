@@ -55,11 +55,18 @@ public class ProjectManagerController {
 private ProjectManagerService projectManagerService1;
 
     @PreAuthorize("hasRole('ROLE_PM')")
-    @PostMapping("/assign-user")
-    public ResponseEntity<ProjectMemberAssignmentDto> assignUserToProject(@RequestBody ProjectMemberAssignmentDto dto) {
-        projectManagerService1.assignUserToProject(dto);
+    @PostMapping("/assign-users")
+    public ResponseEntity<ProjectMemberAssignmentDto> assignUsersToProject(@RequestBody ProjectMemberAssignmentDto dto) {
+        projectManagerService1.assignUsersToProject(dto);
         return ResponseEntity.ok(dto);
     }
+
+
+//    @PostMapping("/assign-user")
+//    public ResponseEntity<ProjectMemberAssignmentDto> assignUserToProject(@RequestBody ProjectMemberAssignmentDto dto) {
+//        projectManagerService1.assignUserToProject(dto);
+//        return ResponseEntity.ok(dto);
+//    }
 
 
 

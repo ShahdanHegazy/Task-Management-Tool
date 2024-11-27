@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,9 +14,9 @@ import lombok.NoArgsConstructor;
 public class ProjectMemberAssignmentDto {
 
         private Integer projectId;
-        private Integer userId;
+        private List<Integer> userIds;
 
 
-
-
+//    public Iterable<Integer> getUserIds() {
+//    }
 }

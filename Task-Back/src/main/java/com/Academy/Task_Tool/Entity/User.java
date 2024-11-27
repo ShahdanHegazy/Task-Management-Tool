@@ -56,6 +56,7 @@ public class User {
     private Role role;
 
 // relation with projects
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "user_project",
