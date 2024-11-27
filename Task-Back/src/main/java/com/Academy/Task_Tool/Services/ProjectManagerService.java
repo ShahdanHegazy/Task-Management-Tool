@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,13 +24,14 @@ public class ProjectManagerService {
     private CardRepository cardRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private ListRepository listRepository;
 
 
-
-//    GET ALL CARD
+    //    GET ALL CARD
     public CardDto getCardById(Integer cardId) {
         Card card = cardRepository.findByCardId(cardId)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
+                .orElseThrow(() -> new RuntimeException("Card not found"));
         return convertToDTO(card);
     }
 
@@ -65,18 +67,35 @@ public void deleteCard(Integer cardId) {
     @Autowired
     private UserRepository userRepository;
 
-    // Assign members to a project
-    public Project assignUserToProject(ProjectMemberAssignmentDto dto) {
+    public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
         Project project = projectRepository.findById(dto.getProjectId())
                 .orElseThrow(() -> new RuntimeException("Project not found with ID: " + dto.getProjectId()));
-        User user = userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + dto.getUserId()));
-        project.getAssignedUsers().add(user);
-        user.getAssignedProjects().add(project);
-        userRepository.save(user);
+        List<User> users = userRepository.findAllById(dto.getUserIds());
+        if (users.size() != dto.getUserIds().size()) {
+            throw new RuntimeException("One or more users not found with the provided IDs");
+        }
+        for (User user : users) {
+            project.getAssignedUsers().add(user);
+            user.getAssignedProjects().add(project);
+        }
+        userRepository.saveAll(users);
         projectRepository.save(project);
+
         return project;
     }
+
+
+//    public Project assignUserToProject(ProjectMemberAssignmentDto dto) {
+//        Project project = projectRepository.findById(dto.getProjectId())
+//                .orElseThrow(() -> new RuntimeException("Project not found with ID: " + dto.getProjectId()));
+//        User user = userRepository.findById(dto.getUserId())
+//                .orElseThrow(() -> new RuntimeException("User not found with ID: " + dto.getUserId()));
+//        project.getAssignedUsers().add(user);
+//        user.getAssignedProjects().add(project);
+//        userRepository.save(user);
+//        projectRepository.save(project);
+//        return project;
+//    }
 
     public List<ListAllMembersDto> getAllMembers(Integer roleId) {
         roleId=3;
