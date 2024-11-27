@@ -23,12 +23,14 @@ export const routes: Routes = [
       { path: "projects", component: ProjectsComponent }
     ]
   },
-  {path:"projectmanager" ,component:ProjectmanagerComponent ,
+  {path:"project-manager" ,component:ProjectmanagerComponent ,
    canActivate:[authGuard,projectManagerGuard]
    ,children :[
       {path:"" ,component:CardComponent},
       {path:"project/:id" ,component:BoardComponent},
 ]},
+
+  
 
   { path: '**', redirectTo: '/login' },
 
