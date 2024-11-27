@@ -23,7 +23,7 @@ export const routes: Routes = [
       { path: "projects", component: ProjectsComponent }
     ]
   },
-  {path:"project-manager" ,component:ProjectmanagerComponent ,
+  {path:"projectmanager" ,component:ProjectmanagerComponent ,
    canActivate:[authGuard,projectManagerGuard]
    ,children :[
       {path:"" ,component:CardComponent},
