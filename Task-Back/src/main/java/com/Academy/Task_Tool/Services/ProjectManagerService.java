@@ -1,8 +1,5 @@
 package com.Academy.Task_Tool.Services;
-import com.Academy.Task_Tool.DTO.CardDto;
-import com.Academy.Task_Tool.DTO.CommentDto;
-import com.Academy.Task_Tool.DTO.ListAllMembersDto;
-import com.Academy.Task_Tool.DTO.ProjectMemberAssignmentDto;
+import com.Academy.Task_Tool.DTO.*;
 import com.Academy.Task_Tool.Entity.Card;
 import com.Academy.Task_Tool.Entity.Comment;
 import com.Academy.Task_Tool.Entity.Project;
@@ -84,18 +81,22 @@ public void deleteCard(Integer cardId) {
         return project;
     }
 
+    public List<UserDto> getMembersByProjectId(Integer projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new RuntimeException("Project not found with ID: " + projectId));
+        List<UserDto> assignedUsers = project.getAssignedUsers()
+                .stream()
+                .map(user -> {
+                    UserDto userDto = new UserDto();
+                    userDto.setId(user.getId());
+                    userDto.setName(user.getName());
+                    userDto.setEmail(user.getEmail());
+                    return userDto;
+                })
+                .collect(Collectors.toList());
+        return assignedUsers;
+    }
 
-//    public Project assignUserToProject(ProjectMemberAssignmentDto dto) {
-//        Project project = projectRepository.findById(dto.getProjectId())
-//                .orElseThrow(() -> new RuntimeException("Project not found with ID: " + dto.getProjectId()));
-//        User user = userRepository.findById(dto.getUserId())
-//                .orElseThrow(() -> new RuntimeException("User not found with ID: " + dto.getUserId()));
-//        project.getAssignedUsers().add(user);
-//        user.getAssignedProjects().add(project);
-//        userRepository.save(user);
-//        projectRepository.save(project);
-//        return project;
-//    }
 
     public List<ListAllMembersDto> getAllMembers(Integer roleId) {
         roleId=3;
