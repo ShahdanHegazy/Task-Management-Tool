@@ -94,10 +94,10 @@
       <div class="p-field mt-2">
         <div class="card flex justify-content-center">
           <p-multiSelect 
-              [options]="projectMembers" 
+              [options]="showProjectMembers" 
               [(ngModel)]="newTask.taskMembers" 
               optionLabel="name" 
-              optionValue=userId
+              optionValue=id
               placeholder="Select Members" 
               [disabled]="roleId==3"
               required/>

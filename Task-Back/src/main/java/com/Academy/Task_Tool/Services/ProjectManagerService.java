@@ -64,7 +64,7 @@ public void deleteCard(Integer cardId) {
     @Autowired
     private UserRepository userRepository;
 
-    public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
+    public Project updateProjectMembers(ProjectMemberAssignmentDto dto) {
         Project project = projectRepository.findById(dto.getProjectId())
                 .orElseThrow(() -> new RuntimeException("Project not found with ID: " + dto.getProjectId()));
         List<User> users = userRepository.findAllById(dto.getUserIds());
@@ -77,9 +77,9 @@ public void deleteCard(Integer cardId) {
         }
         userRepository.saveAll(users);
         projectRepository.save(project);
-
         return project;
     }
+
 
     public List<UserDto> getMembersByProjectId(Integer projectId) {
         Project project = projectRepository.findById(projectId)

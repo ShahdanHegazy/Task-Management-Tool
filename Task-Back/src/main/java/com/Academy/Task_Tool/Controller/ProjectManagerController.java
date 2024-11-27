@@ -54,7 +54,7 @@ private ProjectManagerService projectManagerService1;
     @PreAuthorize("hasRole('ROLE_PM')")
     @PostMapping("/assign-users")
     public ResponseEntity<ProjectMemberAssignmentDto> assignUsersToProject(@RequestBody ProjectMemberAssignmentDto dto) {
-        projectManagerService1.assignUsersToProject(dto);
+        projectManagerService1.updateProjectMembers(dto);
         return ResponseEntity.ok(dto);
     }
 

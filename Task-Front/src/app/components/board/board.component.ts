@@ -30,27 +30,64 @@ import { SignedMembersPost } from '../../interfaces/SignedMembersPost';
 export class BoardComponent implements OnInit {
   constructor(private _AuthService: AuthService,private route:ActivatedRoute,private BoardService:BoardService){}
 // OnInit
+  // ngOnInit(): void {    
+  //  console.log(this.projectInformation.lists.find((list: { id: number; }) => list.id == 1)?.cardList);
+  //   this._AuthService.getuserInformation();
+  //   this._AuthService.userData.subscribe((data) => {
+  //     if (data) {
+  //       this.roleId=data.roleId;
+  //     }
+  //   });
+  //   this.route.params.subscribe(params => {
+  //     this.projectId = params['id'];
+  //     console.log(this.projectId); // هيطبع الـ ID الجديد كل مرة يتغير فيها
+  //   });
+  //   this.BoardService.getAllMembers().subscribe( {
+  //     next:(response)=>{
+  //       console.log(response);
+  //       this.Allmembers = response;
+        
+  //     },
+  //     error:(err)=>console.error(err)
+  //   });
+  //   this.BoardService.getSignedMembers(this.projectId).subscribe({
+  //     next:(response)=>this.showProjectMembers=response,
+  //     error:(err)=>console.error(err)
+      
+  //   })
+  // }
   ngOnInit(): void {    
-   console.log(this.projectInformation.lists.find((list: { id: number; }) => list.id == 1)?.cardList);
+    console.log(this.projectInformation.lists.find((list: { id: number; }) => list.id == 1)?.cardList);
     this._AuthService.getuserInformation();
     this._AuthService.userData.subscribe((data) => {
       if (data) {
-        this.roleId=data.roleId;
+        this.roleId = data.roleId;
       }
     });
     this.route.params.subscribe(params => {
       this.projectId = params['id'];
-      console.log(this.projectId); // هيطبع الـ ID الجديد كل مرة يتغير فيها
+      console.log(this.projectId);
     });
-    this.BoardService.getAllMembers().subscribe( {
-      next:(response)=>{
-        console.log(response);
+  
+    // جلب جميع الأعضاء
+    this.BoardService.getAllMembers().subscribe({
+      next: (response) => {
         this.Allmembers = response;
-        
+  
+        // بعد جلب كل الأعضاء، اربط الأعضاء الحاليين بالمشروع كـ selected
+        this.BoardService.getSignedMembers(this.projectId).subscribe({
+          next: (signedMembers) => {
+            this.showProjectMembers = signedMembers;
+            // جعل الأعضاء المختارين في حالة selected
+            this.projectMembers = signedMembers.map((member: { id: any; }) => member.id);
+          },
+          error: (err) => console.error(err),
+        });
       },
-      error:(err)=>console.error(err)
+      error: (err) => console.error(err),
     });
   }
+  
 
 // Variables
  projectId!:number;
@@ -84,8 +121,8 @@ export class BoardComponent implements OnInit {
     done: Task[] =this.projectInformation.lists.find((list: { id: number; }) => list.id == 3)?.cardList;
     
   Allmembers:BoardMember[]=[]
-  // selectedMembers: BoardMember[] = [];
   projectMembers:any[]=[];
+  showProjectMembers:any[]=[]
   taskMembers: number[] = [];
   visible: boolean = false;
   activeList: Task[] = [];
@@ -162,31 +199,21 @@ drop(event: CdkDragDrop<Task[]>): void {
   }
 }
 
-
-// trackById(index: number, item: any): number {
-//   return item.id;
-// }
-
-// updateSelectedMembers(): void {
-  // وضع الأعضاء الحاليين في projectMembers داخل selectedMembers
-  // this.selectedMembers = this.BoardService.getSignedMembers()
-// }
 addMembersToProject(): void {
-  this.BoardService.postSignedMembers({projectId:this.projectId,usersId:this.projectMembers}).subscribe({
-    next:(response)=>console.log(response),
+  this.BoardService.postSignedMembers({projectId:this.projectId,userIds:this.projectMembers}).subscribe({
+    next:(response)=>{
+      console.log(response),
+      this.BoardService.getSignedMembers(this.projectId).subscribe(
+        {
+        next: (members) => this.showProjectMembers = members,
+        error: (err) => console.error(err),
+        }
+    )
+    },
     error:(err)=>console.error(err)
   })
-  // إضافة الأعضاء من selectedMembers إلى projectMembers فقط إذا لم يكونوا موجودين بالفعل
-  // this.selectedMembers.forEach((id) => {
-  //   const member = this.Allmembers.find((m) => m.userId === id);
-  //   if (member && !this.projectMembers.some((m) => m.id === member.userId)) {
-  //     this.projectMembers.push(member);
-  //   }
-  // });
-
-  // إفراغ الـ selectedMembers بعد الإضافة
   // this.selectedMembers = [];
-  console.log('Updated Project Members:',{projectId:this.projectId,usersId:this.projectMembers});
+  console.log('Updated Project Members:',{projectId:this.projectId,userIds:this.projectMembers});
 }
 
 }

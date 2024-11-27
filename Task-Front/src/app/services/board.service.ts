@@ -17,7 +17,7 @@ export class BoardService {
   postSignedMembers(signedMembers:SignedMembersPost):Observable<SignedMembersPost> {
   return this._HttpClient.post<SignedMembersPost>("/api/pm/assign-users",signedMembers)
   }
-  getSignedMembers():Observable<BoardMember>{
-    return this._HttpClient.get<BoardMember>('')
+  getSignedMembers(projectId:number):Observable<any>{
+    return this._HttpClient.get<any>(`/api/pm/projects/${projectId}/members`)
   }
 }
