@@ -28,8 +28,8 @@ public class ProjectManagerController {
 
   //  CREAT CARD BY PROJECT ID
     @PreAuthorize("hasRole('ROLE_PM')")
-    @PostMapping("/projects/{projectId}/cards")
-    public CardDto createCard(@RequestBody CardDto cardDto , @PathVariable Integer projectId) {
+    @PostMapping("/projects/{projectId}/{listId}/cards")
+    public CardDto createCard(@RequestBody CardDto cardDto , @PathVariable Integer projectId , @PathVariable Integer listId) {
     return projectManagerService.createCard(cardDto);
 }
 
