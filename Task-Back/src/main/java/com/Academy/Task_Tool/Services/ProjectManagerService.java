@@ -4,6 +4,8 @@ import com.Academy.Task_Tool.Entity.Card;
 import com.Academy.Task_Tool.Entity.Comment;
 import com.Academy.Task_Tool.Entity.Project;
 import com.Academy.Task_Tool.Entity.User;
+import com.Academy.Task_Tool.GolbalException.EmailAlreadyExistsException;
+import com.Academy.Task_Tool.GolbalException.ProjectNotFoundException;
 import com.Academy.Task_Tool.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -105,8 +108,6 @@ public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
     if (users.size() != dto.getUserIds().size()) {
         throw new RuntimeException("One or more users not found with the provided IDs");
     }
-
-    // Clear the existing list of assigned users
     project.getAssignedUsers().clear();
 
     // Add the new list of users to the project
@@ -132,10 +133,13 @@ public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
 }
 
     public List<UserDto> getMembersByProjectId(Integer projectId) {
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new RuntimeException("Project not found with ID: " + projectId));
-        List<UserDto> assignedUsers = project.getAssignedUsers()
-                .stream()
+        Optional<Project> project = projectRepository.findById(projectId);
+        if(project.get().getIsDeleted()){
+            throw new ProjectNotFoundException("Project is deleted");
+        }
+        List<User> users = projectRepository.findAllUsersByProjectId(projectId);
+
+                return users.stream()
                 .map(user -> {
                     UserDto userDto = new UserDto();
                     userDto.setId(user.getId());
@@ -144,7 +148,7 @@ public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
                     return userDto;
                 })
                 .collect(Collectors.toList());
-        return assignedUsers;
+
     }
 
 
