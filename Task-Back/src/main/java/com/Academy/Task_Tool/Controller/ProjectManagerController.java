@@ -74,6 +74,7 @@ private ProjectManagerService projectManagerService1;
     }
 
 //  DELETE ASSIGIN MEMBER TO PROJECT
+
     @Autowired
     private ProjectManagerService projectService;
     @DeleteMapping("/{projectId}/users/{userId}")
