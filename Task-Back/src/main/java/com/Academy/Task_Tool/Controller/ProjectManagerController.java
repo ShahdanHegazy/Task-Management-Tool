@@ -66,13 +66,23 @@ private ProjectManagerService projectManagerService1;
     }
 
 
-
-
     @PreAuthorize("hasRole('ROLE_PM')")
     @GetMapping ("/allmembers")
     public List<ListAllMembersDto> getAllMembers (Integer roleId)
     {
         return projectManagerService.getAllMembers(roleId);
+    }
+
+//  DELETE ASSIGIN MEMBER TO PROJECT
+
+    @Autowired
+    private ProjectManagerService projectService;
+    @DeleteMapping("/{projectId}/users/{userId}")
+    public ResponseEntity<String> removeUserFromProject(
+            @PathVariable Integer projectId,
+            @PathVariable Integer userId) {
+        projectService.removeUserFromProject(projectId, userId);
+        return ResponseEntity.ok("User removed from project successfully");
     }
 
 
