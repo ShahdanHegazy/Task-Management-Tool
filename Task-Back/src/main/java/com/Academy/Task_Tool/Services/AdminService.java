@@ -36,6 +36,9 @@ public class AdminService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    BoardService boardService;
+
 
 //    @Autowired
 //    private UserRepository userRepository;
@@ -196,8 +199,15 @@ public class AdminService {
         projectDto1.setStart_date(project.getStart_date());
         projectDto1.setEnd_date(project.getEnd_date());
         projectDto1.setProjectManagerId(project.getProjectManager().getId());
+
+
+
+        boardService.createBoardWithDefaultLists(project.getProject_id());
+
         return projectDto1;
     }
+
+
     public List<ProjectManagerDto> getAllActiveProjectManagers() {
         List<Object[]> results = userRepository.findAllActiveProjectManagers();
         return results.stream()
