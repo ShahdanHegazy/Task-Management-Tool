@@ -1,5 +1,6 @@
 package com.Academy.Task_Tool.Repository;
 
+import com.Academy.Task_Tool.DTO.UserDto;
 import com.Academy.Task_Tool.Entity.Project;
 import com.Academy.Task_Tool.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,6 +23,9 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
     @Query("SELECT u FROM Project u WHERE u.isDeleted = false ")
     List<Project> findAllActiveProjects();
+
+    @Query("SELECT u FROM User u JOIN u.assignedProjects p WHERE p.project_id = :projectId AND p.isDeleted = false")
+    List<User> findAllUsersByProjectId(Integer projectId);
 
     @Query("SELECT p FROM Project p WHERE p.projectManager.id = :userId AND p.isDeleted = false")
     List<Project> findManagedProjectsByUserId(@Param("userId") int userId);
