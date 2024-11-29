@@ -7,4 +7,5 @@ export interface Project {
   end_date:Date|null;
   description:string;
   assignedUsers?:any[];
+  lists?:any[];
 }
