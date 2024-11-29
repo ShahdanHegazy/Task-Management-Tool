@@ -76,28 +76,41 @@
         <td>{{ project.projectName }}</td>
         <td>{{ project.projectManager }}</td>
 
-
-
-<td>
-    <p-button class="details" (onClick)="showDialog()" label="view details" />
-    <p-dialog header="Project Details" [(visible)]="visible" [modal]="true" [style]="{ width: '400px' }">
-      <p><b>Project:</b> {{project.projectName}}</p>
-      <p><b>Project Manager:</b> {{project.projectManager}}</p>
-      <p><b>Start Date:</b> {{project.start_date}}</p>
-      <p><b>End Date:</b> {{project.end_date}}</p>
-      <div class="member-list-container">
-        <h3>List of Members</h3>
-        <div class="member-list">
-          <div class="member-item" *ngFor="let member of mems">
-            {{ member }}
-          </div>
-        </div>
-      </div>
-      
-      <button pButton class="close" label="Close" (click)="closeDialog()"></button>
-    </p-dialog>
-        
-</td>
+          <td>
+              <p-button class="details" (onClick)="showDetails(project)" label="view details" />
+              <!-- <p-dialog header="Project Details" [(visible)]="visible" [modal]="true" [style]="{ width: '400px' }">
+                <p><b>Project:</b> {{project.projectName}}</p>
+                <p><b>Project Manager:</b> {{project.projectManager}}</p>
+                <p><b>Start Date:</b> {{project.start_date}}</p>
+                <p><b>End Date:</b> {{project.end_date}}</p>
+                <div class="member-list-container">
+                  <h3>List of Members</h3>
+                  <div class="member-list">
+                    <div class="member-item" *ngFor="let user of project.assignedUsers">
+                      {{ user.name }}
+                    </div>
+                  </div>
+                </div>
+                
+                <button pButton class="close" label="Close" (click)="closeDialog()"></button>
+              </p-dialog> -->
+              <p-dialog header="Project Details" [(visible)]="visible" [modal]="true" [style]="{ width: '400px' }">
+                <p><b>Project:</b> {{viewedProject?.projectName}}</p>
+                <p><b>Project Manager:</b> {{viewedProject?.projectManager}}</p>
+                <p><b>Start Date:</b> {{viewedProject?.start_date }}</p>
+                <p><b>End Date:</b> {{viewedProject?.end_date}}</p>
+                <div class="member-list-container">
+                  <h3>List of Members</h3>
+                  <div class="member-list">
+                    <div class="member-item" *ngFor="let user of viewedProject?.assignedUsers">
+                      {{ user.name }}
+                    </div>
+                  </div>
+                </div>
+                
+                <button pButton class="close" label="Close" (click)="closeDialog()"></button>
+              </p-dialog>
+          </td>
 
         <td>
           <button class="btn btn-update btn-md" (click)="openModal(true, project)">Update</button>

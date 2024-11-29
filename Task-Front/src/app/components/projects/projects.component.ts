@@ -23,7 +23,7 @@ import { InputTextModule } from 'primeng/inputtext';
   styleUrls: ['./projects.component.css']
 })
 export class ProjectsComponent implements OnInit {
-  mems=['ahmed','ali','sayed','reda','mohamed','ahmed','ali','sayed','reda','mohamed']
+  // mems=['ahmed','ali','sayed','reda','mohamed','ahmed','ali','sayed','reda','mohamed']
   project_id: number | undefined = 0;
   projectName = '';
   projectManagerId: number | null = null;
@@ -38,7 +38,7 @@ export class ProjectsComponent implements OnInit {
   isAlertVisible: boolean = false;
   projects: Project[] = [];
   pms: ProjectManager[] = [];
-  members: string[] = ['ahmed','ali'];
+  assignedUsers:[] = [];
   projectManager: string | null | undefined;
   visible: boolean=false;
 
@@ -123,7 +123,7 @@ export class ProjectsComponent implements OnInit {
         start_date: this.start_date,
         end_date: this.end_date,
         description: this.description,
-        members: this.members
+        assignedUsers: this.assignedUsers
       };
       this._ProjectService.createProject(newProject).subscribe({
         next: (response) => {
@@ -168,12 +168,8 @@ confirmDeleteProject(id: number){
   }
 
   showDetails(project: Project) {
-    this.viewedProject = project;
-    // @ts-ignore
-    // this.hoverPosition = {x: event.clientX - 200, y: event.clientY + 10};
-  }
-  showDialog(){
     this.visible=true;
+    this.viewedProject = project;
   }
   
   closeDialog(){

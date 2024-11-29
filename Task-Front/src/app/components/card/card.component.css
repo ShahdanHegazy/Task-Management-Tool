@@ -1,15 +1,13 @@
+.container{
+  height:calc(100vh - 200px);
+}
 .card {
-  width:250px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  background-color: #aba6d9 ;
-  border-radius: 27px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: transform  0.3s ease;
-  margin: 70px;
-  display: inline-block;
-  height:calc(350px - 200px);
-  min-height: 100px;
+  transition: transform 0.3s ease;
+  /* min-height: 200px; */
+  cursor:pointer;
 }
 
-
+.card:hover {
+  transform: translateY(-5px);
+}
