@@ -1,4 +1,4 @@
 export interface SignedProjects{
-    id:number;
-    name:string;
+    project_id:number;
+    project_name:string;
 }

@@ -4,5 +4,5 @@ export interface Task{
     description: string,
     startDate: Date|null,
     endDate: Date|null,
-    taskMembers: number[],
+    taskMember: number|null,
 }

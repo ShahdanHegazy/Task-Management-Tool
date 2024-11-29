@@ -93,14 +93,15 @@
       </div>
       <div class="p-field mt-2">
         <div class="card flex justify-content-center">
-          <p-multiSelect 
-              [options]="projectMembers" 
-              [(ngModel)]="newTask.taskMembers" 
+              <p-dropdown 
+              [options]="showProjectMembers" 
+              [(ngModel)]="newTask.taskMember" 
               optionLabel="name" 
-              optionValue=id
-              placeholder="Select Members" 
+              optionValue="id" 
+              placeholder="Select Member" 
               [disabled]="roleId==3"
-              required/>
+              required
+              />
       </div>
       </div>
     </div>
@@ -114,15 +115,16 @@
 @if(roleId ==2){
   <div class="d-flex flex-column gap-2 justify-content-center align-items-start">
     <button class="btn btn-primary" (click)="addMembersToProject()" > Add Members To Project</button>
+
     <p-multiSelect 
-      [options]="Allmembers" 
-      [(ngModel)]="selectedMembers" 
-      optionLabel="name" 
-      optionValue="id" 
-      placeholder="Select Members" 
-      (onFocus)="updateSelectedMembers()" 
-      required>
-    </p-multiSelect>
+    [options]="Allmembers" 
+    [(ngModel)]="projectMembers" 
+    optionLabel="name" 
+    optionValue="userId" 
+    placeholder="Select Members" 
+    required>
+  </p-multiSelect>
+    <p *ngIf='success' class="alert alert-success "> successfully added </p>
 </div>
 }
 

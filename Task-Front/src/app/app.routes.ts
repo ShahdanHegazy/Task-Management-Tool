@@ -9,7 +9,6 @@ import { authGuard } from './auth.guard';
 import { projectManagerGuard } from './project-manager.guard';
 import { adminGuard } from './admin.guard';
 import { CardComponent } from './components/card/card.component';
-import { ProjectComponent } from './components/project/project.component';
 import { BoardComponent } from './components/board/board.component';
 
 export const routes: Routes = [
@@ -24,7 +23,7 @@ export const routes: Routes = [
       { path: "projects", component: ProjectsComponent }
     ]
   },
-  {path:"project-manager" ,component:ProjectmanagerComponent ,
+  {path:"projectmanager" ,component:ProjectmanagerComponent ,
    canActivate:[authGuard,projectManagerGuard]
    ,children :[
       {path:"" ,component:CardComponent},

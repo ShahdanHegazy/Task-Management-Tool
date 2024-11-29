@@ -18,32 +18,34 @@ export class ProjectmanagerComponent implements OnInit {
   constructor(public router: Router ,private auth:AuthService,private pmService:ProjectmanagerService){}
   ngOnInit(): void {
     this.auth.getuserInformation()
-    this.userId=this.auth.userId
-    this.pmService.getSignedProjects(this.userId).subscribe({
+    this.auth.userData.subscribe({
       next:(response)=>{
+        if (response?.id !== undefined) {
+          this.userId = response.id;
+          this.loadSignedProjects(this.userId); 
+        } else {
+          console.error('User ID is undefined!');
+        }
+      },
+      error: (err) => console.error(err),
+      }
+    );
+    
+  }
+  loadSignedProjects(userId: number): void {
+    this.pmService.getSignedProjects(userId).subscribe({
+      next: (response) => {
         console.log(response);
         this.sidebarData = response;
       },
-      error:(err)=>console.error(err)
-    })
+      error: (err) => console.error(err),
+    });
   }
-  sidebarData!: SignedProjects[];
-  //   {
-  //     id:1,
-  //     name: 'ntg apps mobile',   
-  //   },
-  //   {
-  //     id:2,
-  //     name: 'ntg apps web',
-  //   },{
-  //     id:3,
-  //     name: 'ntg apps desktop',
-  //   },
-  // ];
+  sidebarData: SignedProjects[]=[];
   
   logout(){
     localStorage.removeItem('authToken');
     this.router.navigate(['login']);
    }
+  }
 
-}

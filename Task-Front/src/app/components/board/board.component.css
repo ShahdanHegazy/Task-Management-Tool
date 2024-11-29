@@ -61,4 +61,7 @@
     color: red;
     transform: scale(1.25);
   }
-  
+  .alert{
+    width: 100%;
+    text-align: start;
+    }
