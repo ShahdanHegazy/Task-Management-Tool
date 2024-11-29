@@ -56,7 +56,6 @@ export class BoardComponent implements OnInit {
   "start_date": null,
   "end_date": null,
   "assignedUsers": [],
-
   "lists": [
         {
             "id": 8,
@@ -65,11 +64,9 @@ export class BoardComponent implements OnInit {
                 {
                     "cardId": 1,
                     "title": "Complete the project documentation",
-                    "dueDate": "2024-12-31T23:59:59.000+00:00",
+                    "startDate": "2024-12-31",
                     "description": "Ensure all project-related documents are finalized and reviewed.",
-                    "priority": "High",
-                    "createAt": null,
-                    "createBy": null,
+                    "endDate": "2025-01-22",
                     "assignedTo": null
                 }
             ]
@@ -77,7 +74,17 @@ export class BoardComponent implements OnInit {
         {
             "id": 9,
             "name": "In Progress",
-            "cardList": []
+            "cardList": [
+              {
+                "cardId": 1,
+                "title": "Complete the project documentation",
+                "startDate": "2024-12-31",
+                "description": "Ensure all project-related documents are finalized and reviewed.",
+                "priority": "High",
+                "endDate": "2024-01-11",
+                "assignedTo": null
+            }
+            ]
         },
         {
             "id": 10,
@@ -143,8 +150,8 @@ createTask(): void {
 
 // Edit on Task
 editTask(task: Task, listName: Task[]): void {
-  // this.newTask = { ...task }; // نسخ بيانات المهمة الحالية إلى النموذج
-  // this.activeList = listName; // تحديد القائمة المرتبطة بالمهمة
+  this.newTask = { ...task }; // نسخ بيانات المهمة الحالية إلى النموذج
+  this.activeList = listName; // تحديد القائمة المرتبطة بالمهمة
   this.visible = true; // عرض الفورم
 }
 // Delete the task

@@ -70,6 +70,7 @@ export class ProjectsComponent implements OnInit {
       error:(err)=>
         console.log("error fetching projects"+err)
     })
+    
   }
 
   openModal(isEdit: boolean = false, project?: Project) {
@@ -123,7 +124,12 @@ export class ProjectsComponent implements OnInit {
         start_date: this.start_date,
         end_date: this.end_date,
         description: this.description,
-        assignedUsers: this.assignedUsers
+        assignedUsers: this.assignedUsers,
+        lists: [
+          { id: 0, name: 'To Do', cardList: [] },
+          { id: 1, name: 'In Progress', cardList: [] },
+          { id: 2, name: 'Done', cardList: [] }
+        ]
       };
       this._ProjectService.createProject(newProject).subscribe({
         next: (response) => {
