@@ -1,5 +1,6 @@
 package com.Academy.Task_Tool.DTO;
 
+import com.Academy.Task_Tool.Entity.User;
 import lombok.Data;
 
 import java.sql.Timestamp;

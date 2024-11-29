@@ -4,7 +4,10 @@ import com.Academy.Task_Tool.Entity.Card;
 import com.Academy.Task_Tool.Entity.Comment;
 import com.Academy.Task_Tool.Entity.Project;
 import com.Academy.Task_Tool.Entity.User;
+import com.Academy.Task_Tool.GolbalException.EmailAlreadyExistsException;
+import com.Academy.Task_Tool.GolbalException.ProjectNotFoundException;
 import com.Academy.Task_Tool.Repository.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -68,34 +72,7 @@ public void deleteCard(Integer cardId) {
     @Autowired
     private UserRepository userRepository;
 
-//    public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
-//        Project project = projectRepository.findById(dto.getProjectId())
-//                .orElseThrow(() -> new RuntimeException("Project not found with ID: " + dto.getProjectId()));
-//        List<User> users = userRepository.findAllById(dto.getUserIds());
-//        if (users.size() != dto.getUserIds().size()) {
-//            throw new RuntimeException("One or more users not found with the provided IDs");
-//        }
-//        for (User user : users) {
-//            if(project.getAssignedUsers().isEmpty())
-//            {
-//                project.getAssignedUsers().add(user);
-//            }
-//            else {
-//                project.getAssignedUsers().clear();
-//                project.getAssignedUsers().add(user);
-//            }
-//            user.getAssignedProjects().add(project);
-//            // Send an email notification
-//            String subject = "You Have Been Assigned to a Project";
-//            String body = "Dear " + user.getName() + ",\n\n" +
-//                    "You have been assigned to the project: " + project.getProjectName() + ".\n\n" +
-//                    "Regards,\nProject Management Team";
-//            emailService.sendEmail(user.getEmail(), subject, body);
-//        }
-//        userRepository.saveAll(users);
-//        projectRepository.save(project);
-//        return project;
-//    }
+
 public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
     Project project = projectRepository.findById(dto.getProjectId())
             .orElseThrow(() -> new RuntimeException("Project not found with ID: " + dto.getProjectId()));
@@ -105,8 +82,6 @@ public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
     if (users.size() != dto.getUserIds().size()) {
         throw new RuntimeException("One or more users not found with the provided IDs");
     }
-
-    // Clear the existing list of assigned users
     project.getAssignedUsers().clear();
 
     // Add the new list of users to the project
@@ -132,10 +107,13 @@ public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
 }
 
     public List<UserDto> getMembersByProjectId(Integer projectId) {
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new RuntimeException("Project not found with ID: " + projectId));
-        List<UserDto> assignedUsers = project.getAssignedUsers()
-                .stream()
+        Optional<Project> project = projectRepository.findById(projectId);
+        if(project.get().getIsDeleted()){
+            throw new ProjectNotFoundException("Project is deleted");
+        }
+        List<User> users = projectRepository.findAllUsersByProjectId(projectId);
+
+                return users.stream()
                 .map(user -> {
                     UserDto userDto = new UserDto();
                     userDto.setId(user.getId());
@@ -144,8 +122,29 @@ public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
                     return userDto;
                 })
                 .collect(Collectors.toList());
-        return assignedUsers;
+
     }
+
+    @Transactional
+    public void removeUserFromProject(Integer projectId, Integer userId) {
+        if (projectRepository == null) {
+            throw new IllegalStateException("ProjectRepository is not initialized");
+        }
+
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new RuntimeException("Project not found"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        project.getAssignedUsers().remove(user);
+        user.getAssignedProjects().remove(project);
+
+        projectRepository.save(project);
+        userRepository.save(user);
+    }
+
+
+
 
 
     public List<ListAllMembersDto> getAllMembers(Integer roleId) {

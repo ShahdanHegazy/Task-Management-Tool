@@ -10,6 +10,7 @@ import com.Academy.Task_Tool.Entity.List;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -109,14 +110,20 @@ public class BoardService {
                     BoardDto boardDto =new BoardDto();
                     boardDto.setId(list.getListId());
                     boardDto.setName(list.getListName());
-                    if (!list.getCards().isEmpty()) {
+                    if (list.getCards() != null && !list.getCards().isEmpty()) {
                         boardDto.setCardList(cardRepository.findAllByListIdAndIsDeletedFalse(list.getListId()).stream()
                                 .map(card -> {
                                     CardBoardDto cardDto = new CardBoardDto();
                                     cardDto.setCardId(card.getCardId());
                                     cardDto.setTitle(card.getTitle());
+                                    cardDto.setDescription(card.getDescription());
+                                    cardDto.setPriority(card.getPriority());
+                                    cardDto.setDueDate(card.getDueDate());
+                                    cardDto.setCreateBy(Optional.ofNullable(card.getCreatedBy()).map(User::getId).orElse(null));
+                                    cardDto.setAssignedTo(Optional.ofNullable(card.getAssignedTo()).map(User::getId).orElse(null));
+
                                     return cardDto;
-                                }).collect(Collectors.toList()));
+                                }).collect(Collectors.toList()).reversed());
                     } else {
                         boardDto.setCardList(new ArrayList<>());
                     }
@@ -163,6 +170,26 @@ public class BoardService {
         listRepository.save(list);
         return "deleted successfully";
     }
+
+    public ProjectBoardDto createBoardWithDefaultLists(int projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("Project not found"));
+
+        // Create default lists
+        java.util.List<String> defaultListNames = java.util.List.of("To Do", "In Progress", "Done");
+
+        defaultListNames.forEach(listName -> {
+            List newList = new List();
+            newList.setListName(listName);
+            newList.setCreatedAt(LocalDateTime.now());
+            newList.setProject(project);
+            newList.setIsDeleted(false);
+            listRepository.save(newList);
+        });
+
+        return getBoard(projectId); // Return the updated project board DTO
+    }
+
 
 
 }
