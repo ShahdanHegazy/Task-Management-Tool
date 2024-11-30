@@ -79,10 +79,11 @@ public class BoardService {
 
     // move card from list to another
 
-    public String moveCard(int cardId, int sourceListId, int targetListId) {
+    public String moveCard( int projectId ,int cardId, String sourceListId, String targetListId) {
         Card card = cardRepository.findByCardIdAndIsDeletedFalse(cardId).orElseThrow(() -> new EntityNotFoundException("Card not found"));
-        List sourceList = listRepository.findByListIdAndIsDeletedFalse(sourceListId).orElseThrow(() -> new EntityNotFoundException("Source list not found"));
-        List targetList = listRepository.findByListIdAndIsDeletedFalse(targetListId).orElseThrow(() -> new EntityNotFoundException("Target list not found"));
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new EntityNotFoundException("Project not found"));
+        List sourceList = listRepository.findByProjectAndListNameAndIsDeletedFalse(project,sourceListId).orElseThrow(() -> new EntityNotFoundException("Source list not found"));
+        List targetList = listRepository.findByProjectAndListNameAndIsDeletedFalse(project,targetListId).orElseThrow(() -> new EntityNotFoundException("Target list not found"));
         // Remove card from source list
         sourceList.getCards().remove(card);
 

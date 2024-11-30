@@ -41,7 +41,7 @@ public class ProjectManagerService {
 public CardDto createCard(CardDto cardDto, Integer projectId, String listName) {
     Card card = convertToEntity(cardDto);
     card.setProject(projectRepository.findById(projectId).orElseThrow(() -> new RuntimeException("Project not found")));
-    card.setList(listRepository.findByListName(listName));
+    card.setList(listRepository.findByProjectAndListName(projectRepository.findById(projectId),listName));
     return convertToDTO(cardRepository.save(card));
 }
 

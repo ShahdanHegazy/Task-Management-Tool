@@ -39,13 +39,13 @@ public class BoardController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_PM ','ROLE_MEMBER')")
-    @PutMapping("/{projectId}/lists/{sourceListId}/cards/{cardId}/move/{targetListId}")
+    @PutMapping("/{projectId}/lists/{sourceListName}/cards/{cardId}/move/{targetListName}")
     public ResponseEntity<String> moveCard(@PathVariable int projectId,
-                                         @PathVariable int sourceListId,
+                                         @PathVariable String sourceListName,
                                          @PathVariable int cardId,
-                                         @PathVariable int targetListId) {
+                                         @PathVariable String targetListName) {
 
-        return new ResponseEntity<>(boardService.moveCard(cardId, sourceListId, targetListId),HttpStatus.OK);
+        return new ResponseEntity<>(boardService.moveCard( projectId,cardId, sourceListName, targetListName),HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_PM')")
