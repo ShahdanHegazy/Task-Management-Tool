@@ -6,6 +6,7 @@ import lombok.Data;
 import com.Academy.Task_Tool.Entity.List;
 import java.sql.Timestamp;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -24,16 +25,16 @@ public class Card {
     private String description;
 
     @Column(name = "due_date")
-    private Timestamp dueDate;
+    private LocalDate dueDate;
 
     @Column(name = "priority")
     private String priority;
 
     @Column(name = "create_at")
-    private Timestamp createAt;
+    private LocalDate createAt;
 
     @Column(name = "update_at")
-    private Timestamp updateAt;
+    private LocalDate updateAt;
 
 
     //Relations

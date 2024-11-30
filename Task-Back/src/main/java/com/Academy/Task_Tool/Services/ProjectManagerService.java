@@ -52,7 +52,8 @@ public CardDto updateCard(Integer cardId, CardDto cardDto) {
             .orElseThrow(() -> new RuntimeException("Card not found"));
     task.setTitle(cardDto.getTitle());
     task.setDescription(cardDto.getDescription());
-    task.setDueDate(cardDto.getDueDate());
+    task.setCreateAt(cardDto.getCreateAt());
+    task.setDueDate(cardDto.getDueDate ());
     task.setPriority(cardDto.getPriority());
     return convertToDTO(cardRepository.save(task));
 }
@@ -130,12 +131,10 @@ public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
         if (projectRepository == null) {
             throw new IllegalStateException("ProjectRepository is not initialized");
         }
-
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new RuntimeException("Project not found"));
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
         project.getAssignedUsers().remove(user);
         user.getAssignedProjects().remove(project);
 
