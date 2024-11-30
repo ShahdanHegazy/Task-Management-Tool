@@ -169,8 +169,8 @@ public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
         cardDto.setCardId(card.getCardId());
         cardDto.setDescription(card.getDescription());
         cardDto.setTitle(card.getTitle());
-        cardDto.setCreateBy(String.valueOf(card.getCreatedBy()));
-        cardDto.setAssignedTo(String.valueOf(card.getAssignedTo()));
+        cardDto.setCreateBy(Optional.ofNullable(card.getCreatedBy()).map(User::getId).orElse(null));
+        cardDto.setAssignedTo(Optional.ofNullable(card.getAssignedTo()).map(User::getId).orElse(null));
         cardDto.setDueDate(card.getDueDate());
         cardDto.setCreateAt(card.getCreateAt());
         return cardDto;
@@ -182,7 +182,7 @@ public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
         card.setCardId(cardDto.getCardId());
         card.setDescription(cardDto.getDescription());
         card.setTitle(cardDto.getTitle());
-        card.setCreatedBy(String.valueOf(cardDto.getCreateBy()));
+        card.setCreatedBy(cardDto.getCreateBy());
         card.setAssignedTo(String.valueOf(cardDto.getAssignedTo()));
         card.setDueDate(cardDto.getDueDate());
         card.setCreateAt(cardDto.getCreateAt());
