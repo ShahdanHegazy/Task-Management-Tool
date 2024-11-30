@@ -30,7 +30,7 @@ public class ProjectManagerController {
     @PreAuthorize("hasRole('ROLE_PM')")
     @PostMapping("/projects/{projectId}/{listName}/cards")
     public CardDto createCard(@RequestBody CardDto cardDto , @PathVariable Integer projectId , @PathVariable String listName) {
-    return projectManagerService.createCard(cardDto);
+    return projectManagerService.createCard(cardDto , projectId , listName);
 }
 
 //  UPDATE CARD

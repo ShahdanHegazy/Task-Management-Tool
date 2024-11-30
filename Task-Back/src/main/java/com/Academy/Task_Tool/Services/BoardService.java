@@ -113,13 +113,13 @@ public class BoardService {
                     if (list.getCards() != null && !list.getCards().isEmpty()) {
                         boardDto.setCardList(cardRepository.findAllByListIdAndIsDeletedFalse(list.getListId()).stream()
                                 .map(card -> {
-                                    CardBoardDto cardDto = new CardBoardDto();
+                                    CardDto cardDto = new CardDto();
                                     cardDto.setCardId(card.getCardId());
                                     cardDto.setTitle(card.getTitle());
                                     cardDto.setDescription(card.getDescription());
                                     cardDto.setPriority(card.getPriority());
+                                    cardDto.setCreateAt(card.getCreateAt());
                                     cardDto.setDueDate(card.getDueDate());
-                                    cardDto.setCreateBy(Optional.ofNullable(card.getCreatedBy()).map(User::getId).orElse(null));
                                     cardDto.setAssignedTo(Optional.ofNullable(card.getAssignedTo()).map(User::getId).orElse(null));
 
                                     return cardDto;
@@ -176,7 +176,7 @@ public class BoardService {
                 .orElseThrow(() -> new EntityNotFoundException("Project not found"));
 
         // Create default lists
-        java.util.List<String> defaultListNames = java.util.List.of("To Do", "In Progress", "Done");
+        java.util.List<String> defaultListNames = java.util.List.of("To-Do", "In Progress", "Done");
 
         defaultListNames.forEach(listName -> {
             List newList = new List();

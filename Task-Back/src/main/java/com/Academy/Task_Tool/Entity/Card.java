@@ -1,13 +1,9 @@
 package com.Academy.Task_Tool.Entity;
 
 import jakarta.persistence.*;
-import jdk.jshell.execution.Util;
 import lombok.Data;
-import com.Academy.Task_Tool.Entity.List;
-import java.sql.Timestamp;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 @Entity
 @Data

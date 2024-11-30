@@ -8,6 +8,6 @@ import java.util.List;
 public class BoardDto {
     private int id;
     private String name;
-    private List<CardBoardDto> cardList;
+    private List<CardDto> cardList;
 
 }

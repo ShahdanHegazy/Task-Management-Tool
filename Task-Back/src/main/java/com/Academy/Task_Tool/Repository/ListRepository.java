@@ -15,4 +15,5 @@ public interface ListRepository extends JpaRepository<List,Integer> {
     java.util.List<List> findAllByProjectIdAndIsDeletedFalse(@Param("projectId") int projectId);
 
 
+    List findByListName(String listName);
 }

@@ -4,17 +4,13 @@ import com.Academy.Task_Tool.Entity.Card;
 import com.Academy.Task_Tool.Entity.Comment;
 import com.Academy.Task_Tool.Entity.Project;
 import com.Academy.Task_Tool.Entity.User;
-import com.Academy.Task_Tool.GolbalException.EmailAlreadyExistsException;
 import com.Academy.Task_Tool.GolbalException.ProjectNotFoundException;
 import com.Academy.Task_Tool.Repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Array;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,7 +27,8 @@ public class ProjectManagerService {
     private ListRepository listRepository;
     @Autowired
     private EmailService emailService;
-
+    @Autowired
+    private ProjectRepository projectRepository;
 
     //    GET ALL CARD
     public CardDto getCardById(Integer cardId) {
@@ -41,8 +38,10 @@ public class ProjectManagerService {
     }
 
 //    CREAT card
-public CardDto createCard(CardDto cardDto) {
+public CardDto createCard(CardDto cardDto, Integer projectId, String listName) {
     Card card = convertToEntity(cardDto);
+    card.setProject(projectRepository.findById(projectId).orElseThrow(() -> new RuntimeException("Project not found")));
+    card.setList(listRepository.findByListName(listName));
     return convertToDTO(cardRepository.save(card));
 }
 
@@ -67,8 +66,6 @@ public void deleteCard(Integer cardId) {
 }
 
 //  ASSIGN MEMBER TO PROJECT
-    @Autowired
-    private ProjectRepository projectRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -184,6 +181,7 @@ public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
         card.setAssignedTo(String.valueOf(cardDto.getAssignedTo()));
         card.setDueDate(cardDto.getDueDate());
         card.setCreateAt(cardDto.getCreateAt());
+
         return card;
     }
 
