@@ -74,10 +74,6 @@ public class Card {
     private Boolean isDeleted = false;
 
 
-    public void setCreatedBy(Integer createBy) {
-        this.createdBy = new User();
-        this.createdBy.setId(createBy);
-    }
 
     public void setAssignedTo(String s) {
         this.assignedTo = new User();

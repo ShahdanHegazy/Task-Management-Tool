@@ -16,7 +16,6 @@ public class CardDto {
     private String description;
     private String  priority;
     private LocalDate createAt;
-    private Integer createBy;
     private Integer assignedTo;
 
 }
