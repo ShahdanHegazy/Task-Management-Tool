@@ -176,7 +176,7 @@ public class BoardService {
                 .orElseThrow(() -> new EntityNotFoundException("Project not found"));
 
         // Create default lists
-        java.util.List<String> defaultListNames = java.util.List.of("To-Do", "In Progress", "Done");
+        java.util.List<String> defaultListNames = java.util.List.of("To-Do", "In-Progress", "Done");
 
         defaultListNames.forEach(listName -> {
             List newList = new List();
