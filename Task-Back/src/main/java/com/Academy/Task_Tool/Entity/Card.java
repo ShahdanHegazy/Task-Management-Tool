@@ -73,10 +73,14 @@ public class Card {
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
-    public void setCreatedBy(String s) {
+
+    public void setCreatedBy(Integer createBy) {
+        this.createdBy = new User();
+        this.createdBy.setId(createBy);
     }
 
     public void setAssignedTo(String s) {
+        this.assignedTo = new User();
+        this.assignedTo.setId(Integer.parseInt(s));
     }
-
 }
