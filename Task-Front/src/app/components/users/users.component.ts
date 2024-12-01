@@ -143,7 +143,7 @@ export class UsersComponent implements OnInit {
         error: (error) => {
           // failure
           console.error('Error:', error);
-          this.showAlert('Failed to create user. Please try again.', 'error');
+          this.showAlert('Failed to create user . Email is already exist.', 'error');
         },
         complete: () => {
           // complete
