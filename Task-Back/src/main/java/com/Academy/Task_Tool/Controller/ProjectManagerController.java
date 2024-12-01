@@ -78,7 +78,7 @@ private ProjectManagerService projectManagerService1;
     @Autowired
     private ProjectManagerService projectService;
     @DeleteMapping("/{projectId}/users/{userId}")
-    public ResponseEntity<String> removeUserFromProject(
+    public ResponseEntity removeUserFromProject(
             @PathVariable Integer projectId,
             @PathVariable Integer userId) {
         projectService.removeUserFromProject(projectId, userId);
