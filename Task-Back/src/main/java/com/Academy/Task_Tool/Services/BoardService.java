@@ -6,12 +6,14 @@ import com.Academy.Task_Tool.Repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.Academy.Task_Tool.Entity.List;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.http.ResponseEntity;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class BoardService {
@@ -79,24 +81,51 @@ public class BoardService {
 
     // move card from list to another
 
-    public String moveCard( int projectId ,int cardId, String sourceListId, String targetListId) {
-        Card card = cardRepository.findByCardIdAndIsDeletedFalse(cardId).orElseThrow(() -> new EntityNotFoundException("Card not found"));
-        Project project = projectRepository.findById(projectId).orElseThrow(() -> new EntityNotFoundException("Project not found"));
-        List sourceList = listRepository.findByProjectAndListNameAndIsDeletedFalse(project,sourceListId).orElseThrow(() -> new EntityNotFoundException("Source list not found"));
-        List targetList = listRepository.findByProjectAndListNameAndIsDeletedFalse(project,targetListId).orElseThrow(() -> new EntityNotFoundException("Target list not found"));
+    // public String moveCard( int projectId ,int cardId, String sourceListId, String targetListId) {
+    //     Card card = cardRepository.findByCardIdAndIsDeletedFalse(cardId).orElseThrow(() -> new EntityNotFoundException("Card not found"));
+    //     Project project = projectRepository.findById(projectId).orElseThrow(() -> new EntityNotFoundException("Project not found"));
+    //     List sourceList = listRepository.findByProjectAndListNameAndIsDeletedFalse(project,sourceListId).orElseThrow(() -> new EntityNotFoundException("Source list not found"));
+    //     List targetList = listRepository.findByProjectAndListNameAndIsDeletedFalse(project,targetListId).orElseThrow(() -> new EntityNotFoundException("Target list not found"));
+    //     // Remove card from source list
+    //     sourceList.getCards().remove(card);
+
+    //     // Add card to destination list
+    //     targetList.getCards().add(card);
+    //     card.setList(targetList);
+
+    //     // Save changes
+    //     cardRepository.save(card);
+    //     listRepository.save(sourceList);
+    //     listRepository.save(targetList);
+    //     return "Card moved succeddfully";
+    // }
+
+    public String moveCard(int projectId, int cardId, String sourceListId, String targetListId) {
+        Card card = cardRepository.findByCardIdAndIsDeletedFalse(cardId)
+                .orElseThrow(() -> new EntityNotFoundException("Card not found"));
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("Project not found"));
+        List sourceList = listRepository.findByProjectAndListNameAndIsDeletedFalse(project, sourceListId)
+                .orElseThrow(() -> new EntityNotFoundException("Source list not found"));
+        List targetList = listRepository.findByProjectAndListNameAndIsDeletedFalse(project, targetListId)
+                .orElseThrow(() -> new EntityNotFoundException("Target list not found"));
+    
         // Remove card from source list
         sourceList.getCards().remove(card);
-
+    
         // Add card to destination list
         targetList.getCards().add(card);
         card.setList(targetList);
-
+    
         // Save changes
         cardRepository.save(card);
         listRepository.save(sourceList);
         listRepository.save(targetList);
-        return "Card moved succeddfully";
+    
+        return "Card moved successfully";
     }
+    
+
 
 
 

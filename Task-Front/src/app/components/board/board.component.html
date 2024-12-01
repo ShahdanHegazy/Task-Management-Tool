@@ -11,9 +11,12 @@
         (cdkDropListDropped)="drop($event)"
         >
         <div *ngFor="let item of todo; let i = index" class="example-box" cdkDrag (click)="editTask(item, todo)">
-          {{ item.title }}
+          <div class="d-flex flex-column">
+            <div>{{ item.title }}</div>
+          <div style="color: rgb(150, 4, 4);">{{ item.createAt}}</div>  
+          </div>
           @if(roleId ==2){
-          <button class="delete-btn" (click)="deleteTask(i, todo, $event)">
+          <button class="delete-btn" (click)="deleteTask(item.cardId!,$event)">
             <i class="fas fa-trash"></i>
           </button>
         }
@@ -37,7 +40,7 @@
             <div *ngFor="let item of inProgress; let i = index" class="example-box" cdkDrag (click)="editTask(item, inProgress)">
               {{ item.title }}
               @if(roleId ==2){
-                <button class="delete-btn" (click)="deleteTask(i, inProgress, $event)">
+                <button class="delete-btn" (click)="deleteTask(item.cardId!,$event)">
                   <i class="fas fa-trash"></i>
                 </button>
               }
@@ -59,7 +62,7 @@
       <div *ngFor="let item of done; let i = index" class="example-box" cdkDrag (click)="editTask(item, done)">
         {{ item.title }}
         @if(roleId ==2){
-        <button class="delete-btn" (click)="deleteTask(i, done, $event)">
+        <button class="delete-btn" (click)="deleteTask(item.cardId!,$event)">
           <i class="fas fa-trash"></i>
         </button>
       }
@@ -81,21 +84,21 @@
       </div>
       <div class="p-field">
         <label for="description">Description</label>
-        <input id="description" type="text" pInputText [(ngModel)]="newTask.description" [disabled]="roleId==3" required/>
+        <textarea id="description" type="text" pInputText [(ngModel)]="newTask.description" [disabled]="roleId==3" required></textarea>
       </div>
       <div class="p-field">
         <label for="startDate">Start Date</label>
-        <input id="startDate" type="date" pInputText [(ngModel)]="newTask.startDate" [disabled]="roleId==3" required/>
+        <input id="startDate" type="date" pInputText [(ngModel)]="newTask.createAt" [disabled]="roleId==3" required/>
       </div>
       <div class="p-field">
         <label for="endDate">End Date</label>
-        <input id="endDate" type="date" pInputText [(ngModel)]="newTask.endDate" [disabled]="roleId==3" required/>
+        <input id="endDate" type="date" pInputText [(ngModel)]="newTask.dueDate" [disabled]="roleId==3" required/>
       </div>
       <div class="p-field mt-2">
         <div class="card flex justify-content-center">
               <p-dropdown 
               [options]="showProjectMembers" 
-              [(ngModel)]="newTask.taskMember" 
+              [(ngModel)]="newTask.assignedTo" 
               optionLabel="name" 
               optionValue="id" 
               placeholder="Select Member" 
@@ -103,19 +106,36 @@
               required
               />
       </div>
+      <div class="p-field mt-2">
+        <div class="card flex justify-content-center">
+              <p-dropdown 
+              [options]="priorityList" 
+              [(ngModel)]="newTask.priority" 
+              placeholder="Select priority" 
+              optionLabel="prioState"
+              optionValue="prioState"
+              [disabled]="roleId==3"
+              required
+              />
       </div>
+      </div>
+    </div>
     </div>
     @if(roleId==2){
       <div class="p-dialog-footer p-0 mt-2 ">
         <p-button label="Cancel" styleClass="btn btn-danger me-2" (click)="visible = false"></p-button>
-        <p-button label="Save"  styleClass="btn btn-success" (onClick)="createTask()" severity="success"></p-button>
-      </div>
+        <p-button 
+        [label]="editMood ? 'Update':'Save' "
+        styleClass="btn btn-success" 
+        (onClick)="editMood ? updateTask(newTask.cardId!, newTask):createTask(projectId, 'To-Do')"
+        severity="success">
+      </p-button>      
+    </div>
     }
   </p-dialog>
 @if(roleId ==2){
   <div class="d-flex flex-column gap-2 justify-content-center align-items-start">
     <button class="btn btn-primary" (click)="addMembersToProject()" > Add Members To Project</button>
-
     <p-multiSelect 
     [options]="Allmembers" 
     [(ngModel)]="projectMembers" 

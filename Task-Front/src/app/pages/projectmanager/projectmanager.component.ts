@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { ProjectmanagerService } from '../../services/projectmanager.service';
 import { SignedProjects } from '../../interfaces/SignedProject';
@@ -15,25 +15,29 @@ import { SignedProjects } from '../../interfaces/SignedProject';
 })
 export class ProjectmanagerComponent implements OnInit {
   userId!:number;
+  sidebarData: SignedProjects[]=[];
   constructor(public router: Router ,private auth:AuthService,private pmService:ProjectmanagerService){}
   ngOnInit(): void {
     this.auth.getuserInformation()
     this.auth.userData.subscribe({
       next:(response)=>{
-        if (response?.id !== undefined) {
+        if (response?.id !== undefined &&response.roleId==2) {
           this.userId = response.id;
-          this.loadSignedProjects(this.userId); 
-        } else {
-          console.error('User ID is undefined!');
+          this.loadSignedProjectsPm(this.userId); 
+        } else if(response?.id !== undefined &&response.roleId==3) {
+          this.userId = response.id;
+          this.loadSignedProjectsMember(this.userId); 
         }
+        else console.error('User ID is undefined!');
+
       },
       error: (err) => console.error(err),
       }
     );
     
   }
-  loadSignedProjects(userId: number): void {
-    this.pmService.getSignedProjects(userId).subscribe({
+  loadSignedProjectsPm(pmId: number): void {
+    this.pmService.getSignedProjectsPm(pmId).subscribe({
       next: (response) => {
         console.log(response);
         this.sidebarData = response;
@@ -41,7 +45,15 @@ export class ProjectmanagerComponent implements OnInit {
       error: (err) => console.error(err),
     });
   }
-  sidebarData: SignedProjects[]=[];
+  loadSignedProjectsMember(memberId: number): void {
+    this.pmService.getSignedProjectsMember(memberId).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.sidebarData = response;
+      },
+      error: (err) => console.error(err),
+    });
+  }
   
   logout(){
     localStorage.removeItem('authToken');

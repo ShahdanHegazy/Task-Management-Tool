@@ -2,6 +2,10 @@ package com.Academy.Task_Tool.Controller;
 
 import com.Academy.Task_Tool.DTO.*;
 import com.Academy.Task_Tool.Services.BoardService;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,15 +42,33 @@ public class BoardController {
         return new ResponseEntity<>(boardService.getBoard(projectId),HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_PM ','ROLE_MEMBER')")
-    @PutMapping("/{projectId}/lists/{sourceListName}/cards/{cardId}/move/{targetListName}")
-    public ResponseEntity<String> moveCard(@PathVariable int projectId,
-                                         @PathVariable String sourceListName,
-                                         @PathVariable int cardId,
-                                         @PathVariable String targetListName) {
+    // @PreAuthorize("hasAnyRole('ROLE_PM ','ROLE_MEMBER')")
+    // @PutMapping("/{projectId}/lists/{sourceListName}/cards/{cardId}/move/{targetListName}")
+    // public ResponseEntity<String> moveCard(@PathVariable int projectId,
+    //                                      @PathVariable String sourceListName,
+    //                                      @PathVariable int cardId,
+    //                                      @PathVariable String targetListName) {
 
-        return new ResponseEntity<>(boardService.moveCard( projectId,cardId, sourceListName, targetListName),HttpStatus.OK);
+    //     return new ResponseEntity<>(boardService.moveCard( projectId,cardId, sourceListName, targetListName),HttpStatus.OK);
+    // }
+    @PreAuthorize("hasAnyRole('ROLE_PM', 'ROLE_MEMBER')")
+    @PutMapping("/{projectId}/lists/{sourceListName}/cards/{cardId}/move/{targetListName}")
+    public ResponseEntity<Map<String, String>> moveCard(@PathVariable int projectId,
+                                                        @PathVariable String sourceListName,
+                                                        @PathVariable int cardId,
+                                                        @PathVariable String targetListName) {
+        // استدعاء الخدمة والحصول على الرسالة
+        String resultMessage = boardService.moveCard(projectId, cardId, sourceListName, targetListName);
+    
+        // إنشاء استجابة JSON
+        Map<String, String> response = new HashMap<>();
+        response.put("message", resultMessage);
+    
+        // إرجاع كائن ResponseEntity مع JSON
+        return ResponseEntity.ok(response);
     }
+    
+
 
     @PreAuthorize("hasRole('ROLE_PM')")
     @PostMapping   ("/project/{projectId}")
