@@ -116,7 +116,16 @@ createTask(projectId:number,listName:string): void {
   
   this.visible = false; // غلق الفورم
 }
-
+isTaskValid(): boolean {
+  return (
+    !!this.newTask.title &&
+    !!this.newTask.description &&
+    !!this.newTask.createAt &&
+    !!this.newTask.dueDate &&
+    !!this.newTask.assignedTo &&
+    !!this.newTask.priority
+  );
+}
 // Edit on Task
 editTask(task: Task, listName: Task[]): void {
   this.newTask = { ...task }; // نسخ بيانات المهمة الحالية إلى النموذج
@@ -224,11 +233,12 @@ addMembersToProject(): void {
   })
 
 }
-// getMemberNames(itemId: number): string {
-//   console.log(itemId);
-//   const member = this.showProjectMembers.find(mem => mem.userId === itemId);
-//   return member.name;
-// }
+getMemberNames(itemId: number): string {
+  console.log(itemId);
+  const member = this.showProjectMembers.find(mem => mem.id === itemId);
+  console.log(member);
+  return member.email;
+}
 
 
 loadAllMembers() {

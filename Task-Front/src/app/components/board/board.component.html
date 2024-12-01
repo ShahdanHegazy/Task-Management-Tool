@@ -1,20 +1,23 @@
 <div class="d-flex align-items-start pt-2 flex-wrap">
     <!-- to do -->
-  <div class="example-container">
-    <h2>To do</h2>
+  <div class="example-container ">
+    <div class="task">
+      <h2>To do</h2>
+      <i class="fas fa-tasks"></i>    
+    </div>
     <div
         cdkDropList
         #todoList="cdkDropList"
         [cdkDropListData]="todo"
         [cdkDropListConnectedTo]="[inProgressList, doneList]"
-        class="example-list"
+        class="example-list to-do"
         (cdkDropListDropped)="drop($event)"
         >
         <div *ngFor="let item of todo; let i = index" class="example-box" cdkDrag (click)="editTask(item, todo)">
           <div class="d-flex flex-column">
             <div>{{ item.title }}</div>
             <div style="color:#7352de">
-              <!-- {{ getMemberNames(item.assignedTo!) }} -->
+              {{ getMemberNames(item.assignedTo!) }}
             </div>         
           </div>
           @if(roleId ==2){
@@ -24,26 +27,29 @@
         }
         </div>
         @if(roleId ==2){
-          <p-button styleClass="btn btn-primary" (onClick)="openDialog(todo)" label="create task" />
+          <p-button styleClass="btn btn-success" (onClick)="openDialog(todo)" label="create task" />
         }
     </div>  
   </div>
 <!-- in progress -->
-  <div class="example-container">
-        <h2>In Progress</h2>
+  <div class="example-container ">
+    <div class="task">
+    <h2>In Progress</h2>
+    <i class="fas fa-spinner"></i>
+    </div>
         <div
             cdkDropList
             #inProgressList="cdkDropList"
             [cdkDropListData]="inProgress"
             [cdkDropListConnectedTo]="[doneList, todoList]"
-            class="example-list"
+            class="example-list in-progress"
             (cdkDropListDropped)="drop($event)"
             >
             <div *ngFor="let item of inProgress; let i = index" class="example-box" cdkDrag (click)="editTask(item, inProgress)">
               <div class="d-flex flex-column">
                 <div>{{ item.title }}</div>
                 <div style="color:#7352de">
-                  <!-- {{ getMemberNames(item.assignedTo!) }} -->
+                  {{ getMemberNames(item.assignedTo!) }}
                 </div>         
               </div>
               @if(roleId ==2){
@@ -56,21 +62,24 @@
   </div>
 
   <!-- done -->
-  <div class="example-container">
+  <div class="example-container ">
+    <div class="task">
     <h2>Done</h2>
+    <i class="fas fa-check-circle"></i>
+    </div>
     <div
       cdkDropList
       #doneList="cdkDropList"
       [cdkDropListData]="done"
       [cdkDropListConnectedTo]="[todoList, inProgressList]"
-      class="example-list"
+      class="example-list done"
       (cdkDropListDropped)="drop($event)"
       >
       <div *ngFor="let item of done; let i = index" class="example-box" cdkDrag (click)="editTask(item, done)">
         <div class="d-flex flex-column">
           <div>{{ item.title }}</div>
           <div style="color:#7352de">
-            <!-- {{ getMemberNames(item.assignedTo!) }} -->
+            {{ getMemberNames(item.assignedTo!) }}
           </div>         
         </div>
         @if(roleId ==2){
@@ -137,6 +146,7 @@
       <div class="p-dialog-footer p-0 mt-2 ">
         <p-button label="Cancel" styleClass="btn btn-danger me-2" (click)="visible = false"></p-button>
         <p-button 
+        [disabled]="!isTaskValid()"
         [label]="editMood ? 'Update':'Save' "
         styleClass="btn btn-success" 
         (onClick)="editMood ? updateTask(newTask.cardId!, newTask):createTask(projectId, 'To-Do')"

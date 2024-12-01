@@ -13,7 +13,10 @@ import org.springframework.data.domain.Pageable;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,Integer> {
+    // Boolean existsByEmail(String email);
     Boolean existsByEmail(String email);
+
+//    Boolean existsByEmailAndIsDeleted(String email,boolean isDeleted);
 
 //    @Query("SELECT u FROM User u WHERE u.isDeleted = false ")
 //    List<User> findAllActiveUsers();

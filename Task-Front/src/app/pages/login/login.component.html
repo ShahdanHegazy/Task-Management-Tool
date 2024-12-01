@@ -34,7 +34,7 @@
       @if (loginForm.controls['password'].errors?.['minlength'] && loginForm.controls['password'].touched) {
         <p class="alert alert-danger p-1 ">Enter a valid password</p>
       }
-      <button type="submit" class="btn btn-success btn-block" [disabled]="loginForm.invalid">Login 
+      <button type="submit" class="btn btn-success btn-block" [disabled]="loginForm.invalid ||isLoading">Login 
         @if(isLoading){
           <i class="fa-solid fa-spinner fa-spin"></i>
         }
