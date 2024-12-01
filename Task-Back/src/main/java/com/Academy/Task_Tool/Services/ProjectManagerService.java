@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -74,35 +76,25 @@ public void deleteCard(Integer cardId) {
 public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
     Project project = projectRepository.findById(dto.getProjectId())
             .orElseThrow(() -> new RuntimeException("Project not found with ID: " + dto.getProjectId()));
-
-    // Fetch all users from the provided user IDs
     List<User> users = userRepository.findAllById(dto.getUserIds());
     if (users.size() != dto.getUserIds().size()) {
         throw new RuntimeException("One or more users not found with the provided IDs");
     }
     project.getAssignedUsers().clear();
-
-    // Add the new list of users to the project
     project.getAssignedUsers().addAll(users);
-
-    // Notify all new users via email and update their project assignments
     for (User user : users) {
         user.getAssignedProjects().add(project);
-
-        // Send an email notification
         String subject = "You Have Been Assigned to a Project";
         String body = "Dear " + user.getName() + ",\n\n" +
                 "You have been assigned to the project: " + project.getProjectName() + ".\n\n" +
                 "Regards,\nTickTask Team";
         emailService.sendEmail(user.getEmail(), subject, body);
     }
-
-    // Save changes to the database
     projectRepository.save(project);
     userRepository.saveAll(users);
-
     return project;
 }
+
 
     public List<UserDto> getMembersByProjectId(Integer projectId) {
         Optional<Project> project = projectRepository.findById(projectId);
