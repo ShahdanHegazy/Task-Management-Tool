@@ -75,4 +75,7 @@ public class Card {
         this.assignedTo = new User();
         this.assignedTo.setId(Integer.parseInt(s));
     }
+
+    public void setAssignedTo(Integer assignedTo) {
+    }
 }

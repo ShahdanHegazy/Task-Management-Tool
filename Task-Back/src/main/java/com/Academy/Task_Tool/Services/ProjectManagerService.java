@@ -56,7 +56,7 @@ public CardDto updateCard(Integer cardId, CardDto cardDto) {
     task.setCreateAt(cardDto.getCreateAt());
     task.setDueDate(cardDto.getDueDate ());
     task.setPriority(cardDto.getPriority());
-    task.setAssignedTo(String.valueOf(cardDto.getAssignedTo()));
+    task.setAssignedTo(cardDto.getAssignedTo());
     return convertToDTO(cardRepository.save(task));
 }
 
