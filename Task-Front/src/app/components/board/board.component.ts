@@ -39,7 +39,6 @@ export class BoardComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.projectId = params['id'];
       console.log(this.projectId);
-      // this.loadAllMembers();
     });
     this.loadBoardData();
   }
@@ -66,6 +65,8 @@ priorityList: any[]=[
   visible: boolean = false;
   activeList: Task[] = [];
   success:boolean = false;
+  removeSuccess:boolean = false;
+  userToRemove!:number;
   newTask: Task={
     title:'',
     description: '',
@@ -87,6 +88,7 @@ openDialog(listName: Task[]): void {
     priority:''
   };
   this.visible = true;
+  this.editMood = false;
 }
 // close task form dialog
 closeDialog(): void {
@@ -103,15 +105,14 @@ closeDialog(): void {
 
 // Create a new Task
 createTask(projectId:number,listName:string): void {
+  console.log(projectId+" and "+this.newTask);
   this.BoardService.createTask(projectId,listName,this.newTask).subscribe({
     next: (response)=>{
       console.log("created Task with Info "+response)
       this.loadBoardData();
-      // this.activeList.push({...this.newTask, id: response.id}); // افترضنا إن السيرفر بيرجع الـ ID
     },
     error:(err)=>console.error(err)
   })
-  console.log(this.newTask);
   
   this.visible = false; // غلق الفورم
 }
@@ -124,6 +125,7 @@ editTask(task: Task, listName: Task[]): void {
   this.editMood = true; // تعطيل ال��ضافة ��لى ��فحة التحرير
 }
 updateTask(taskId:number,task:Task){
+  console.log(taskId,task);
   this.BoardService.updateTask(taskId,task).subscribe({
     next: (response)=>{
       console.log("Task updated with Info "+response)
@@ -215,13 +217,19 @@ addMembersToProject(): void {
       setTimeout(() => {
         this.success = false;
       }, 2000)
-
+      this.loadAllMembers()
+      this.loadBoardData();
     },
     error:(err)=>console.error(err)
   })
-  // this.selectedMembers = [];
-  console.log('Updated Project Members:',{projectId:this.projectId,userIds:this.projectMembers});
+
 }
+// getMemberNames(itemId: number): string {
+//   console.log(itemId);
+//   const member = this.showProjectMembers.find(mem => mem.userId === itemId);
+//   return member.name;
+// }
+
 
 loadAllMembers() {
   this.BoardService.getAllMembers().subscribe({
@@ -259,7 +267,20 @@ loadBoardData() {
   });
 }
 
-
+removeMember(projectId:number,userId:number){
+  console.log(this.showProjectMembers);
+  this.BoardService.removeMember(projectId,userId).subscribe({
+    next:(response) => {
+      console.log(response);
+      this.removeSuccess = true;
+      setTimeout(() => {
+        this.removeSuccess = false;
+      }, 2000)
+      this.loadBoardData();
+    },
+    error:(err)=>console.error(err)
+  })
+}
 
 }
 

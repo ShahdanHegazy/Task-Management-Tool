@@ -38,5 +38,8 @@ export class BoardService {
     console.log('projectId:', projectId, 'sourceListName:', sourceListName, 'cardId:', cardId, 'targetListName:', targetListName);
     return this._HttpClient.put(`/api/${projectId}/lists/${sourceListName}/cards/${cardId}/move/${targetListName}`, {});
   }
+  removeMember(projectId: number,memberId:number):Observable<any>{
+    return this._HttpClient.delete(`/api/pm/${projectId}/users/${memberId}`)
+  }
   
 }

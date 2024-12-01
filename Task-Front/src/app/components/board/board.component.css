@@ -65,3 +65,12 @@
     width: 100%;
     text-align: start;
     }
+
+    .p-inputwrapper {
+      width: 100% !important;
+  }
+  ::ng-deep .p-element .p-inputwrapper {
+    width: 100% !important;
+}
+  
+  
