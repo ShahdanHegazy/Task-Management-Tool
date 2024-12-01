@@ -37,7 +37,7 @@ public class Card {
 
     //relation one to many with user table
     @ManyToOne
-    @JoinColumn(name = "assigned_to_user_id")
+    @JoinColumn(name = "assigned_to_user_id", nullable = true)
     private User assignedTo;
 
     // relation one to one with user
@@ -71,11 +71,14 @@ public class Card {
 
 
 
-    public void setAssignedTo(String s) {
+    public void setAssignedTo(Integer assignedToId) {
         this.assignedTo = new User();
-        this.assignedTo.setId(Integer.parseInt(s));
+        this.assignedTo.setId(assignedToId);
+
     }
 
-    public void setAssignedTo(Integer assignedTo) {
+    public void setAssignedTo(User assignedTo) {
     }
+
+
 }

@@ -47,20 +47,27 @@ public CardDto createCard(CardDto cardDto, Integer projectId, String listName) {
     return convertToDTO(cardRepository.save(card));
 }
 
-//  UPDATE CARD
-public CardDto updateCard(Integer cardId, CardDto cardDto) {
-    Card task = cardRepository.findById(cardId)
-            .orElseThrow(() -> new RuntimeException("Card not found"));
-    task.setTitle(cardDto.getTitle());
-    task.setDescription(cardDto.getDescription());
-    task.setCreateAt(cardDto.getCreateAt());
-    task.setDueDate(cardDto.getDueDate ());
-    task.setPriority(cardDto.getPriority());
-    task.setAssignedTo(cardDto.getAssignedTo());
-    return convertToDTO(cardRepository.save(task));
-}
+    public CardDto updateCard(Integer cardId, CardDto cardDto) {
+        // Fetch the card by its ID
+        Card card = cardRepository.findById(cardId)
+                .orElseThrow(() -> new RuntimeException("Card not found"));
 
-//  SOFT DELETE FOR CARD
+        // Update basic fields
+        card.setTitle(cardDto.getTitle());
+        card.setDescription(cardDto.getDescription());
+        card.setCreateAt(cardDto.getCreateAt());
+        card.setDueDate(cardDto.getDueDate());
+        card.setPriority(cardDto.getPriority());
+        card.setAssignedTo(cardDto.getAssignedTo());
+
+        // Save the updated card and return the DTO
+        Card updatedCard = cardRepository.save(card);
+        return convertToDTO(updatedCard);
+    }
+
+
+
+    //  SOFT DELETE FOR CARD
 public void deleteCard(Integer cardId) {
     Card card = cardRepository.findById(cardId)
             .orElseThrow(() -> new RuntimeException("Card not found"));
@@ -150,20 +157,18 @@ public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
                 .collect(Collectors.toList());
         return listAllMembersDto;
     }
-
-
     private CardDto convertToDTO(Card card) {
         CardDto cardDto = new CardDto();
         cardDto.setCardId(card.getCardId());
-        cardDto.setPriority(card.getPriority());
-        cardDto.setCardId(card.getCardId());
-        cardDto.setDescription(card.getDescription());
         cardDto.setTitle(card.getTitle());
-        cardDto.setAssignedTo(Optional.ofNullable(card.getAssignedTo()).map(User::getId).orElse(null));
-        cardDto.setDueDate(card.getDueDate());
+        cardDto.setDescription(card.getDescription());
+        cardDto.setPriority(card.getPriority());
         cardDto.setCreateAt(card.getCreateAt());
+        cardDto.setDueDate(card.getDueDate());
+        cardDto.setAssignedTo(card.getAssignedTo() != null ? card.getAssignedTo().getId() : null); // Convert User to ID
         return cardDto;
     }
+
     private Card convertToEntity(CardDto cardDto) {
         Card card = new Card();
         card.setCardId(cardDto.getCardId());
@@ -171,7 +176,7 @@ public Project assignUsersToProject(ProjectMemberAssignmentDto dto) {
         card.setCardId(cardDto.getCardId());
         card.setDescription(cardDto.getDescription());
         card.setTitle(cardDto.getTitle());
-        card.setAssignedTo(String.valueOf(cardDto.getAssignedTo()));
+        card.setAssignedTo(cardDto.getAssignedTo());
         card.setDueDate(cardDto.getDueDate());
         card.setCreateAt(cardDto.getCreateAt());
 
