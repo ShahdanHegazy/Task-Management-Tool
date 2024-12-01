@@ -73,4 +73,30 @@
     width: 100% !important;
 }
   
-  
+.task {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+}
+
+.task i {
+  color: #007bff; /* Customize icon color */
+}
+/* To Do Section */
+.to-do {
+  background: linear-gradient(120deg, #ffefd5, #ffe4b5); /* تدرج لون فاتح */
+  border: 1px solid #ffc107; /* إطار بلون قريب */
+}
+
+/* In Progress Section */
+.in-progress {
+  background: linear-gradient(120deg, #e0f7fa, #b2ebf2); /* تدرج أزرق فاتح */
+  border: 1px solid #00bcd4; /* إطار بلون قريب */
+}
+
+/* Done Section */
+.done {
+  background: linear-gradient(120deg, #e8f5e9, #c8e6c9); /* تدرج أخضر فاتح */
+  border: 1px solid #4caf50; /* إطار بلون قريب */
+}

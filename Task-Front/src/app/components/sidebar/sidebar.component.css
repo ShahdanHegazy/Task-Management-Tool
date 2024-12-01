@@ -22,8 +22,7 @@
   color: #ffffff;
 }
 .logout-btn {
- 
-color: white;
-  transform: translateY(-40px) !important;
+  color: white;
+  transform: translateY(-10px) !important;
 }
 
