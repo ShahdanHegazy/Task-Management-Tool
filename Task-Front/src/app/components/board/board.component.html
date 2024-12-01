@@ -13,7 +13,9 @@
         <div *ngFor="let item of todo; let i = index" class="example-box" cdkDrag (click)="editTask(item, todo)">
           <div class="d-flex flex-column">
             <div>{{ item.title }}</div>
-          <div style="color: rgb(150, 4, 4);">{{ item.createAt}}</div>  
+            <div style="color:#7352de">
+              <!-- {{ getMemberNames(item.assignedTo!) }} -->
+            </div>         
           </div>
           @if(roleId ==2){
           <button class="delete-btn" (click)="deleteTask(item.cardId!,$event)">
@@ -38,7 +40,12 @@
             (cdkDropListDropped)="drop($event)"
             >
             <div *ngFor="let item of inProgress; let i = index" class="example-box" cdkDrag (click)="editTask(item, inProgress)">
-              {{ item.title }}
+              <div class="d-flex flex-column">
+                <div>{{ item.title }}</div>
+                <div style="color:#7352de">
+                  <!-- {{ getMemberNames(item.assignedTo!) }} -->
+                </div>         
+              </div>
               @if(roleId ==2){
                 <button class="delete-btn" (click)="deleteTask(item.cardId!,$event)">
                   <i class="fas fa-trash"></i>
@@ -60,7 +67,12 @@
       (cdkDropListDropped)="drop($event)"
       >
       <div *ngFor="let item of done; let i = index" class="example-box" cdkDrag (click)="editTask(item, done)">
-        {{ item.title }}
+        <div class="d-flex flex-column">
+          <div>{{ item.title }}</div>
+          <div style="color:#7352de">
+            <!-- {{ getMemberNames(item.assignedTo!) }} -->
+          </div>         
+        </div>
         @if(roleId ==2){
         <button class="delete-btn" (click)="deleteTask(item.cardId!,$event)">
           <i class="fas fa-trash"></i>
@@ -134,18 +146,31 @@
     }
   </p-dialog>
 @if(roleId ==2){
-  <div class="d-flex flex-column gap-2 justify-content-center align-items-start">
-    <button class="btn btn-primary" (click)="addMembersToProject()" > Add Members To Project</button>
-    <p-multiSelect 
-    [options]="Allmembers" 
-    [(ngModel)]="projectMembers" 
-    optionLabel="name" 
-    optionValue="userId" 
-    placeholder="Select Members" 
-    required>
-  </p-multiSelect>
-    <p *ngIf='success' class="alert alert-success "> successfully added </p>
-</div>
-}
+    <div class="d-flex flex-column gap-2 justify-content-center align-items-start pt-5 ">
+      <button class="btn btn-primary w-100" (click)="addMembersToProject()" > Add Members To Project</button>
+      <p-multiSelect 
+      [options]="Allmembers" 
+      [(ngModel)]="projectMembers" 
+      optionLabel="name" 
+      optionValue="userId" 
+      placeholder="Select Members" 
+      required>
+      </p-multiSelect>
+      <p *ngIf='success' class="alert alert-success "> successfully added </p>
+
+      <div class="d-flex flex-column gap-2 justify-content-center align-items-start w-100">
+        <button class="btn btn-primary" (click)="removeMember(projectId,userToRemove)" > remove Members from Project</button>
+          <p-dropdown 
+            [options]="showProjectMembers" 
+            optionLabel="name" 
+            [(ngModel)]="userToRemove"
+            optionValue="id"
+            placeholder="Select Member" 
+            required>
+          </p-dropdown>
+        <p *ngIf='removeSuccess' class="alert alert-success "> successfully removed </p>
+      </div>
+  </div>
+   }
 
 </div>
