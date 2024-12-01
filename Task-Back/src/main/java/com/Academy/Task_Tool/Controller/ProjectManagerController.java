@@ -48,15 +48,14 @@ public class ProjectManagerController {
     }
 
 ////  ASSIGIN MEMBER TO PROJECT
-@Autowired
-private ProjectManagerService projectManagerService1;
 
     @PreAuthorize("hasRole('ROLE_PM')")
     @PostMapping("/assign-users")
     public ResponseEntity<ProjectMemberAssignmentDto> assignUsersToProject(@RequestBody ProjectMemberAssignmentDto dto) {
-        projectManagerService1.assignUsersToProject(dto);
+        projectManagerService.assignUsersToProject(dto);
         return ResponseEntity.ok(dto);
     }
+
 
 
     @GetMapping("/projects/{projectId}/members")
