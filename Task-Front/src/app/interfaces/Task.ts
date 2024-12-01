@@ -1,8 +1,10 @@
 export interface Task{
-    id?:number;
-    title:string,
-    description: string,
-    startDate: Date|null,
-    endDate: Date|null,
-    taskMember: number|null,
+ priority: string;
+ id?:number;
+ cardId?:number
+ title:string,
+ description: string,
+ createAt: Date|null,
+ dueDate: Date|null,
+ assignedTo: number|null,
 }

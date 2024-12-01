@@ -23,7 +23,6 @@ import { InputTextModule } from 'primeng/inputtext';
   styleUrls: ['./projects.component.css']
 })
 export class ProjectsComponent implements OnInit {
-  // mems=['ahmed','ali','sayed','reda','mohamed','ahmed','ali','sayed','reda','mohamed']
   project_id: number | undefined = 0;
   projectName = '';
   projectManagerId: number | null = null;
@@ -70,7 +69,6 @@ export class ProjectsComponent implements OnInit {
       error:(err)=>
         console.log("error fetching projects"+err)
     })
-    
   }
 
   openModal(isEdit: boolean = false, project?: Project) {
@@ -124,12 +122,7 @@ export class ProjectsComponent implements OnInit {
         start_date: this.start_date,
         end_date: this.end_date,
         description: this.description,
-        assignedUsers: this.assignedUsers,
-        lists: [
-          { id: 0, name: 'To Do', cardList: [] },
-          { id: 1, name: 'In Progress', cardList: [] },
-          { id: 2, name: 'Done', cardList: [] }
-        ]
+        assignedUsers: this.assignedUsers
       };
       this._ProjectService.createProject(newProject).subscribe({
         next: (response) => {
